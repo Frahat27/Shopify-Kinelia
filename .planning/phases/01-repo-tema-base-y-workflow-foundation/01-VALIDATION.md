@@ -41,15 +41,25 @@ created: "2026-09-07"
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| 1-01-xx | 01 | 1 | FOUND-02 | — | N/A | doc-assertion | `grep -Ri "dawn despojado" .planning/PROJECT.md` returns nothing; new Key Decision row present | ✅ | ⬜ pending |
-| 1-01-xx | 01 | 1 | FOUND-03 | — | cart/search routes still render on base | lint + tree-diff | `shopify theme check` exit 0; `assets/` has no JS framework; file tree matches `ALLOWLIST.md` | ❌ W0 (CLI) | ⬜ pending |
-| 1-01-xx | 01 | 1 | FOUND-04 | — | N/A | shell-assertion | `git remote get-url upstream`; `git tag` includes skeleton-base tag; `test -f OVERRIDES.md` | ❌ W0 | ⬜ pending |
-| 1-02-xx | 02 | 2 | FOUND-06 | — | CI blocks merge on lint error | CI-run | `theme-check-action@v2` on a PR shows a required check; README documents local `shopify theme check` | ❌ W0 (remote) | ⬜ pending |
-| 1-02-xx | 02 | 2 | FOUND-07 | — | CI blocks merge below budget | CI-run | `lighthouse.yml` on a PR comments scores; `lighthouserc.json` asserts LCP ≤ 2500 ms + a11y ≥ 0.95 | ❌ W0 | ⬜ pending |
-| 1-02-xx | 02 | 2 | FOUND-01 | — | storefront renders, no console errors | manual smoke | `shopify theme dev --store <dev-store>` → load `/`, `/products/<demo>`, `/cart` — no console errors | ❌ W0 (CLI + store) | ⬜ pending |
-| 1-02-xx | 02 | 2 | FOUND-05 | — | STAGING never auto-publishes | manual + admin | Shopify admin Themes shows STAGING (unpublished) + LIVE with GitHub badges; `docs/RELEASE.md` checklist exists | ❌ W0 (store + remote) | ⬜ pending |
+| 01-01-T3 | 01-01 | 1 | FOUND-01 (repo half), FOUND-02 (decision taken) | T-01-SC, T-01-01, T-01-02 | Legitimacy gate before global install; starter clone's `.git` deleted; existing history preserved | tracer end-to-end | `shopify version && test -f layout/theme.liquid && test -d assets && … && shopify theme check --fail-level error` | ❌ W0 (CLI install) | ⬜ pending |
+| 01-02-T1 | 01-02 | 2 | FOUND-02 (recorded) | T-01-05 | GSD content markers preserved while editing the instruction file | doc-assertion | `! grep -Eqi 'sobre Dawn\|Dawn como base\|Dawn despojado' .planning/PROJECT.md .claude/CLAUDE.md && grep -q 'Tema base — tradeoffs evaluados' .planning/PROJECT.md` | ✅ | ⬜ pending |
+| 01-02-T2 | 01-02 | 2 | FOUND-04 | T-01-04, T-01-06 | `upstream` points only at the official starter repository | shell-assertion | `git remote get-url upstream && git tag --list 'skeleton-base-*' \| grep -q . && test -f OVERRIDES.md` | ✅ | ⬜ pending |
+| 01-03-T2 | 01-03 | 2 | FOUND-06 | T-01-SC, T-01-10 | Performance-relevant lint rules cannot be silently disabled; no theme-check npm package installed | lint + config assertion | `node -e "…package.json shape…" && grep -q 'pull_request' .github/workflows/ci.yml && shopify theme check --fail-level error` | ❌ W0 (CLI) | ⬜ pending |
+| 01-03-T3 | 01-03 | 2 | FOUND-07 | T-01-07, T-01-08, T-01-09 | Fork-privileged trigger forbidden; credentials only via Actions secrets; job timeout bounds the known hang | config assertion | `node -e "…lighthouserc.json assertions…" && ! grep -q 'pull_request_target' .github/workflows/lighthouse.yml && grep -q 'timeout-minutes' .github/workflows/lighthouse.yml` | ✅ | ⬜ pending |
+| 01-04-T1 | 01-04 | 3 | FOUND-03 (contract) | — | Reduction rule stated as not-referencing, never deleting | doc-assertion | `grep -q '^## Renderiza' ALLOWLIST.md && grep -q 'Desviación registrada' ALLOWLIST.md` | ✅ | ⬜ pending |
+| 01-04-T2 | 01-04 | 3 | FOUND-03 (enforced) | T-01-11, T-01-12 | Cart and search section files never deleted; no JS in `assets/` | executable check | `node scripts/check-allowlist.mjs && test -z "$(ls assets/*.js assets/*.mjs 2>/dev/null)" && shopify theme check --fail-level error` | ❌ W0 (CLI) | ⬜ pending |
+| 01-04-T3 | 01-04 | 3 | FOUND-04 (reconciled) | T-01-14 | Ledger reconciled against a real diff with the pinned base tag | doc + git assertion | `grep -q 'ALLOWLIST.md' OVERRIDES.md && test "$(git status --porcelain \| grep -c '^ D')" -eq 0` | ✅ | ⬜ pending |
+| 01-05-T1 | 01-05 | 4 | FOUND-05 (runbook) | T-01-15, T-01-17, T-01-18 | Publishing from a laptop forbidden; no credential example values | doc-assertion | `grep -q '^## Checklist de release' docs/RELEASE.md && grep -q 'SHOPIFY_CLI_THEME_TOKEN' docs/RELEASE.md && ! grep -Eq 'shpat_\|shpca_\|shppa_' docs/RELEASE.md` | ✅ | ⬜ pending |
+| 01-05-T2 | 01-05 | 4 | FOUND-05 (readme) | — | Documented commands match the scripts that exist | doc-assertion | `grep -q 'shopify theme dev' README.md && node -e "…every package.json script named in README…"` | ✅ | ⬜ pending |
+| 01-06-T1 | 01-06 | 5 | FOUND-05 (branches) | T-01-20, T-01-22 | Private repository; no force-push over existing history | shell-assertion | `git ls-remote --heads origin main && git ls-remote --heads origin staging && test "$(gh repo view --json isPrivate --jq .isPrivate)" = "true"` | ❌ W0 (remote) | ⬜ pending |
+| 01-06-T2 | 01-06 | 5 | FOUND-01, FOUND-07 (credentials) | T-01-19, T-01-23 | Human provisions the store, the GitHub app and the Dev Dashboard app | checkpoint:human-action | none — `gate="blocking-human"` | ❌ W0 (user) | ⬜ pending |
+| 01-06-T3 | 01-06 | 5 | FOUND-07 (secrets) | T-01-19, T-01-21 | Secrets set from stdin, never as arguments; no value in the repo or its history | shell-assertion | `gh secret list --json name --jq '.[].name' \| … && ! git log -p -- docs/SHOPIFY-SETUP.md \| grep -Eq 'shpat_\|shpca_\|shppa_'` | ❌ W0 (remote) | ⬜ pending |
+| 01-07-T1 | 01-07 | 6 | FOUND-05 (mapping) | T-01-25 | One-way branch↔theme mapping confirmed before it is made | checkpoint:decision | none — `gate="blocking-human"` | ❌ W0 (user) | ⬜ pending |
+| 01-07-T2 | 01-07 | 6 | FOUND-05 (themes) | T-01-25, T-01-26 | STAGING stays unpublished; the connection is never undone | checkpoint:human-action | none — `gate="blocking-human"` | ❌ W0 (store) | ⬜ pending |
+| 01-07-T3 | 01-07 | 6 | FOUND-01 (preview) | — | Preview serves local code, not a stale theme | route smoke | `node -e "…fetch / /cart /search from PREVIEW_URL…"` + human console check | ❌ W0 (CLI + store) | ⬜ pending |
+| 01-07-T4 | 01-07 | 6 | FOUND-06, FOUND-07 (proven) | T-01-24, T-01-27, T-01-28, T-01-29 | Required-check names match job names verbatim; throwaway PR closed, branch deleted | CI-run on a real PR | `gh api repos/:owner/:repo/branches/main/protection --jq '.required_status_checks.contexts \| length'` + observed red-then-green PR | ❌ W0 (remote) | ⬜ pending |
 
-*Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky. Task IDs are placeholders — the planner assigns real ones.*
+*Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky. `W0` marks a check that cannot run until its Wave 0 dependency exists (CLI install, GitHub remote, dev store, or credentials).*
 
 ---
 
@@ -85,11 +95,11 @@ External dependencies the executor cannot self-provision — planner splits Phas
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 90s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or are checkpoints with an explicit Wave 0 dependency
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify (the longest checkpoint run is 01-07 tasks 1-2, immediately followed by two automated tasks)
+- [x] Wave 0 covers all MISSING references (CLI install → 01-01; GitHub remote, dev store, credentials → 01-06; themes and branch protection → 01-07)
+- [x] No watch-mode flags
+- [x] Feedback latency < 90s (`shopify theme check --fail-level error` ≈ 15 s; `node scripts/check-allowlist.mjs` < 1 s; Lighthouse runs only in CI and on demand)
+- [ ] `nyquist_compliant: true` — set by `/gsd-validate-phase` after the Wave 0 items exist and the ❌ rows turn green
 
-**Approval:** pending
+**Approval:** planned 2026-09-07 by `/gsd-plan-phase`; verification pending execution.

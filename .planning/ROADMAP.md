@@ -39,7 +39,23 @@ Milestone: Etapa 1 -- Tema de Shopify publicado y vendible. Etapa 2 (instrumenta
   3. El tema base quedo reducido por allowlist de "no renderizar" (sin borrar modulos de carrito ni de accesibilidad): el cart drawer y predictive search funcionan, Theme Check corre limpio y Lighthouse a11y >= 95
   4. Existe remote `upstream` al tema base y `OVERRIDES.md` documenta cada divergencia; hay temas STAGING (no publicado) vs LIVE con checklist de release y git como fuente de verdad del codigo
   5. Theme Check corre localmente y en cada PR (`theme-check-action`); el harness de presupuesto de performance mide Lighthouse mobile sobre un template de referencia
-**Plans**: TBD
+**Plans**: 7 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Tracer: decision de tema base (puerta de una via) + CLI 4.x + scaffold en la raiz del repo + Theme Check limpio
+- [ ] 01-02-PLAN.md — Registrar la decision en PROJECT.md y CLAUDE.md + remote `upstream`, tag de base y `OVERRIDES.md`
+- [ ] 01-03-PLAN.md — Gate de lint (package.json dev-only, `.theme-check.yml`, CI en cada PR) y harness de performance (`lighthouserc.json`, workflow Lighthouse, `docs/PERF-BUDGET.md`)
+- [ ] 01-04-PLAN.md — `ALLOWLIST.md` + reduccion por "no renderizar" con checker ejecutable + reconciliacion de `OVERRIDES.md`
+- [ ] 01-05-PLAN.md — `docs/RELEASE.md` (topologia, propiedad del contenido, checklist, rollback) + `README.md`
+- [ ] 01-06-PLAN.md — Provision externa: repo GitHub privado, dev store, Shopify GitHub app, credenciales Dev Dashboard, secretos de Actions
+- [ ] 01-07-PLAN.md — Temas STAGING/LIVE conectados, smoke de `shopify theme dev`, branch protection y PR desechable que prueba ambos gates
+
+**Nota de desviacion**: el criterio de exito 3 ("el cart drawer y predictive search funcionan") no es
+alcanzable literalmente sobre la base elegida — el starter Skeleton no trae JavaScript. Se reformula
+como "la base se mantiene minima + `ALLOWLIST.md` gobierna que renderiza"; el cart drawer pasa a la
+Fase 6, predictive search a la Fase 11 y el bus de eventos + helpers de accesibilidad a la Fase 3.
+Registrado en `ALLOWLIST.md` y ratificado en el checkpoint de decision del plan 01-01.
+
 **Research hint**: yes -- la decision de tema base necesita verificacion en vivo contra el MCP de Shopify / shopify.dev: profundidad de nesting de theme-blocks en Skeleton/Horizon, si `content_for` blocks y bloques "Get metaobject(s)" son GA, comportamiento de `?view=` sobre la base elegida, cap de variantes en el plan tier.
 
 ### Phase 2: Sistema de diseno por tokens
@@ -218,7 +234,7 @@ Critical path: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 9 -> 10 -> 13 -> 14.
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Repo, tema base y workflow foundation | 0/TBD | Not started | - |
+| 1. Repo, tema base y workflow foundation | 0/7 | Planned | - |
 | 2. Sistema de diseno por tokens | 0/TBD | Not started | - |
 | 3. Layout shell + seams de Etapa 2 | 0/TBD | Not started | - |
 | 4. Modelo de datos de producto y contenido | 0/TBD | Not started | - |
