@@ -1,1 +1,13 @@
+# Kinelia theme lint configuration.
+#
+# KINELIA: the linter was run at every severity level against the current tree
+# (`shopify theme check`) before this config was tuned. 39 files were inspected
+# with zero offences, so NO recommended rule is disabled here. In particular the
+# performance-relevant checks (ParserBlockingScript, AssetSizeJavaScript,
+# RemoteAsset, ImgWidthAndHeight) stay at their recommended severity — they
+# enforce the LCP < 2.5 s / tight-JS budget and must never be weakened.
+#
+# A rule may only be disabled below if it fires SOLELY because this is a custom
+# theme rather than a Theme-Store submission, and only with a `# KINELIA:`
+# justification comment on the line directly above it.
 extends: theme-check:recommended

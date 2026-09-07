@@ -1,0 +1,25 @@
+# Kinelia CI — Theme Check lint gate.
+#
+# Skeleton no longer ships this workflow, so plan 01-03 creates it from scratch.
+# The `theme-check` job below becomes a REQUIRED status check on `main` and
+# `staging` in plan 01-07 — its display name is "Theme Check". Renaming the job
+# later silently un-gates branch protection, so keep the name stable.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - staging
+
+jobs:
+  theme-check:
+    name: Theme Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Theme Check
+        uses: shopify/theme-check-action@v2
+        with:
+          token: ${{ github.token }}

@@ -11,3 +11,18 @@
 #
 # Ignore templates and sections with a regular expression:
 #   /(templates|sections)/.*\.json/
+
+# --- KINELIA ---
+# These entries affect the Shopify CLI only (push / pull / dev). They have NO
+# effect on the Shopify GitHub integration, which only syncs the eight theme
+# directories. Keep planning, instruction, docs and dev-tooling files out of any
+# CLI theme upload. Nothing under assets/ blocks/ config/ layout/ locales/
+# sections/ snippets/ templates/ is listed here.
+/.planning/
+/.claude/
+/.github/
+/docs/
+/*.md
+/package.json
+/package-lock.json
+/lighthouserc.json

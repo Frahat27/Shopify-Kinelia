@@ -1,0 +1,14 @@
+{
+  "name": "kinelia-theme",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kinelia Shopify storefront — development tooling manifest only. The theme has no build step; deploys go through the Shopify GitHub integration and the theme editor round-trip.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "lint": "shopify theme check --fail-level error",
+    "lint:all": "shopify theme check"
+  }
+}

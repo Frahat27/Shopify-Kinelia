@@ -15,3 +15,14 @@ node_modules/
 ## Release files
 release
 *.zip
+
+# Environment files / secrets (lands before any credential exists — the only free time)
+.env
+.env.*
+!.env.example
+
+# Local-only overrides
+*.local
+
+# Lighthouse CI output
+.lighthouseci/
