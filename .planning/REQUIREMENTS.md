@@ -181,17 +181,87 @@ Exclusiones explícitas para prevenir scope creep.
 
 ## Traceability
 
-Se completa durante la creación del roadmap.
+Mapeado en ROADMAP.md el 2026-09-07. Cada requisito v1 mapea a exactamente una fase.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (pendiente de roadmap) | — | Pending |
+| FOUND-01 | Phase 1 | Pending |
+| FOUND-02 | Phase 1 | Pending |
+| FOUND-03 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Pending |
+| FOUND-05 | Phase 1 | Pending |
+| FOUND-06 | Phase 1 | Pending |
+| FOUND-07 | Phase 1 | Pending |
+| DESIGN-01 | Phase 2 | Pending |
+| DESIGN-02 | Phase 2 | Pending |
+| DESIGN-03 | Phase 2 | Pending |
+| DESIGN-04 | Phase 2 | Pending |
+| SHELL-01 | Phase 3 | Pending |
+| SHELL-02 | Phase 3 | Pending |
+| SHELL-03 | Phase 3 | Pending |
+| SHELL-04 | Phase 3 | Pending |
+| DATA-01 | Phase 4 | Pending |
+| DATA-02 | Phase 4 | Pending |
+| DATA-03 | Phase 4 | Pending |
+| DATA-04 | Phase 4 | Pending |
+| DATA-05 | Phase 4 | Pending |
+| BUY-01 | Phase 5 | Pending |
+| BUY-02 | Phase 5 | Pending |
+| BUY-03 | Phase 5 | Pending |
+| BUY-04 | Phase 5 | Pending |
+| BUY-06 | Phase 5 | Pending |
+| BUY-07 | Phase 5 | Pending |
+| BUY-05 | Phase 6 | Pending |
+| BUNDLE-01 | Phase 6 | Pending |
+| BUNDLE-02 | Phase 6 | Pending |
+| BUNDLE-03 | Phase 6 | Pending |
+| BUNDLE-04 | Phase 6 | Pending |
+| BUNDLE-05 | Phase 6 | Pending |
+| BUNDLE-06 | Phase 6 | Pending |
+| PERS-01 | Phase 7 | Pending |
+| PERS-02 | Phase 7 | Pending |
+| PERS-03 | Phase 7 | Pending |
+| PERS-04 | Phase 7 | Pending |
+| PROOF-01 | Phase 8 | Pending |
+| PROOF-02 | Phase 8 | Pending |
+| PROOF-03 | Phase 8 | Pending |
+| FIXED-01 | Phase 9 | Pending |
+| FIXED-02 | Phase 9 | Pending |
+| FIXED-03 | Phase 9 | Pending |
+| FIXED-04 | Phase 9 | Pending |
+| FIXED-05 | Phase 9 | Pending |
+| AVATAR-01 | Phase 10 | Pending |
+| AVATAR-02 | Phase 10 | Pending |
+| AVATAR-03 | Phase 10 | Pending |
+| AVATAR-04 | Phase 10 | Pending |
+| AVATAR-05 | Phase 10 | Pending |
+| AVATAR-06 | Phase 10 | Pending |
+| AVATAR-07 | Phase 10 | Pending |
+| PAGES-01 | Phase 11 | Pending |
+| PAGES-02 | Phase 11 | Pending |
+| PAGES-03 | Phase 11 | Pending |
+| PAGES-04 | Phase 11 | Pending |
+| PAGES-05 | Phase 11 | Pending |
+| CHECKOUT-01 | Phase 12 | Pending |
+| CHECKOUT-02 | Phase 12 | Pending |
+| CHECKOUT-03 | Phase 12 | Pending |
+| CHECKOUT-04 | Phase 12 | Pending |
+| CHECKOUT-05 | Phase 12 | Pending |
+| PERF-01 | Phase 13 | Pending |
+| PERF-02 | Phase 13 | Pending |
+| PERF-03 | Phase 13 | Pending |
+| PERF-04 | Phase 13 | Pending |
+| PERF-05 | Phase 13 | Pending |
+| LAUNCH-01 | Phase 14 | Pending |
+| LAUNCH-02 | Phase 14 | Pending |
+| LAUNCH-03 | Phase 14 | Pending |
+| LAUNCH-04 | Phase 14 | Pending |
 
 **Coverage:**
-- v1 requirements: 58 total
-- Mapped to phases: 0 ⚠️
-- Unmapped: 58 ⚠️
+- v1 requirements: 71 total (14 categorías; el conteo previo de "58" en este doc era stale)
+- Mapped to phases: 71 ✓
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-09-07*
-*Last updated: 2026-09-07 after initial definition*
+*Last updated: 2026-09-07 after roadmap traceability mapping (71 v1 requirements across 14 phases)*
