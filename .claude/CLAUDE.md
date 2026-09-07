@@ -4,7 +4,7 @@
 
 **Kinelia Storefront**
 
-El tema de Shopify para Kinelia, marca DTC que vende medias de compresión en Argentina bajo el posicionamiento "piernas livianas". Es un tema custom construido sobre Dawn, optimizado por encima de todo para la tasa de conversión (CVR), con un sistema de landing / página de producto multi-avatar que permite vender el mismo producto bajo muchos ángulos (várices, adultos mayores, embarazadas, deportistas, cansancio por estar de pie, etc.) sin rehacer la página.
+El tema de Shopify para Kinelia, marca DTC que vende medias de compresión en Argentina bajo el posicionamiento "piernas livianas". Es un tema custom construido sobre la base Skeleton de Shopify, optimizado por encima de todo para la tasa de conversión (CVR), con un sistema de landing / página de producto multi-avatar que permite vender el mismo producto bajo muchos ángulos (várices, adultos mayores, embarazadas, deportistas, cansancio por estar de pie, etc.) sin rehacer la página.
 
 El tráfico llega desde anuncios de Meta y compra por impulso: mobile-first, carga rápida y buy box sin fricción son la prioridad.
 
@@ -12,7 +12,7 @@ El tráfico llega desde anuncios de Meta y compra por impulso: mobile-first, car
 
 ### Constraints
 
-- **Tech stack**: Shopify + Liquid + Dawn como base; HTML/CSS/JS nativo, sin frameworks frontend pesados — mantenibilidad a largo plazo y performance.
+- **Tech stack**: Shopify + Liquid + base Skeleton (theme blocks); HTML/CSS/JS nativo, sin frameworks frontend pesados — mantenibilidad a largo plazo y performance.
 - **Performance**: LCP < 2,5 s en mobile y presupuesto de JS ajustado — el tráfico es mobile de impulso; cada 100 ms de latencia cuesta CVR.
 - **Compatibility**: el tema debe escalar a 2-3 productos sin rehacerse — estructura multi-producto nativa desde el día 1.
 - **Checkout**: un solo embudo (checkout nativo de Shopify) — no romper la medición de CPA efectivo con flujos paralelos.
@@ -114,7 +114,7 @@ El tráfico llega desde anuncios de Meta y compra por impulso: mobile-first, car
 
 - More upfront build than forking Dawn — Skeleton gives you *no* pre-built buy box, cart drawer, or variant picker. Mitigation: port these from the open-source Horizon repo (structure, not a fork).
 - The theme-blocks ecosystem and third-party app-block support is younger than Dawn's. For Etapa 1 (no apps in the theme yet) this is low-risk; reserve `@app` slots for Etapa 2.
-- **This contradicts the current `PROJECT.md` "Key Decisions" entry ("Dawn despojado + secciones custom").** That entry is defensible on documentation grounds but predates weighing the multi-avatar requirement against theme blocks. Flag for the roadmap: revisit this decision explicitly in the first phase.
+- **RESOLVED in Phase 1 (2026-09-07):** the base theme is **Skeleton**, ratified at the plan 01-01 decision checkpoint. PROJECT.md Key Decisions updated with the tradeoff table; FOUND-03 reframed (Skeleton ships no cart drawer / predictive search — those move to Phases 6 and 11). The earlier draft entry favoring a reduced Dawn base predated weighing the multi-avatar requirement against theme blocks.
 
 ### Fallback: **Dawn**, if the team wants lowest-risk / maximum documentation.
 

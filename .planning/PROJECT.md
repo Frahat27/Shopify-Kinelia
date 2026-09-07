@@ -2,7 +2,7 @@
 
 ## What This Is
 
-El tema de Shopify para Kinelia, marca DTC que vende medias de compresión en Argentina bajo el posicionamiento "piernas livianas". Es un tema custom construido sobre Dawn, optimizado por encima de todo para la tasa de conversión (CVR), con un sistema de landing / página de producto multi-avatar que permite vender el mismo producto bajo muchos ángulos (várices, adultos mayores, embarazadas, deportistas, cansancio por estar de pie, etc.) sin rehacer la página.
+El tema de Shopify para Kinelia, marca DTC que vende medias de compresión en Argentina bajo el posicionamiento "piernas livianas". Es un tema custom construido sobre la base Skeleton de Shopify, optimizado por encima de todo para la tasa de conversión (CVR), con un sistema de landing / página de producto multi-avatar que permite vender el mismo producto bajo muchos ángulos (várices, adultos mayores, embarazadas, deportistas, cansancio por estar de pie, etc.) sin rehacer la página.
 
 El tráfico llega desde anuncios de Meta y compra por impulso: mobile-first, carga rápida y buy box sin fricción son la prioridad.
 
@@ -27,7 +27,7 @@ Maximizar el CVR de la página de producto (sesiones de tráfico pago → órden
 
 Etapa 1 — Tema de Shopify (milestone v1):
 
-- [ ] Tema Shopify custom sobre Dawn, mobile-first, despojado a lo esencial
+- [ ] Tema Shopify custom sobre la base Skeleton, mobile-first, construido hacia arriba desde un baseline casi sin JS
 - [ ] Página de producto / landing optimizada para CVR: buy box con galería video-first, selector de bundle, selector de variantes talle × color con guía de talles, sticky Add-to-Cart en mobile, prueba social (rating + reviews), badges de oferta y ahorro, fila de confianza (garantía 90 días · envío · contra entrega)
 - [ ] Sistema multi-avatar: templates JSON por ángulo con bloques intercambiables (headline, agitación del problema, mecanismo, testimonios, "para quién es") y bloques fijos (buy box, oferta, garantía, FAQ, footer)
 - [ ] Al menos 1 template de avatar completo + 1 clon que demuestra que el sistema multi-avatar funciona
@@ -49,7 +49,7 @@ Etapa 1 (diferido a etapas posteriores, registrado para no re-agregarlo):
 - App de reseñas (Judge.me / Loox) e importación de reviews — Etapa 2; la sección de reviews se maqueta con placeholder en Etapa 1
 - Flujos de email (bienvenida, carrito abandonado, post-compra) — Etapa 2
 - Experimentos de CVR, A/B testing y captación avanzada de datos — Etapa 3
-- Headless / Hydrogen / React — descartado: Dawn + secciones es más mantenible para monoproducto → 2-3 productos y rinde mejor en Core Web Vitals sin esfuerzo
+- Headless / Hydrogen / React — descartado: un tema Liquid sobre Skeleton + secciones es más mantenible para monoproducto → 2-3 productos y rinde mejor en Core Web Vitals sin esfuerzo
 - Formulario COD propio fuera del checkout de Shopify — descartado: duplica el embudo, duplica eventos y ensucia la medición de CPA efectivo
 - Backend de datos Supabase — vive en el repo `Kinelia` principal, fuera de este repo
 
@@ -63,7 +63,7 @@ Etapa 1 (diferido a etapas posteriores, registrado para no re-agregarlo):
 
 ## Constraints
 
-- **Tech stack**: Shopify + Liquid + Dawn como base; HTML/CSS/JS nativo, sin frameworks frontend pesados — mantenibilidad a largo plazo y performance.
+- **Tech stack**: Shopify + Liquid + base Skeleton (theme blocks); HTML/CSS/JS nativo, sin frameworks frontend pesados — mantenibilidad a largo plazo y performance.
 - **Performance**: LCP < 2,5 s en mobile y presupuesto de JS ajustado — el tráfico es mobile de impulso; cada 100 ms de latencia cuesta CVR.
 - **Compatibility**: el tema debe escalar a 2-3 productos sin rehacerse — estructura multi-producto nativa desde el día 1.
 - **Checkout**: un solo embudo (checkout nativo de Shopify) — no romper la medición de CPA efectivo con flujos paralelos.
@@ -74,11 +74,21 @@ Etapa 1 (diferido a etapas posteriores, registrado para no re-agregarlo):
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Tema base: Dawn despojado + secciones custom | Máxima documentación, el MCP de Shopify lo conoce a fondo, estable, mantenible para monoproducto → multiproducto | — Pending |
+| Tema base: **Skeleton** (`Shopify/skeleton-theme`), construido hacia arriba | Es el punto de partida documentado de Shopify para temas custom (`shopify theme init` lo clona); el sistema multi-avatar necesita theme blocks reutilizables entre secciones con nesting de 8 niveles (Dawn solo llega a 2); el baseline casi sin JS hace que el presupuesto LCP < 2,5 s sea cuestión de qué agregamos, no de qué no logramos sacar | ✓ Tomada en Phase 1 (2026-09-07) · `one-way` |
 | Checkout único nativo de Shopify con COD como método de pago manual | Evita duplicar el embudo y ensuciar el CPA efectivo; menos superficie de desarrollo | — Pending |
 | Sistema multi-avatar vía templates JSON + bloques de sección | Permite clonar la landing por ángulo sin rehacerla; nativo de Shopify | — Pending |
 | Mecánica del bundle a decidir en research | Impacta CVR y la arquitectura de producto / atribución (producto único con quantity breaks vs. packs separados vs. app) | — Pending |
 | Trabajo dividido en 3 etapas: tema → tracking/reviews/email → experimentos CVR | El usuario prioriza tener la base publicada y vendible antes de instrumentar | — Pending |
+
+### Tema base — tradeoffs evaluados
+
+| Opción | Encaje multi-avatar | Baseline de performance | Esfuerzo de build | Mantenimiento | Veredicto |
+|--------|--------------------|-------------------------|-------------------|---------------|-----------|
+| **Skeleton** (elegida) | Nativo — mismo motor de theme blocks que Horizon (nesting 8, `content_for`) | Casi cero JS + un `critical.css` | Alto — hay que construir buy box, cart drawer, variant picker, búsqueda | Bajo — el starter cambia poco; `upstream` es seguro, no un treadmill | **Elegida** |
+| Horizon despojado (fallback) | Nativo (mismo motor) | Peso del runtime de web components a cuestas | Medio — auditar y desactivar ~9 secciones preset + bloques | Alto — churn del upstream que no se pullea; riesgo de sobre-desmantelar | Fallback |
+| Dawn reducido (rechazada) | Malo — section-blocks de 2 niveles no expresan la librería de bloques compartida | Media | Bajo | Base legacy de OS 2.0 en modo mantenimiento | Rechazada |
+
+**Costo aceptado de Skeleton:** el starter no trae cart drawer, ni búsqueda predictiva, ni utilidades de a11y/pubsub. Estos pasan a ser tareas de build explícitas — event bus + helpers de a11y en **Fase 3**, buy box en **Fase 5**, cart drawer en **Fase 6**, búsqueda predictiva en **Fase 11**. El Criterio de Éxito 3 de la Fase 1 en el ROADMAP queda replanteado en consecuencia (ver `ALLOWLIST.md`, autorado en el plan 01-04).
 
 ## Evolution
 

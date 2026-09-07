@@ -304,7 +304,7 @@ Tailwind is *possible* with a build pipeline, but it adds friction against every
 
 1. **Bundle: one size/color per pack, or per pair?** Decides variant-packs (Option A) vs mix-and-match app (Option D). Highest-leverage unknown.
 2. **Exact MercadoPago app + capabilities in AR (2026)** — transparent vs redirect, cuotas display, cash-ticket support. Resolve at launch with production credentials.
-3. **Base theme decision vs current PROJECT.md** — PROJECT.md commits to Dawn; this research recommends Skeleton + theme blocks. Needs an explicit call in Phase 1.
+3. **Base theme decision vs current PROJECT.md** — ~~PROJECT.md commits to Dawn; this research recommends Skeleton + theme blocks. Needs an explicit call in Phase 1.~~ **RESOLVED 2026-09-07 (Phase 1, plan 01-01 checkpoint): Skeleton.** PROJECT.md Key Decisions updated; FOUND-03 reframe ratified (cart drawer → Fase 6, búsqueda → Fase 11).
 4. **Skeleton buy-box build effort** — how much to port from Horizon vs build fresh (variant picker, cart drawer, sticky ATC).
 5. **`?view={angle}` URL ergonomics for Meta ads** — acceptable, or do we want cleaner paths (dedicated landing handles / redirects)?
 6. **Talle × Color × Pack variant count** — confirm real option values stay well under 100 variants.
