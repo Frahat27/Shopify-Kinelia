@@ -10,7 +10,7 @@
 
 Phase 1 has one irreversible decision (the base theme) and a set of well-documented plumbing tasks around it. The plumbing is low-risk: Shopify CLI 4.x, `shopify theme init` from the Skeleton starter, the Shopify GitHub integration for a STAGING (unpublished) + LIVE (published) theme pair, the `Shopify/theme-check-action@v2` that the Skeleton repo already ships, and the official `Shopify/lighthouse-ci-action` for the performance budget. None of that needs invention — it needs to be wired correctly and documented.
 
-The base-theme decision has effectively resolved since the project-level research was written. Shopify's own "Create a theme" tutorial now names **the Skeleton theme (`Shopify/skeleton-theme`) as the starting point for custom theme development**, `shopify theme init` clones it by default, and **Horizon is the default theme for newly created stores** (replacing Dawn). Dawn is the legacy OS 2.0 reference (2-level block nesting). For a heavily-customized, CVR-first, multi-avatar theme where every pre-built Horizon preset section is ballast, **Skeleton is the firm recommendation**, with Horizon-stripped as the fallback for a team that wants a pre-built cart drawer / variant picker / predictive search on day one.
+The base-theme decision has effectively resolved since the project-level research was written. Shopify's own "Create a theme" tutorial now names **the Skeleton theme (`Shopify/skeleton-theme`) as the starting point for custom theme development**, `shopify theme init` clones it by default. Horizon (2025) is the current flagship free theme family and is widely reported to have replaced Dawn as the new-store default (practitioner consensus, not confirmed in Shopify's changelog — see §1). Dawn is the legacy OS 2.0 reference (2-level block nesting); Skeleton being *the* documented custom-build starting point is the decisive fact, independent of Horizon's default status. For a heavily-customized, CVR-first, multi-avatar theme where every pre-built Horizon preset section is ballast, **Skeleton is the firm recommendation**, with Horizon-stripped as the fallback for a team that wants a pre-built cart drawer / variant picker / predictive search on day one.
 
 The one thing the planner must confront: **Skeleton ships ~15 Liquid files and zero JavaScript — no cart drawer, no predictive search, no `pubsub`/`a11y` modules.** Success Criterion 3 ("el cart drawer y predictive search funcionan") and requirement FOUND-03 ("sin borrar módulos de carrito ni de accesibilidad") were written against a Dawn/Horizon base where those modules exist to be preserved. On Skeleton there is nothing to strip and nothing to preserve — the risk inverts from *over-stripping* to *under-building*. §4 gives the planner two concrete ways to reconcile this.
 
@@ -23,7 +23,7 @@ The one thing the planner must confront: **Skeleton ships ~15 Liquid files and z
 | ID | Description | Research Support |
 |----|-------------|------------------|
 | FOUND-01 | El tema vive en este repo git y se previsualiza localmente con `shopify theme dev` contra una dev store | §2 (CLI 4.x, Node 22.12+, `shopify theme init`/`theme dev`, dev store from Partners). Local env has Node 24.14 + Git 2.53 — CLI is the only missing tool. |
-| FOUND-02 | Decisión de tema base tomada y registrada, PROJECT.md actualizado | §1 + §3. Skeleton officially recommended; Horizon = new-store default; Dawn = legacy. Tradeoff table ready to paste into PROJECT.md Key Decisions. **Also update `.claude/CLAUDE.md`** (still says "construido sobre Dawn"). |
+| FOUND-02 | Decisión de tema base tomada y registrada, PROJECT.md actualizado | §1 + §3. Skeleton officially recommended (shopify.dev, re-verified); Horizon = current flagship family (reported new-store default, not changelog-confirmed); Dawn = legacy OS 2.0 reference. Tradeoff table ready to paste into PROJECT.md Key Decisions. **Also update `.claude/CLAUDE.md`** (still says "construido sobre Dawn"). |
 | FOUND-03 | Base reducida por "no renderizar" (allowlist), sin borrar módulos de carrito ni de accesibilidad | §4. On Skeleton there is nothing to strip. Reframe: keep lean, do not re-import Dawn/Horizon bloat; cart drawer + predictive search + a11y = later-phase build items. Alternative: pick Horizon and strip it literally as written. |
 | FOUND-04 | Remote `upstream` al tema base + `OVERRIDES.md` por cada divergencia | §5. `upstream` = `github.com/Shopify/skeleton-theme`; Skeleton changes rarely so the merge treadmill is light; document divergences anyway for the "we own this fork" posture. |
 | FOUND-05 | Topología STAGING (no publicado) vs LIVE, checklist de release, git como fuente de verdad | §3. GitHub integration: 1 branch ↔ 1 theme, connects to unpublished themes. `main`→LIVE, `staging`→STAGING. Editor writes `settings_data.json` + template JSON back to the branch — ownership rule required. |
@@ -71,7 +71,7 @@ Treat these with the same authority as locked decisions.
 |------|----------|------------|
 | Shopify's "Create a theme" tutorial uses **the Skeleton theme** as the starting point for custom theme development; `shopify theme init` clones `github.com/shopify/skeleton-theme` | `[CITED: shopify.dev/docs/storefronts/themes/getting-started/create]` (fetched this session) | HIGH |
 | Skeleton is "a minimal, carefully structured Shopify theme… modularity, maintainability, and Shopify's best practices"; the repo README asks contributors to keep it "as lean, lightweight, and fundamental as possible" | `[VERIFIED: github.com/Shopify/skeleton-theme/README.md]` (fetched this session) | HIGH |
-| **Horizon** (Summer 2025 editions) is now **the default theme for newly created Shopify stores**, replacing Dawn; ships 9 free sibling presets on one "Horizon Base" engine; theme blocks nested up to 8 levels; adds group blocks + Shopify Magic block generation | `[CITED: changelog.shopify.com/posts/horizon-10-new-free-themes-by-shopify]` + multiple 2026 practitioner sources (craftshift, pagefly, gempages) | MEDIUM-HIGH |
+| **Horizon** (Summer 2025 editions) is a free theme family on one "Horizon Base" engine; theme blocks nested up to 8 levels; adds group blocks + Shopify Magic block generation. **"Horizon is now the default theme for newly created stores, replacing Dawn"** is widely reported but **NOT stated in Shopify's own changelog** (that post — 2025-05-21 — only announces "a new collection of free themes"). Treat "Horizon = new-store default" as practitioner consensus, not a first-party fact. | `[CITED: changelog.shopify.com/posts/horizon-10-new-free-themes-by-shopify]` (theme family, date) + multiple 2026 practitioner sources (craftshift, pagefly, gempages) for the "default" claim `[ASSUMED]` | MEDIUM (family + 8-level blocks); LOW for "is the default" |
 | **Dawn** uses section-blocks capped at ~2 nesting levels; blocks are not shareable across section types; it is the legacy OS 2.0 reference | project research/STACK.md + practitioner sources | MEDIUM-HIGH |
 | Theme block nesting depth: **8 levels excluding the section level**; 25 sections / JSON template; 50 blocks / section; 1,000 JSON templates / theme; 300 theme-block files / theme; statically-rendered `{% content_for %}` blocks do **not** count toward per-section/template limits | `[VERIFIED: shopify.dev/docs/storefronts/themes/architecture/limits]` (fetched this session) | HIGH |
 | `content_for` / theme blocks / cross-section reuse — treated as standard (no beta disclaimer) in current docs | `[CITED: shopify.dev/docs/storefronts/themes/architecture/blocks/theme-blocks]` | MEDIUM-HIGH |
@@ -138,9 +138,9 @@ templates/       404, article, blog, cart, collection, gift_card.liquid, index,
 
 | Tool | Required | Local machine | Action |
 |------|----------|---------------|--------|
-| Shopify CLI | **4.x** (`shopify version` → `4.0.0` in current docs) | **not installed** | `npm install -g @shopify/cli@latest` `[CITED: shopify.dev/docs/api/shopify-cli]` |
-| Node.js | **22.12 or higher** `[CITED: shopify.dev/docs/api/shopify-cli]` | **v24.14.0** ✓ | none |
-| Git | **2.28+** (CLI 4.0 requirement) `[CITED: kaspianfuad.com/blog/shopify-cli-cheat-sheet — secondary]` | **2.53.0** ✓ | none |
+| Shopify CLI | **4.0** (current major) `[CITED: shopify.dev/docs/api/shopify-cli]` (re-verified 2026-09-07) | **not installed** | `npm install -g @shopify/cli@latest` |
+| Node.js | **22.12 or higher** `[CITED: shopify.dev/docs/api/shopify-cli]` (re-verified 2026-09-07) | **v24.14.0** ✓ | none |
+| Git | **2.28.0+** (CLI 4.0 system requirement) `[CITED: shopify.dev/docs/api/shopify-cli]` (re-verified 2026-09-07) | **2.53.0** ✓ | none |
 | Ruby | **not required** — the standalone Ruby `theme-check` gem is legacy; Theme Check is bundled in the CLI (Node) `[CITED: shopify.dev/docs/storefronts/themes/tools/theme-check]` | — | none |
 
 > CLI 4.0 (released ~May 2026) self-upgrades via the package manager by default and **skips self-upgrade inside CI** `[CITED: kaspianfuad.com — secondary, MEDIUM]`. Pin the CLI version in CI (`@shopify/cli@4`) for reproducibility.
@@ -473,7 +473,7 @@ shopify theme push --json --theme staging --store "$SHOPIFY_FLAG_STORE" --passwo
 |--------------------------------|-------------------------------|--------|
 | "Shopify CLI 3.x, Node 20+/22 LTS" | **CLI 4.x**, **Node 22.12+**, Git 2.28+ | Local Node 24.14 is fine; install CLI fresh. Pin `@shopify/cli@4` in CI. |
 | "Skeleton is *a* recommended base" | Skeleton is **the** documented starting point; `shopify theme init` clones it | Decision de-risked. |
-| "Horizon is *becoming* the default" | Horizon **is** the new-store default (Dawn replaced) | Dawn is unambiguously legacy for greenfield. |
+| "Horizon is *becoming* the default" | Horizon is the current flagship theme family; "replaced Dawn as new-store default" is widely reported but not changelog-confirmed | Dawn is legacy for greenfield regardless — Skeleton is the documented custom-build base. |
 | Lighthouse-CI auth via custom app `access_token` | **No new custom apps after 2026-01-01** → Dev Dashboard app `client_id`/`client_secret` | CI perf-harness setup needs Dev Dashboard credentials from the user. |
 | `@shopify/theme-check` (implied installable) | Package **does not exist** on npm; linter is bundled in CLI | Don't add it to `package.json`. |
 
@@ -598,13 +598,14 @@ GitHub Actions (not npm): `shopify/theme-check-action@v2`, `shopify/lighthouse-c
 | # | Claim | Section | Risk if wrong |
 |---|-------|---------|---------------|
 | A1 | 150 KB compressed JS budget for the Lighthouse assertion | §7 | Too tight → CI blocks legitimately; too loose → perf regressions slip. **Confirm the number with the user in discuss-phase.** Shopify publishes no official JS-weight target. |
-| A2 | `shopify/lighthouse-ci-action` is at `@v1` and `theme-check-action` at `@v2` | §6, §7 | Wrong tag → workflow fails on first run; fixable in minutes. Verify latest tags when wiring. |
-| A3 | Git 2.28+ requirement for CLI 4.0 (from a secondary blog) | §2 | Local Git is 2.53 so moot here; only matters for other contributors' machines. |
+| A2 | `shopify/lighthouse-ci-action` is at `@v1` and `theme-check-action` at `@v2` | §6, §7 | **Re-verified 2026-09-07**: `lighthouse-ci-action@v1` confirmed in the action README workflow example; `theme-check-action@v2` confirmed in Skeleton's shipped `ci.yml`. Still verify the exact latest patch tag when wiring. |
+| A3 | ~~Git 2.28+ requirement for CLI 4.0 (from a secondary blog)~~ **RESOLVED** — now `[CITED: shopify.dev/docs/api/shopify-cli]`, Git 2.28.0+ is a stated CLI 4.0 system requirement. Local Git 2.53 satisfies it. | §2 | None — resolved. |
 | A4 | The Shopify GitHub integration ignores unknown root dirs (`.planning/`, `.claude/`) | §7, structure | If it complains, move GSD docs to a branch not connected to Shopify, or a sibling repo. Low likelihood (integration only reads known theme dirs). |
 | A5 | `@lhci/cli`, `prettier`, `@shopify/prettier-plugin-liquid` are legitimate | Package audit | Not verified this session — planner must run `npm view` + legitimacy check and gate behind `checkpoint:human-verify`. |
 | A6 | Skeleton's `theme init` can target the current directory (`.`) cleanly | §2 code example | If not, scaffold to a subdir and move files up — trivial. Confirm against installed CLI help. |
 | A7 | "Get metaobject(s)" blocks / metaobject-typed block settings GA status | §1 | **Deferred to Phase 4/7** — not a Phase 1 blocker. Do not let the planner assume it here. |
 | A8 | Horizon web components are MIT-licensed and safe to port structurally | §4, Don't-Hand-Roll | Verify `github.com/Shopify/horizon` LICENSE before porting (project research says MIT). Relevant to Phases 6/11, not 1. |
+| A9 | "Horizon is the default theme for newly created Shopify stores, replacing Dawn" | §1, Summary | Practitioner consensus, **not** in Shopify's changelog. If wrong, the Skeleton recommendation is unaffected (it rests on Skeleton being the documented custom-build starting point + multi-avatar/perf fit, not on Horizon's default status). Only affects how emphatically PROJECT.md can call Dawn "legacy". Confirm at plan time or leave as "widely reported". |
 
 **All `[ASSUMED]` items need user confirmation or a verification task before becoming locked decisions.**
 
@@ -634,8 +635,14 @@ GitHub Actions (not npm): `shopify/theme-check-action@v2`, `shopify/lighthouse-c
 
 ## Sources
 
-### Primary (HIGH confidence — fetched/verified this session)
-- shopify.dev/docs/storefronts/themes/getting-started/create — Skeleton is the documented custom-theme starting point; `shopify theme init`
+### Primary (HIGH confidence — fetched/verified this session; core claims re-verified 2026-09-07)
+- shopify.dev/docs/storefronts/themes/getting-started/create — Skeleton is the documented custom-theme starting point; `shopify theme init` clones Skeleton by default (re-confirmed 2026-09-07)
+- shopify.dev/docs/api/shopify-cli — re-confirmed 2026-09-07: CLI **4.0**, Node **22.12+**, Git **2.28.0+**, npm/Yarn 1.x/pnpm; no Ruby requirement
+- shopify.dev/docs/storefronts/themes/tools/github — re-confirmed 2026-09-07: "connect only branches that match the default Shopify theme folder structure"; folders that don't match are ignored; unpublished themes supported and keep their branch connection when published; branch↔theme cannot be reconnected after disconnect; admin edits auto-commit back to the repo
+- shopify.dev/docs/storefronts/themes/architecture/templates/alternate-templates — re-confirmed 2026-09-07: `?view=[template-suffix]` is standard/documented (no beta or testing-only caveat)
+- shopify.dev/docs/storefronts/themes/architecture/limits — re-confirmed 2026-09-07: nesting **8 levels excluding the section level**; 25 sections/template; 50 blocks/section (`max_blocks` can lower it); 1,000 JSON templates/theme; 300 theme-block files/theme; `{% content_for %}` static blocks don't count toward limits
+- github.com/Shopify/lighthouse-ci-action README — re-confirmed 2026-09-07: `@v1`; "As of January 1, 2026 Shopify no longer allows creating new custom apps. Existing custom apps continue to work"; Dev Dashboard app `client_id`/`client_secret` (auto-refreshed, 24h validity) is the path; legacy `access_token` only for pre-existing custom apps; defaults `lhci_min_score_performance` 0.6, `lhci_min_score_accessibility` 0.9
+- github.com/Shopify/skeleton-theme/tree/main/assets — re-confirmed 2026-09-07: `assets/` = `critical.css` + `icon-account.svg` + `icon-cart.svg` + `shoppy-x-ray.svg`; **zero `.js` files**
 - github.com/Shopify/skeleton-theme (git tree + raw `README.md`, `.theme-check.yml`, `.github/workflows/ci.yml`, `.gitignore`, `.shopifyignore`) — exact contents, no JS, no cart drawer
 - shopify.dev/docs/storefronts/themes/architecture/limits — nesting depth 8, sections/blocks/template limits
 - shopify.dev/docs/api/shopify-cli — CLI 4.0, Node 22.12+
@@ -648,7 +655,7 @@ GitHub Actions (not npm): `shopify/theme-check-action@v2`, `shopify/lighthouse-c
 - Local environment probe — Node v24.14.0, Git 2.53.0, no Shopify CLI, no global npm packages
 
 ### Secondary (MEDIUM confidence — practitioner sources, cross-checked)
-- changelog.shopify.com/posts/horizon-10-new-free-themes-by-shopify + craftshift.com, pagefly.io, gempages.net, omnithemes.com — Horizon is the new-store default; 9 sibling presets; 8-level blocks vs Dawn's 2
+- changelog.shopify.com/posts/horizon-10-new-free-themes-by-shopify (2025-05-21 — announces the Horizon free-theme family only; does NOT say "new-store default" or mention Dawn) + craftshift.com, pagefly.io, gempages.net, omnithemes.com (these secondary sources assert Horizon replaced Dawn as the new-store default — treat as consensus, not first-party); 8-level blocks vs Dawn's 2 is corroborated by shopify.dev limits page
 - community.shopify.dev/t/nested-blocks-depth-limit + capaxe.com, moxiesozo.com — theme-block nesting, `content_for` not counting toward limits
 - shopify.dev/docs/storefronts/themes/tools/cli/ci-cd + kaspianfuad.com/blog/shopify-cli-cheat-sheet — `SHOPIFY_CLI_THEME_TOKEN` gotcha, CLI 4.0 self-upgrade skips CI, Git 2.28+
 - shopify.dev/docs/storefronts/themes/tools/theme-check/configuration — `.theme-check.yml`, `shopify theme check --init`, disabling checks
@@ -663,10 +670,10 @@ GitHub Actions (not npm): `shopify/theme-check-action@v2`, `shopify/lighthouse-c
 ## Metadata
 
 **Confidence breakdown:**
-- Base-theme decision: **HIGH** — Skeleton officially recommended (shopify.dev, fetched); Horizon-as-default corroborated across 4+ sources; Skeleton contents verified from the repo directly.
+- Base-theme decision: **HIGH** — Skeleton is *the* documented custom-theme starting point and `shopify theme init` clones it (shopify.dev, re-verified 2026-09-07); Skeleton's `assets/` has zero JS (repo tree, re-verified). "Horizon replaced Dawn as new-store default" is practitioner consensus only (LOW) but does not affect the recommendation.
 - Toolchain (CLI/Node/Git versions, GitHub integration, Theme Check, Lighthouse CI): **HIGH** for behavior, **MEDIUM** for exact Action tag versions (A2) and the Git 2.28 minimum (A3, secondary).
 - FOUND-03 "strip" deliverable: **MEDIUM** — the *facts* (Skeleton has no cart drawer) are HIGH; the *right way to reconcile the requirement* is a judgment call needing user ratification (Open Q1).
 - Lighthouse-CI auth under the Jan-2026 no-new-custom-apps rule: **MEDIUM** — README states Dev Dashboard app is the path; not tested end-to-end this session.
 
-**Research date:** 2026-09-07
+**Research date:** 2026-09-07 (core toolchain + GitHub-integration + limits + Skeleton contents + lighthouse-ci-action auth re-verified against shopify.dev / GitHub the same day)
 **Valid until:** ~2026-10-07 for the toolchain (Shopify ships fast — re-verify CLI major + Action tags at plan time); base-theme decision is stable for the milestone.
