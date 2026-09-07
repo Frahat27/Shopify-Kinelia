@@ -1,0 +1,83 @@
+{
+  "contract": "1.0.0",
+  "flavor": "core",
+  "milestone": null,
+  "phases": [
+    {
+      "number": "1",
+      "name": "Repo, tema base y workflow foundation",
+      "status": "pending"
+    },
+    {
+      "number": "2",
+      "name": "Sistema de diseno por tokens",
+      "status": "pending"
+    },
+    {
+      "number": "3",
+      "name": "Layout shell + seams de Etapa 2",
+      "status": "pending"
+    },
+    {
+      "number": "4",
+      "name": "Modelo de datos de producto y contenido",
+      "status": "pending"
+    },
+    {
+      "number": "5",
+      "name": "Buy box core",
+      "status": "pending"
+    },
+    {
+      "number": "6",
+      "name": "Bundle spike + selector + carrito + sticky ATC",
+      "status": "pending"
+    },
+    {
+      "number": "7",
+      "name": "Stack de persuasion variable",
+      "status": "pending"
+    },
+    {
+      "number": "8",
+      "name": "Prueba social + USP",
+      "status": "pending"
+    },
+    {
+      "number": "9",
+      "name": "Espinazo fijo -- garantia + guia + FAQ + CTA",
+      "status": "pending"
+    },
+    {
+      "number": "10",
+      "name": "Wiring multi-avatar",
+      "status": "pending"
+    },
+    {
+      "number": "11",
+      "name": "Home + paginas legales AR",
+      "status": "pending"
+    },
+    {
+      "number": "12",
+      "name": "Configuracion de checkout hibrido",
+      "status": "pending"
+    },
+    {
+      "number": "13",
+      "name": "Pasada de performance",
+      "status": "pending"
+    },
+    {
+      "number": "14",
+      "name": "Lanzamiento / handoff",
+      "status": "pending"
+    }
+  ],
+  "next": {
+    "command": "/gsd:progress --next",
+    "label": "Advance to the next step",
+    "reason": "Phase 1 of 14 · 0% · executing"
+  },
+  "updated_at": "2026-09-07T18:20:00.151Z"
+}
