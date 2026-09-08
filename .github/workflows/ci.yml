@@ -17,8 +17,9 @@ on:
 # `token` is set, which the default GITHUB_TOKEN cannot do ("Resource not
 # accessible by integration"). Grant exactly the scopes needed — and `contents:
 # read` explicitly, because declaring a `permissions:` block drops every scope
-# not listed to `none`, which would break actions/checkout. (Fix applied during
-# plan 01-06 after the first push turned CI red; 01-07 proves it green on a PR.)
+# not listed to `none`, which would break actions/checkout. (permissions + the
+# @v2.2.0 pin were added in 01-06 after the first push turned CI red; the
+# two-step job below was added in 01-07 after the gate-proof PR.)
 permissions:
   contents: read
   checks: write
@@ -30,17 +31,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Theme Check
-        # `@v2` is a floating tag still pinned to a Feb-2024 build (Node 20,
-        # older bundled Theme Check); `@v2.2.0` is the current v2 line and keeps
-        # CI's linter in step with the local CLI, per plan 01-03's intent.
+
+      # Nice-to-have: posts a "Theme Check Report" check with inline annotations
+      # on the PR diff. This action does NOT fail its own job step on offences
+      # (it only reflects them in that separate check) — plan 01-07 finding — so
+      # it cannot be the gate on its own.
+      - name: Theme Check annotations
         uses: shopify/theme-check-action@v2.2.0
+        continue-on-error: true
         with:
           token: ${{ github.token }}
-          # Without an explicit fail level the action posts a "Theme Check Report"
-          # check but leaves the JOB green on an error-level offence, so the job
-          # name — the one branch protection requires — would never turn red.
-          # `--fail-level error` makes the job itself fail on errors, matching
-          # the local `npm run lint`. (Added in plan 01-07 after the gate-proof
-          # PR showed the job passing on a real offence.)
           flags: --fail-level error
+
+      # The authoritative gate: this step's exit code is what makes the
+      # "Theme Check" job — the required status check on main/staging — red on
+      # an error-level offence. Same command as the local `npm run lint`.
+      - name: Theme Check (gate)
+        run: |
+          npm install -g @shopify/cli
+          shopify theme check --fail-level error
