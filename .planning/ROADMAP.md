@@ -43,17 +43,17 @@ Milestone: Etapa 1 -- Tema de Shopify publicado y vendible. Etapa 2 (instrumenta
   4. Existe remote `upstream` al tema base y `OVERRIDES.md` documenta cada divergencia; hay temas STAGING (no publicado) vs LIVE con checklist de release y git como fuente de verdad del codigo
   5. Theme Check corre localmente y en cada PR (`theme-check-action`); el harness de presupuesto de performance mide Lighthouse mobile sobre un template de referencia
 
-**Plans**: 7 plans
+**Plans**: 3/7 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 01-01-PLAN.md — Tracer: decision de tema base (puerta de una via) + CLI 4.x + scaffold en la raiz del repo + Theme Check limpio
+- [x] 01-01-PLAN.md — Tracer: decision de tema base (puerta de una via) + CLI 4.x + scaffold en la raiz del repo + Theme Check limpio
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 01-02-PLAN.md — Registrar la decision en PROJECT.md y CLAUDE.md + remote `upstream`, tag de base y `OVERRIDES.md`
-- [ ] 01-03-PLAN.md — Gate de lint (package.json dev-only, `.theme-check.yml`, CI en cada PR) y harness de performance (`lighthouserc.json`, workflow Lighthouse, `docs/PERF-BUDGET.md`)
+- [x] 01-02-PLAN.md — Registrar la decision en PROJECT.md y CLAUDE.md + remote `upstream`, tag de base y `OVERRIDES.md`
+- [x] 01-03-PLAN.md — Gate de lint (package.json dev-only, `.theme-check.yml`, CI en cada PR) y harness de performance (`lighthouserc.json`, workflow Lighthouse, `docs/PERF-BUDGET.md`)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -293,7 +293,7 @@ Critical path: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 9 -> 10 -> 13 -> 14.
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Repo, tema base y workflow foundation | 0/7 | Planned | - |
+| 1. Repo, tema base y workflow foundation | 3/7 | In Progress|  |
 | 2. Sistema de diseno por tokens | 0/TBD | Not started | - |
 | 3. Layout shell + seams de Etapa 2 | 0/TBD | Not started | - |
 | 4. Modelo de datos de producto y contenido | 0/TBD | Not started | - |
