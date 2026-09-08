@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 current_phase: 01
 current_phase_name: Repo, tema base y workflow foundation
 status: executing
-stopped_at: Completed 01-05-PLAN.md
-last_updated: "2026-09-08T12:48:31.877Z"
+stopped_at: Completed 01-06-PLAN.md
+last_updated: "2026-09-08T18:44:56.052Z"
 last_activity: 2026-09-08
 last_activity_desc: Phase 01 execution started
-state_head: 851d181fa24d9d92a13d30283df41cbc180a1f5d
+state_head: f82c27e86cdb146dc9324bd51650bb92443c18f6
 progress:
   total_phases: 14
   completed_phases: 0
   total_plans: 7
-  completed_plans: 5
+  completed_plans: 6
   percent: 0
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-09-07)
 ## Current Position
 
 Phase: 01 (Repo, tema base y workflow foundation) — EXECUTING
-Plan: 6 of 7
+Plan: 7 of 7
 Status: Ready to execute
 Last activity: 2026-09-08 — Completed 01-04 (ALLOWLIST.md + checker + OVERRIDES reconciliation)
 
@@ -61,6 +61,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P03 | 15min | 3 tasks | 8 files |
 | Phase 01 P04 | 5min | 3 tasks | 6 files |
 | Phase 01 P05 | 12min | 2 tasks | 3 files |
+| Phase 01 P06 | 3h | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -85,6 +86,7 @@ None yet.
 
 - Phase 12 / Phase 14 dependen de datos provistos por el usuario: credenciales de MercadoPago produccion, razon social AR, DNS del dominio.
 - REQUIREMENTS.md tenia un conteo stale de "58" requisitos v1; el conteo real es 71 (14 categorias). Traceability y Coverage actualizados a 71.
+- FOUND-01 parcial: el remote git y las ramas main/staging existen (01-06), pero la previsualización local con 'shopify theme dev' contra kinelia.myshopify.com no está probada (requiere login interactivo de navegador). Se completa en 01-07.
 
 ## Deferred Items
 
@@ -96,6 +98,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-08T12:48:17.840Z
-Stopped at: Completed 01-05-PLAN.md
+Last session: 2026-09-08T18:44:42.058Z
+Stopped at: Completed 01-06-PLAN.md
 Resume file: None
