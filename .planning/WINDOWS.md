@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 3
+open_count: 2
 waived_count: 0
-fixed_count: 0
+fixed_count: 1
 total_count: 3
-last_updated: 2026-09-08T17:52:56.568Z
+last_updated: 2026-09-08T17:53:32.109Z
 ---
 
 # Broken Windows Ledger
@@ -17,7 +17,7 @@ last_updated: 2026-09-08T17:52:56.568Z
 |----|-------|------|------|------|-------------|--------|--------|-------------|-------------|
 | 1 | 01 | deviation | OVERRIDES.md |  | Archivos eliminados: el diff con el base tag muestra 4 archivos de gobernanza upstream nunca vendorizados por el scaffold; ninguna superficie de tema fue borrada | open |  | 2026-09-08T12:40:48.442Z |  |
 | 2 | 01 | deviation | templates/index.json |  | index.json reescrito como JSON estricto (sin banner /* */) para que el verify del plan con require() resuelva | open |  | 2026-09-08T12:40:49.516Z |  |
-| 3 | 01 | deviation | .github/workflows/ci.yml |  | ci.yml/lighthouse.yml needed explicit permissions blocks (contents:read + checks/pull-requests:write) and theme-check-action bumped v2->v2.2.0. First push turned CI red (Resource not accessible by integration, then Repository not found). RESOLVED at commit 1bb87cc — CI green on main+staging. 01-07 re-verifies on a PR. | open |  | 2026-09-08T17:52:56.568Z |  |
+| 3 | 01 | deviation | .github/workflows/ci.yml |  | ci.yml/lighthouse.yml needed explicit permissions blocks (contents:read + checks/pull-requests:write) and theme-check-action bumped v2->v2.2.0. First push turned CI red (Resource not accessible by integration, then Repository not found). RESOLVED at commit 1bb87cc — CI green on main+staging. 01-07 re-verifies on a PR. | fixed |  | 2026-09-08T17:52:56.568Z | 2026-09-08T17:53:32.109Z |
 
 ````json
 [
@@ -52,10 +52,10 @@ last_updated: 2026-09-08T17:52:56.568Z
     "file": ".github/workflows/ci.yml",
     "line": null,
     "description": "ci.yml/lighthouse.yml needed explicit permissions blocks (contents:read + checks/pull-requests:write) and theme-check-action bumped v2->v2.2.0. First push turned CI red (Resource not accessible by integration, then Repository not found). RESOLVED at commit 1bb87cc — CI green on main+staging. 01-07 re-verifies on a PR.",
-    "status": "open",
+    "status": "fixed",
     "reason": "",
     "recorded_at": "2026-09-08T17:52:56.568Z",
-    "resolved_at": null
+    "resolved_at": "2026-09-08T17:53:32.109Z"
   }
 ]
 ````
