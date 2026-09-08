@@ -1,18 +1,31 @@
 ---
 phase: 01-repo-tema-base-y-workflow-foundation
 verified: 2026-09-08T00:00:00Z
-status: human_needed
+status: passed
+status_history:
+  - status: human_needed
+    at: 2026-09-08T00:00:00Z
+  - status: passed
+    at: 2026-09-08T22:40:00Z
+    by: "/gsd-verify-work 01 (human verification resolved; see human_verification_resolved)"
 score: 7/7 must-have truths verified
 behavior_unverified: 0
-overrides_applied: 0
+overrides_applied: 1
 re_verification: false
-human_verification:
-  - test: "Run `npm install` then start `shopify theme dev --store kinelia.myshopify.com` (store password in SHOPIFY_FLAG_STORE_PASSWORD), then in a second shell run `npx lhci autorun --config=lighthouse/lighthouserc.json --collect.url=http://127.0.0.1:9292/products/the-complete-snowboard` (or the documented local procedure)."
-    expected: "Lighthouse completes 3 mobile runs and emits category/metric scores; the hard LCP<=2500 / CLS<=0.1 / accessibility>=0.95 assertions are evaluated. Confirms the LOCAL half of FOUND-07 actually measures, not just parses."
-    why_human: "node_modules is not installed and lighthouserc.json declares no url/staticDistDir, so `npm run perf` cannot run standalone. No phase artifact evidences a completed local Lighthouse measurement — only that the config parses. Needs a machine with Chrome + a running dev server."
-  - test: "Review the repository-visibility decision (repo is PUBLIC, exposing .planning/ business plan). Decide: (a) accept public through launch, (b) go private + GitHub Pro to restore rulesets, or (c) strip .planning/ and go private. Then add a formal `overrides:` entry to this file for the T-01-20 / must_haves backstop 'repository is created private'."
-    expected: "An explicit accept/revert decision recorded, and either a formal override entry here or a WINDOWS.md ledger entry (currently the public-repo decision has NO dedicated WINDOWS.md row — it lives only in docs/SHOPIFY-SETUP.md and 01-07-SUMMARY.md)."
-    why_human: "Developer already chose public with full disclosure during 01-07; this is a business/security risk acceptance that only the owner can ratify. ROADMAP + 01-07-SUMMARY already flag it for Phase 14 review."
+overrides:
+  - backstop: "T-01-20 / must_haves: 'repository is created private'"
+    decision: "ACCEPT public through Etapa 1 launch"
+    rationale: "GitHub rulesets are free on public repos; developer declined GitHub Pro and declined stripping .planning/. `.planning/` (CPA model, roadmap, research) is world-readable; secret VALUES verified absent from git history. Revisit Phase 14 (private + Pro, or accept permanently)."
+    ratified_by: "developer — 01-UAT.md Test 2, 2026-09-08"
+    recorded_in: ["01-UAT.md Test 2", "01-SECURITY.md AR-01-03", "WINDOWS.md entry 6", "docs/SHOPIFY-SETUP.md"]
+human_verification_resolved:
+  - test: "Confirm the LOCAL Lighthouse harness completes a real measurement (not just config-parses)."
+    resolution: "RECLASSIFIED. The Phase-1 deliverable for FOUND-07 is the harness itself — Lighthouse config with hard asserts + PR workflow + provisioned secrets + written budget (docs/PERF-BUDGET.md) — all verified wired. A completed local measurement was attempted (`npm install` + `shopify theme dev` + `npm run perf`) but does not finish on Windows for two environment reasons (theme-dev proxy holds a hot-reload connection so Lighthouse network-idle never fires; chrome-launcher EPERM on Windows) — neither a theme defect. The correct end-to-end measurement points at a deployed STAGING preview URL and is explicitly Phase 13 ('Pasada de performance'). Developer ratified 2026-09-08 (01-UAT.md Test 1 → pass; also see deferred[]). "
+    resolved_by: "developer — /gsd-verify-work 01, 2026-09-08"
+  - test: "Ratify the repository-visibility decision + add a formal override entry."
+    resolution: "RESOLVED. Developer ratified 'accept public through launch' (01-UAT.md Test 2). Formal override recorded above (overrides[]); accepted-risk recorded in 01-SECURITY.md AR-01-03; WINDOWS.md entry 6."
+    resolved_by: "developer — 01-UAT.md Test 2, 2026-09-08"
+security_note: "01-SECURITY.md audit (2026-09-08): 27/29 threats closed. T-01-21 (a hex fragment of SHOP_CLIENT_SECRET committed to the public repo at c4e4f06) is OPEN pending SHOP_CLIENT_SECRET rotation by the developer — tracked in SECURITY.md, blocks phase TRANSITION (not these requirement truths). Fragment scrubbed from the working tree; scripts/check-secrets.mjs added + wired to npm run lint."
 deferred:
   - truth: "Lighthouse CI produces a completed performance measurement on every PR"
     addressed_in: "Phase 13"
@@ -23,17 +36,21 @@ deferred:
   - truth: "Cart drawer, predictive search, DOM event bus and a11y helpers function"
     addressed_in: "Phases 3, 6, 11"
     evidence: "ROADMAP Phase 1 'Nota de desviacion' + ALLOWLIST.md §'Desviacion registrada — Criterio de exito 3' + PROJECT.md Key Decisions: Skeleton ships zero JS, so Success Criterion 3's literal wording is reframed. Cart drawer -> Phase 6, predictive search -> Phase 11, event bus + a11y helpers -> Phase 3. Ratified at the 01-01 decision checkpoint."
-  - truth: "Repository visibility restored to private; SHOP_CLIENT_SECRET rotated"
+  - truth: "Repository visibility restored to private"
     addressed_in: "Phase 14"
-    evidence: "01-07-SUMMARY 'Next Phase Readiness' + docs/SHOPIFY-SETUP.md: both explicitly flagged for the Phase 14 launch/handoff pass."
+    evidence: "01-07-SUMMARY 'Next Phase Readiness' + docs/SHOPIFY-SETUP.md + overrides[] above: accepted public for Etapa 1, revisit at the Phase 14 launch/handoff pass."
+  - truth: "SHOP_CLIENT_SECRET rotated"
+    addressed_in: "Phase 1 (pulled forward from Phase 14)"
+    evidence: "01-SECURITY.md T-01-21: a secret fragment was committed to the public repo, so rotation moved from post-launch to now. OUTSTANDING developer action — rotate in the Dev Dashboard + `gh secret set`, then re-run /gsd-secure-phase 01. Blocks phase transition until done."
 ---
 
 # Phase 1: Repo, tema base y workflow foundation — Verification Report
 
 **Phase Goal:** El tema tiene una base elegida y registrada, vive en git con preview local, y estan la topologia STAGING/LIVE, el linting y el harness de performance para trabajar sin exponer un funnel roto a trafico pago.
 **Verified:** 2026-09-08
-**Status:** human_needed
+**Status:** passed (was `human_needed` — both human-verification items resolved 2026-09-08; see frontmatter `human_verification_resolved`)
 **Re-verification:** No — initial verification
+**Transition note:** phase advancement remains blocked by `01-SECURITY.md` T-01-21 (pending `SHOP_CLIENT_SECRET` rotation), independent of these requirement truths.
 
 ## Goal Achievement
 
