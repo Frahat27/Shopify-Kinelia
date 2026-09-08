@@ -15,9 +15,12 @@ on:
   pull_request:
 
 # The action posts the Lighthouse score summary back onto the pull request, which
-# the default read-only GITHUB_TOKEN cannot do. Grant only that scope. (Added
-# alongside the ci.yml permissions fix in plan 01-06; 01-07 proves it on a PR.)
+# the default read-only GITHUB_TOKEN cannot do. `contents: read` is listed
+# explicitly because a `permissions:` block drops every unlisted scope to `none`,
+# which would break actions/checkout. (Added alongside the ci.yml permissions fix
+# in plan 01-06; 01-07 proves it on a PR.)
 permissions:
+  contents: read
   pull-requests: write
 
 jobs:

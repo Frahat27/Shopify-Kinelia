@@ -13,12 +13,14 @@ on:
       - main
       - staging
 
-# The default GITHUB_TOKEN is read-only on this repo, so shopify/theme-check-action
-# (which posts lint results as a Check with annotations when `token` is set) fails
-# with "Resource not accessible by integration". Grant the two write scopes the
-# action needs and nothing else. (Fix applied during plan 01-06 after the first
-# push turned CI red; 01-07 proves it green on a pull request.)
+# shopify/theme-check-action posts lint results as a Check with annotations when
+# `token` is set, which the default GITHUB_TOKEN cannot do ("Resource not
+# accessible by integration"). Grant exactly the scopes needed — and `contents:
+# read` explicitly, because declaring a `permissions:` block drops every scope
+# not listed to `none`, which would break actions/checkout. (Fix applied during
+# plan 01-06 after the first push turned CI red; 01-07 proves it green on a PR.)
 permissions:
+  contents: read
   checks: write
   pull-requests: write
 
