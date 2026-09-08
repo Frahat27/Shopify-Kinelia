@@ -24,6 +24,11 @@ release
 # Local-only overrides
 *.local
 
+# Brand source material (heavy binaries — the theme consumes the derived tokens, not the PDF)
+*.pdf
+brand/
+Kinelia Brand Book.pdf
+
 # Lighthouse CI output
 .lighthouseci/
 
