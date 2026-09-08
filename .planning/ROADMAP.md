@@ -43,7 +43,7 @@ Milestone: Etapa 1 -- Tema de Shopify publicado y vendible. Etapa 2 (instrumenta
   4. Existe remote `upstream` al tema base y `OVERRIDES.md` documenta cada divergencia; hay temas STAGING (no publicado) vs LIVE con checklist de release y git como fuente de verdad del codigo
   5. Theme Check corre localmente y en cada PR (`theme-check-action`); el harness de presupuesto de performance mide Lighthouse mobile sobre un template de referencia
 
-**Plans**: 3/7 plans executed
+**Plans**: 4/7 plans executed
 
 Plans:
 **Wave 1**
@@ -57,7 +57,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 01-04-PLAN.md — `ALLOWLIST.md` + reduccion por "no renderizar" con checker ejecutable + reconciliacion de `OVERRIDES.md`
+- [x] 01-04-PLAN.md — `ALLOWLIST.md` + reduccion por "no renderizar" con checker ejecutable + reconciliacion de `OVERRIDES.md`
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
@@ -293,7 +293,7 @@ Critical path: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 9 -> 10 -> 13 -> 14.
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Repo, tema base y workflow foundation | 3/7 | In Progress|  |
+| 1. Repo, tema base y workflow foundation | 4/7 | In Progress|  |
 | 2. Sistema de diseno por tokens | 0/TBD | Not started | - |
 | 3. Layout shell + seams de Etapa 2 | 0/TBD | Not started | - |
 | 4. Modelo de datos de producto y contenido | 0/TBD | Not started | - |
