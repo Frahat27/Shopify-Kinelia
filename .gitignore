@@ -26,3 +26,8 @@ release
 
 # Lighthouse CI output
 .lighthouseci/
+
+# GSD runtime locks (transient session/phase claims — never committed)
+.planning/*.lock
+.planning/milestone.lock
+.gsd/
