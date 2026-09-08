@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 current_phase: 01
 current_phase_name: Repo, tema base y workflow foundation
 status: executing
-stopped_at: Completed 01-04-PLAN.md
-last_updated: "2026-09-08T12:40:47.333Z"
+stopped_at: Completed 01-05-PLAN.md
+last_updated: "2026-09-08T12:48:31.877Z"
 last_activity: 2026-09-08
 last_activity_desc: Phase 01 execution started
-state_head: dd56e82b981a37de843200bf86fd5ede584a6b5e
+state_head: 851d181fa24d9d92a13d30283df41cbc180a1f5d
 progress:
   total_phases: 14
   completed_phases: 0
   total_plans: 7
-  completed_plans: 4
+  completed_plans: 5
   percent: 0
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-09-07)
 ## Current Position
 
 Phase: 01 (Repo, tema base y workflow foundation) — EXECUTING
-Plan: 5 of 7
+Plan: 6 of 7
 Status: Ready to execute
 Last activity: 2026-09-08 — Completed 01-04 (ALLOWLIST.md + checker + OVERRIDES reconciliation)
 
@@ -60,6 +60,7 @@ Progress: [░░░░░░░░░░] 0%
 |------|----------|-------|-------|
 | Phase 01 P03 | 15min | 3 tasks | 8 files |
 | Phase 01 P04 | 5min | 3 tasks | 6 files |
+| Phase 01 P05 | 12min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,8 @@ Relevant open decisions for current work:
 - Phase 12: App de MercadoPago AR 2026, disponibilidad de Shopify Payments AR, app de geo-gating de COD -- se resuelve con credenciales de produccion.
 - [Phase 01]: FOUND-03 reframed: base Skeleton no trae cart drawer / predictive search / a11y — se cumple por allowlist (ALLOWLIST.md + scripts/check-allowlist.mjs, en npm run lint); componentes diferidos: cart drawer Fase 6, predictive search Fase 11, bus de eventos + a11y Fase 3
 - [Phase 01]: Home shell = sections/custom-section.liquid (contenedor de theme-blocks, base del multi-avatar); hello-world des-referenciado sin borrar
+- [Phase 01]: [Phase 01] Regla de propiedad del contenido (docs/RELEASE.md): la integración de GitHub de Shopify es dueña de config/settings_data.json y templates/*.json; se edita STAGING en el editor de temas y la integración commitea a la rama staging. Alternativa rechazada: git dueño del JSON con shopify theme pull periódico.
+- [Phase 01]: [Phase 01] Nombres exactos de tema para el plan 01-07: 'Kinelia — LIVE' (publicado, rama main) y 'Kinelia — STAGING' (no publicado, rama staging).
 
 ### Pending Todos
 
@@ -93,6 +96,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-08T12:40:08.550Z
-Stopped at: Completed 01-04-PLAN.md
+Last session: 2026-09-08T12:48:17.840Z
+Stopped at: Completed 01-05-PLAN.md
 Resume file: None
