@@ -57,8 +57,8 @@ Archivos que agregamos sobre el starter, en la raíz del repo salvo indicación.
 | `lighthouserc.json` | 01-03 | Aserciones de Lighthouse CI: LCP ≤ 2500 ms, CLS ≤ 0,1, a11y ≥ 0,95 como error; peso de script (supuesto) y TBT como warning. |
 | `.github/workflows/lighthouse.yml` | 01-03 | Presupuesto de performance en cada pull request (`shopify/lighthouse-ci-action@v1`, credenciales solo vía `secrets.*`). |
 | `docs/PERF-BUDGET.md` | 01-03 | El presupuesto de performance escrito, con el número de peso de JS marcado como SUPUESTO y su fase de endurecimiento. |
-| `README.md` | 01-05 | _Pendiente_ — puesta en marcha, comandos, índice de contratos. |
-| `docs/RELEASE.md` | 01-05 | _Pendiente_ — topología STAGING/LIVE, regla de propiedad del contenido, checklist de release, rollback. |
+| `README.md` | 01-05 | Puesta en marcha (clon → preview local), tabla de comandos (`lint` / `lint:all` / `lint:allowlist` / `perf` + CLI cruda), resumen de topología con puntero a `docs/RELEASE.md`, índice de contratos del repo y árbol de estructura con el constraint de carpetas de tema en la raíz. |
+| `docs/RELEASE.md` | 01-05 | Topología STAGING/LIVE (`main` → `Kinelia — LIVE` publicado, `staging` → `Kinelia — STAGING`), conexión rama ↔ tema como paso irreversible, regla de propiedad del contenido (dueña: la integración de GitHub), checklist de release de 7 pasos, rollback por revert del merge, prohibiciones permanentes y la nota de `SHOPIFY_CLI_THEME_TOKEN`. |
 | `docs/SHOPIFY-SETUP.md` | 01-06 | _Pendiente_ — registro del setup externo (tienda, GitHub app, Dev Dashboard app, secrets). |
 
 ## Componentes portados
