@@ -12,17 +12,22 @@ corrida y `lhci autorun` lo usa; **no lee asserts personalizados**. El action so
 asienta dos umbrales, vía sus inputs: `categories:performance` (≥ 0.6) y
 `categories:accessibility` (≥ 0.95). Por eso el presupuesto vive en dos lugares:
 
-| Harness | Corre | Archivo de config | Qué asienta |
-|---------|-------|-------------------|-------------|
-| **CI** (`.github/workflows/lighthouse.yml`) | cada pull request | el `lighthouserc.yml` que genera el action | solo `categories:performance ≥ 0.6` y `categories:accessibility ≥ 0.95` |
-| **Local** (`npm run perf`) | a demanda, en la máquina del dev | `lighthouse/lighthouserc.json` (fuera de la raíz para no romper el autorun del action) | los asserts finos: LCP, CLS, TBT, peso de script |
+| Harness | Corre | Cómo | Qué asienta |
+|---------|-------|------|-------------|
+| **CI** (`.github/workflows/lighthouse.yml`) | cada pull request | el `lighthouserc.yml` que genera `shopify/lighthouse-ci-action` | solo `categories:performance ≥ 0.6` y `categories:accessibility ≥ 0.95` |
+| **Local** (`npm run perf` → `scripts/perf.mjs`) | a demanda | 1) `shopify theme dev` en una shell; 2) `npm run perf` en otra. El script inyecta la URL local como `--collect.url` y usa `lighthouse/lighthouserc.json` para el resto | los asserts finos: LCP, CLS, a11y, TBT, peso de script |
+
+`lighthouse/lighthouserc.json` está fuera de la raíz porque `lhci autorun` toma
+cualquier `lighthouserc.*` del cwd y tomaría este antes que el `lighthouserc.yml`
+que el action de Shopify escribe para sí mismo, rompiendo el harness de CI.
 
 Consecuencia: en Fase 1, **CI bloquea por score compuesto; los umbrales duros de
 LCP/CLS/peso-de-JS se verifican solo localmente.** Hacer que CI asiente esas
 métricas exactas requeriría un workflow propio que reemplace al action de Shopify
-(push del tema de desarrollo + armado de URLs + cookies de preview + `lhci
-autorun --config`). **Fase 13 decide si vale ese costo** o si el score compuesto
-alcanza con contenido real.
+(el action llama a la mutación `themeCreate`, que una app de Dev Dashboard
+self-serve no puede — necesita una exención de Shopify; ver
+`docs/SHOPIFY-SETUP.md` § Verificación de gates). **Fase 13 resuelve el gate de
+Lighthouse en CI y decide si vale asentar las métricas duras ahí.**
 
 ## Resumen de asserts
 

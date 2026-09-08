@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 4
+open_count: 5
 waived_count: 0
 fixed_count: 1
-total_count: 5
-last_updated: 2026-09-08T19:54:37.579Z
+total_count: 6
+last_updated: 2026-09-08T20:07:06.886Z
 ---
 
 # Broken Windows Ledger
@@ -20,6 +20,7 @@ last_updated: 2026-09-08T19:54:37.579Z
 | 3 | 01 | deviation | .github/workflows/ci.yml |  | ci.yml/lighthouse.yml needed explicit permissions blocks (contents:read + checks/pull-requests:write) and theme-check-action bumped v2->v2.2.0. First push turned CI red (Resource not accessible by integration, then Repository not found). RESOLVED at commit 1bb87cc — CI green on main+staging. 01-07 re-verifies on a PR. | fixed |  | 2026-09-08T17:52:56.568Z | 2026-09-08T17:53:32.109Z |
 | 4 | 01 | unrun-verify | .github/workflows/lighthouse.yml |  | OPEN: Lighthouse CI gate cannot run — shopify/lighthouse-ci-action does themeCreate which a Dev Dashboard app cannot call (ACCESS_DENIED: needs a Shopify exemption). Lighthouse is NOT a required check. Local npm run perf works. Resolve in Phase 13. | open |  | 2026-09-08T19:54:36.316Z |  |
 | 5 | 01 | deviation | docs/PERF-BUDGET.md |  | OPEN: CI enforces only categories:performance>=0.6 and categories:accessibility>=0.95 (the Lighthouse action ignores custom assertions). Hard LCP/CLS/JS-weight thresholds run in local npm run perf only. Phase 13 decides whether a custom CI workflow is worth building. | open |  | 2026-09-08T19:54:37.579Z |  |
+| 6 | 01 | deviation | docs/SHOPIFY-SETUP.md |  | OVERRIDE (developer-confirmed twice, full disclosure): repo Frahat27/Shopify-Kinelia made PUBLIC in 01-07. Contradicts 01-07 must_haves backstop 'repository is created private' + threat T-01-20. Reason: GitHub branch protection/rulesets require a paid plan on private repos; developer declined GitHub Pro and declined stripping .planning/ first. Exposes .planning/ (full business plan), docs/*. Secret VALUES stay encrypted (verified not in git history). OWNER RATIFICATION + Phase 14 revisit (private+Pro, or accept public) — tracked in 01-UAT.md. | open |  | 2026-09-08T20:07:06.886Z |  |
 
 ````json
 [
@@ -81,6 +82,18 @@ last_updated: 2026-09-08T19:54:37.579Z
     "status": "open",
     "reason": "",
     "recorded_at": "2026-09-08T19:54:37.579Z",
+    "resolved_at": null
+  },
+  {
+    "id": 6,
+    "kind": "deviation",
+    "phase": "01",
+    "file": "docs/SHOPIFY-SETUP.md",
+    "line": null,
+    "description": "OVERRIDE (developer-confirmed twice, full disclosure): repo Frahat27/Shopify-Kinelia made PUBLIC in 01-07. Contradicts 01-07 must_haves backstop 'repository is created private' + threat T-01-20. Reason: GitHub branch protection/rulesets require a paid plan on private repos; developer declined GitHub Pro and declined stripping .planning/ first. Exposes .planning/ (full business plan), docs/*. Secret VALUES stay encrypted (verified not in git history). OWNER RATIFICATION + Phase 14 revisit (private+Pro, or accept public) — tracked in 01-UAT.md.",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-08T20:07:06.886Z",
     "resolved_at": null
   }
 ]
