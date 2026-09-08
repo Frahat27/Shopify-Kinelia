@@ -22,6 +22,7 @@
 /.claude/
 /.github/
 /docs/
+/scripts/
 /*.md
 /package.json
 /package-lock.json
