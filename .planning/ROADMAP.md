@@ -91,7 +91,15 @@ Registrado en `ALLOWLIST.md` y ratificado en el checkpoint de decision del plan 
   3. Existe `base.css` con reset, escala tipografica, colores, espaciado, botones y primitivas de formulario, todo derivado de tokens
   4. El locale es-AR (voseo) esta scaffoldeado y todo el texto de UI sale de archivos de locale
 
-**Plans**: TBD
+**Plans**: 4 plans (4 waves, secuenciales — todos los planes comparten `css-variables.liquid` y `settings_schema.json`)
+
+Plans:
+- [ ] 02-01-PLAN.md — Tracer: un token de marca de punta a punta + `check-tokens.mjs`, la copia ejecutable de DESIGN-02, en `npm run lint` y en el gate de CI (wave 1)
+- [ ] 02-02-PLAN.md — Superficie completa de tokens: 10 colores + 2 familias como settings, escala de espaciado y radios estáticos, rename del vocabulario Skeleton (wave 2)
+- [ ] 02-03-PLAN.md — Fuentes self-hosted (5 WOFF2 subset, 2 preloads) + `base.css` con todas las primitivas de diseño derivadas de tokens (wave 3)
+- [ ] 02-04-PLAN.md — Locale es-AR voseo como único default + gate de locale en el checker + `docs/BRAND-COPY.md` (claims prohibidos) (wave 4)
+
+**Nota de desviación (criterio 1)**: espaciado y radios se emiten como custom properties estáticas en `snippets/css-variables.liquid`, no como settings del editor — solo color y tipografía son tuneables por el merchant. El archivo de tokens sigue siendo la única fuente, así que DESIGN-02 se mantiene. Registrado en `OVERRIDES.md` (plan 02-02).
 **UI hint**: yes
 
 ### Phase 3: Layout shell + seams de Etapa 2
