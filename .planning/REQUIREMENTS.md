@@ -9,10 +9,10 @@ Etapa 1 — Tema de Shopify publicado y vendible. Cada requisito mapea a una fas
 
 ### Foundation (FOUND)
 
-- [ ] **FOUND-01**: El tema vive en este repo git y se previsualiza localmente con `shopify theme dev` contra una dev store
-- [ ] **FOUND-02**: La decisión de tema base (Skeleton / Horizon / Dawn) está tomada y registrada, con PROJECT.md actualizado
+- [x] **FOUND-01**: El tema vive en este repo git y se previsualiza localmente con `shopify theme dev` contra una dev store
+- [x] **FOUND-02**: La decisión de tema base (Skeleton / Horizon / Dawn) está tomada y registrada, con PROJECT.md actualizado
 - [x] **FOUND-03**: El tema base se reduce a lo esencial por "no renderizar" (allowlist), sin borrar módulos de carrito ni de accesibilidad
-- [ ] **FOUND-04**: Existe un remote `upstream` al tema base y un `OVERRIDES.md` que documenta cada divergencia
+- [x] **FOUND-04**: Existe un remote `upstream` al tema base y un `OVERRIDES.md` que documenta cada divergencia
 - [x] **FOUND-05**: Hay topología de temas STAGING (no publicado) vs LIVE, con checklist de release y git como fuente de verdad del código
 - [x] **FOUND-06**: Theme Check corre localmente y en cada PR (`theme-check-action`)
 - [x] **FOUND-07**: Existe un harness de presupuesto de performance para medir Lighthouse mobile sobre un template de avatar
@@ -185,10 +185,10 @@ Mapeado en ROADMAP.md el 2026-09-07. Cada requisito v1 mapea a exactamente una f
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 1 | Pending |
-| FOUND-02 | Phase 1 | Pending |
+| FOUND-01 | Phase 1 | Complete |
+| FOUND-02 | Phase 1 | Complete |
 | FOUND-03 | Phase 1 | Complete |
-| FOUND-04 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Complete |
 | FOUND-05 | Phase 1 | Complete |
 | FOUND-06 | Phase 1 | Complete |
 | FOUND-07 | Phase 1 | Complete |
