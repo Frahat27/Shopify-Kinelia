@@ -50,7 +50,7 @@ Scripts de `package.json`:
 | `npm run lint` | Theme Check a `--fail-level error` **más** `scripts/check-allowlist.mjs` (el checker de la allowlist de render). | Antes de cada commit y antes de abrir una PR. Es el gate local. |
 | `npm run lint:all` | Theme Check en todos los niveles de severidad (incluye `info`/`warning`), sin el checker de allowlist. | Cuando querés ver todo lo que Theme Check tiene para decir, no solo los errores. |
 | `npm run lint:allowlist` | Solo `scripts/check-allowlist.mjs`. | Cuando tocaste `templates/*.json` o `sections/*` y querés chequear la allowlist sin correr Theme Check entero. |
-| `npm run perf` | `lhci autorun` con `lighthouserc.json` (harness de Lighthouse local, preset mobile). | Antes de un release, o cuando agregaste peso a una página. Ver `docs/PERF-BUDGET.md`. |
+| `npm run perf` | `lhci autorun` con `lighthouse/lighthouserc.json` (harness de Lighthouse local, preset mobile, asserts finos de LCP/CLS/peso-de-JS). | Antes de un release, o cuando agregaste peso a una página. Ver `docs/PERF-BUDGET.md`. |
 
 Comandos crudos de la CLI de Shopify que vas a necesitar:
 
@@ -96,7 +96,8 @@ Shopify-Kinelia/                  raíz del repo — la integración de GitHub d
 ├── scripts/                      check-allowlist.mjs — copia ejecutable de la allowlist de render
 ├── ALLOWLIST.md  OVERRIDES.md    contratos de superficie y de divergencia (ver arriba)
 ├── docs/                         RELEASE.md, PERF-BUDGET.md
-├── lighthouserc.json  .theme-check.yml  package.json   configuración de los gates y del dev-tooling
+├── .theme-check.yml  package.json      configuración de los gates y del dev-tooling
+├── lighthouse/                        lighthouserc.json — asserts del harness de Lighthouse local
 └── .planning/  .claude/          artefactos de GSD e instrucciones — ignorados por la integración de GitHub
 ```
 

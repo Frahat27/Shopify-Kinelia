@@ -37,3 +37,10 @@ jobs:
         uses: shopify/theme-check-action@v2.2.0
         with:
           token: ${{ github.token }}
+          # Without an explicit fail level the action posts a "Theme Check Report"
+          # check but leaves the JOB green on an error-level offence, so the job
+          # name — the one branch protection requires — would never turn red.
+          # `--fail-level error` makes the job itself fail on errors, matching
+          # the local `npm run lint`. (Added in plan 01-07 after the gate-proof
+          # PR showed the job passing on a real offence.)
+          flags: --fail-level error

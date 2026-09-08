@@ -26,4 +26,4 @@
 /*.md
 /package.json
 /package-lock.json
-/lighthouserc.json
+/lighthouse/

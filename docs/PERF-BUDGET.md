@@ -1,21 +1,39 @@
 # Presupuesto de performance — Kinelia Storefront
 
-Este documento fija los números que el harness de Lighthouse CI comprueba en cada
-pull request (`lighthouserc.json` + `.github/workflows/lighthouse.yml`), de dónde
-sale cada número y cuándo cambia. La regla del proyecto es una sola: cada decisión
-estructural del tema se justifica contra el CVR de la página de producto, y el CVR
-en tráfico de impulso mobile depende de que la página cargue rápido y no salte.
+Este documento fija los números de performance del tema, de dónde sale cada uno y
+cuándo cambia. La regla del proyecto es una sola: cada decisión estructural del
+tema se justifica contra el CVR de la página de producto, y el CVR en tráfico de
+impulso mobile depende de que la página cargue rápido y no salte.
+
+## Dos harness, no uno — leer primero (hallazgo del plan 01-07)
+
+`shopify/lighthouse-ci-action` **escribe su propio `lighthouserc.yml`** en cada
+corrida y `lhci autorun` lo usa; **no lee asserts personalizados**. El action solo
+asienta dos umbrales, vía sus inputs: `categories:performance` (≥ 0.6) y
+`categories:accessibility` (≥ 0.95). Por eso el presupuesto vive en dos lugares:
+
+| Harness | Corre | Archivo de config | Qué asienta |
+|---------|-------|-------------------|-------------|
+| **CI** (`.github/workflows/lighthouse.yml`) | cada pull request | el `lighthouserc.yml` que genera el action | solo `categories:performance ≥ 0.6` y `categories:accessibility ≥ 0.95` |
+| **Local** (`npm run perf`) | a demanda, en la máquina del dev | `lighthouse/lighthouserc.json` (fuera de la raíz para no romper el autorun del action) | los asserts finos: LCP, CLS, TBT, peso de script |
+
+Consecuencia: en Fase 1, **CI bloquea por score compuesto; los umbrales duros de
+LCP/CLS/peso-de-JS se verifican solo localmente.** Hacer que CI asiente esas
+métricas exactas requeriría un workflow propio que reemplace al action de Shopify
+(push del tema de desarrollo + armado de URLs + cookies de preview + `lhci
+autorun --config`). **Fase 13 decide si vale ese costo** o si el score compuesto
+alcanza con contenido real.
 
 ## Resumen de asserts
 
-| Métrica (audit key)              | Umbral            | Severidad | Origen                                    | ¿Se mueve?                              |
-|----------------------------------|-------------------|-----------|-------------------------------------------|-----------------------------------------|
-| `largest-contentful-paint`       | ≤ 2500 ms         | error     | Constraint de `CLAUDE.md` + Core Web Vitals | No. Número fijo.                        |
-| `cumulative-layout-shift`        | ≤ 0.1             | error     | Constraint de `CLAUDE.md` + Core Web Vitals | No. Número fijo.                        |
-| `categories:accessibility`       | ≥ 0.95            | error     | Guardarraíl de regresión de FOUND-03      | No baja. Puede subir.                   |
-| `categories:performance`         | ≥ 0.6 (arranque)  | gate del action (`lhci_min_score_performance`) | Piso inicial realista para Skeleton casi vacío | Sí — sube por fase, objetivo ≥ 0.9 mobile en Fase 13. |
-| `total-blocking-time`            | ≤ 200 ms          | warn      | Proxy de "presupuesto de JS ajustado"     | Se endurece junto con el peso de script en Fase 13. |
-| `resource-summary:script:size`   | ≤ 150000 bytes    | warn      | **SUPUESTO / ASSUMPTION** (ver abajo)     | Se confirma con el desarrollador; pasa a número duro en Fase 13. |
+| Métrica (audit key)              | Umbral            | Severidad | Dónde corre | Origen                                    | ¿Se mueve?                              |
+|----------------------------------|-------------------|-----------|-------------|-------------------------------------------|-----------------------------------------|
+| `categories:performance`         | ≥ 0.6 (arranque)  | error (CI) | **CI + local** | Piso inicial realista para Skeleton casi vacío | Sí — sube por fase, objetivo ≥ 0.9 mobile en Fase 13. |
+| `categories:accessibility`       | ≥ 0.95            | error (CI) | **CI + local** | Guardarraíl de regresión de FOUND-03      | No baja. Puede subir.                   |
+| `largest-contentful-paint`       | ≤ 2500 ms         | error     | **solo local** | Constraint de `CLAUDE.md` + Core Web Vitals | No. Número fijo.                        |
+| `cumulative-layout-shift`        | ≤ 0.1             | error     | **solo local** | Constraint de `CLAUDE.md` + Core Web Vitals | No. Número fijo.                        |
+| `total-blocking-time`            | ≤ 200 ms          | warn      | **solo local** | Proxy de "presupuesto de JS ajustado"     | Se endurece junto con el peso de script en Fase 13. |
+| `resource-summary:script:size`   | ≤ 150000 bytes    | warn      | **solo local** | **SUPUESTO / ASSUMPTION** (ver abajo)     | Se confirma con el desarrollador; pasa a número duro en Fase 13. |
 
 ## Detalle por número
 
@@ -86,7 +104,9 @@ template de avatar (Fase 10/13) están en su lugar.
 
 El workflow se autentica con una app de Dev Dashboard (`store` + `client_id` +
 `client_secret`) porque Shopify dejó de permitir crear nuevas custom apps el
-2026-01-01. Los tres valores viven como GitHub Actions secrets
-(`SHOP_STORE` / `SHOP_CLIENT_ID` / `SHOP_CLIENT_SECRET`) y se aprovisionan en el
-plan 01-06. Nunca se escribe un literal de credencial en un archivo del repo ni
-se imprime un secreto al log de Actions.
+2026-01-01. Además pasa `password` (contraseña del storefront) porque la dev
+store está protegida con contraseña y sin eso el script de puppeteer del action
+no puede cargar ninguna página. Los cuatro valores viven como GitHub Actions
+secrets (`SHOP_STORE` / `SHOP_CLIENT_ID` / `SHOP_CLIENT_SECRET` / `SHOP_PASSWORD`)
+y se aprovisionan en el plan 01-06. Nunca se escribe un literal de credencial en
+un archivo del repo ni se imprime un secreto al log de Actions.

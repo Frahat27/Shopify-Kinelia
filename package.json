@@ -11,7 +11,7 @@
     "lint": "shopify theme check --fail-level error && node scripts/check-allowlist.mjs",
     "lint:all": "shopify theme check",
     "lint:allowlist": "node scripts/check-allowlist.mjs",
-    "perf": "lhci autorun --config=lighthouserc.json"
+    "perf": "lhci autorun --config=lighthouse/lighthouserc.json"
   },
   "devDependencies": {
     "@lhci/cli": "^0.15.1"

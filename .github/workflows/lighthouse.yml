@@ -36,6 +36,13 @@ jobs:
           store: ${{ secrets.SHOP_STORE }}
           client_id: ${{ secrets.SHOP_CLIENT_ID }}
           client_secret: ${{ secrets.SHOP_CLIENT_SECRET }}
+          # The dev store is password-protected; without this the action's
+          # puppeteer cookie script cannot load the storefront and every audit
+          # fails. (Added in plan 01-07.)
+          password: ${{ secrets.SHOP_PASSWORD }}
+          # Audit a real product page, not the default first product (which is
+          # the gift-card). `the-complete-snowboard` is a seeded demo product;
+          # Phase 4 swaps in the real hero product handle. Matches docs/PERF-BUDGET.md.
+          product_handle: the-complete-snowboard
           lhci_min_score_performance: 0.6
           lhci_min_score_accessibility: 0.95
-          # product_handle: <hero-product-handle>   # enable once the hero product exists (Phase 4)
