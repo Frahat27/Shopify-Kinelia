@@ -1,0 +1,32 @@
+# Kinelia performance-budget gate — Lighthouse CI on every pull request.
+#
+# Auth: shopify/lighthouse-ci-action authenticates with a Dev Dashboard app
+# (store + client_id + client_secret) because Shopify stopped allowing the
+# creation of new custom apps on 2026-01-01. The three secret values live in
+# GitHub Actions secrets (SHOP_STORE / SHOP_CLIENT_ID / SHOP_CLIENT_SECRET) and
+# are provisioned in plan 01-06. Never write a credential literal in this file
+# and never echo an input or a secret to the Actions log.
+#
+# Trigger is `pull_request` so code from a fork can never reach the repository
+# secrets. Do not change it to the fork-privileged variant.
+name: Lighthouse
+
+on:
+  pull_request:
+
+jobs:
+  lighthouse:
+    name: Lighthouse
+    runs-on: ubuntu-latest
+    # Job timeout: the action has a known hang mode. Fail visibly instead of pinning a runner.
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shopify/lighthouse-ci-action@v1
+        with:
+          store: ${{ secrets.SHOP_STORE }}
+          client_id: ${{ secrets.SHOP_CLIENT_ID }}
+          client_secret: ${{ secrets.SHOP_CLIENT_SECRET }}
+          lhci_min_score_performance: 0.6
+          lhci_min_score_accessibility: 0.95
+          # product_handle: <hero-product-handle>   # enable once the hero product exists (Phase 4)

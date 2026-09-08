@@ -9,6 +9,10 @@
   },
   "scripts": {
     "lint": "shopify theme check --fail-level error",
-    "lint:all": "shopify theme check"
+    "lint:all": "shopify theme check",
+    "perf": "lhci autorun --config=lighthouserc.json"
+  },
+  "devDependencies": {
+    "@lhci/cli": "^0.15.1"
   }
 }
