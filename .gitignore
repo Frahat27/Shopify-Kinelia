@@ -24,10 +24,13 @@ release
 # Local-only overrides
 *.local
 
-# Brand source material (heavy binaries — the theme consumes the derived tokens, not the PDF)
+# Brand source material (heavy binaries — the theme vendors the specific optimized
+# files it needs into assets/, it does not carry the source folders)
 *.pdf
 brand/
 Kinelia Brand Book.pdf
+A- Logo/
+A-Logos/
 
 # Lighthouse CI output
 .lighthouseci/

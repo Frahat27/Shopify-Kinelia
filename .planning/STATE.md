@@ -91,6 +91,11 @@ None yet.
 - ⚠️ [Phase 01 → follow-up no bloqueante] Decidir T-01-30 (admin bypass en los rulesets: `bypass_actors: [admin, always]` + `required_approving_review_count: 0`) — aceptar o endurecer. Mover `scripts/check-allowlist.mjs` + `check-secrets.mjs` al job CI requerido (T-01-12). Borrar el tema `Development` stale de la tienda.
 - Lighthouse: medición end-to-end de performance (harness local + CI) = Phase 13. El harness está cableado; la medición no corre limpio en Windows contra el proxy de `theme dev`.
 
+### Assets recibidos
+
+- **Guía de marca:** `Kinelia Brand Book.pdf` (gitignoreado). Tokens extraídos a `.planning/phases/02-.../02-CONTEXT.md`.
+- **Logos:** carpeta `A- Logo/` (gitignoreada). Listos para el theme: `A- Logo/A.2 Logo/kinelia_horizontal.svg` (7,6 KB, vector potrace limpio, verde `#0F6E56`) → logo de header/footer (Phase 3); `A- Logo/A.1 Isotipo/kinelia_isotipo.svg` (3,4 KB) → favicon / avatar / contextos compactos. Variantes monocromo blanco y negro presentes (brand book: 4 versiones aprobadas). Phase 3 copia los archivos puntuales a `assets/` + pasada de SVGO (`kinelia_horizontal.svg` tiene atributos `fill` duplicados de potrace). Falta aún: fotos de producto reales (Phase 4-5).
+
 ## Deferred Items
 
 Items acknowledged and deferred at milestone close, most recent first:
