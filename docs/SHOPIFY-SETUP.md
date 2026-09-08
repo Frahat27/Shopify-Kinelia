@@ -79,10 +79,15 @@ Una sola tienda (`kinelia.myshopify.com`), dos temas conectados por la integraci
 Cada conexión rama ↔ tema es **permanente**: no se puede reconectar una rama después de
 desconectarla.
 
-| Tema | ID | Rama conectada | Estado | Preview |
-|------|-----|----------------|--------|---------|
-| `Kinelia — LIVE` | `150931210446` | `main` | **Publicado** (`role: live`) — el único tema publicado | dominio de la tienda |
-| `Kinelia — STAGING` | `150931144910` | `staging` | No publicado (`role: unpublished`) | `https://kinelia.myshopify.com/?preview_theme_id=150931144910` |
+| Tema | Rama conectada | Estado | Preview |
+|------|----------------|--------|---------|
+| `Kinelia — LIVE` | `main` | **Publicado** (`role: live`) — el único tema publicado | dominio de la tienda |
+| `Kinelia — STAGING` | `staging` | No publicado (`role: unpublished`) | `?preview_theme_id=<STAGING id>` sobre el dominio de la tienda |
+
+> Los IDs de tema y el link de preview con `preview_theme_id` NO se listan acá — este
+> repo es público (T-01-20 / T-01-26). Sacá los IDs con
+> `shopify theme list --store kinelia.myshopify.com`; el link de preview lo da la
+> integración de GitHub o el admin de la tienda. (T-01-26)
 
 `test-data`, `Horizon` y `debut-vintage-theme` quedaron como borradores sin conectar.
 

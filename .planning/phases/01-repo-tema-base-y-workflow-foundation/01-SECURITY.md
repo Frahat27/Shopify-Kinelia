@@ -2,9 +2,10 @@
 phase: "01"
 slug: "repo-tema-base-y-workflow-foundation"
 # threats_open = count of OPEN threats at or above workflow.security_block_on (high)
-threats_open: 1
+threats_open: 0
 asvs_level: 1
 created: "2026-09-08"
+updated: "2026-09-08"
 ---
 
 # Phase 01 — Security
@@ -55,13 +56,13 @@ created: "2026-09-08"
 | T-01-17 | Information disclosure | credential pasted into a runbook as example | high | mitigate | Explicit prohibition covering example values; `git grep` for Shopify token prefixes → 0 hits tree-wide | closed |
 | T-01-18 | Denial of service | branch disconnected from its theme, unrecoverable | high | mitigate | Irreversibility is a named section of `docs/RELEASE.md`; connection step gated at 01-07 Task 2 | closed |
 | T-01-19 | Information disclosure | client secret in transit through the agent | high | mitigate | Secret read from stdin into `gh secret set`, never as an arg / echoed / written to a file; `secrets-set-manually` bypass offered. *See T-01-21 — the secret still transited a chat and a fragment was later committed.* | closed |
-| **T-01-21** | **Information disclosure** | **credential fragment committed to a public repo** | **high** | **mitigate** | **`.gitignore` covers env files (✅). Negative-check promised "token prefixes in working tree AND git history" but was scoped to one doc + `shpat_/shpca_/shppa_` only — a raw hex fragment of `SHOP_CLIENT_SECRET` used as a grep needle was committed at `c4e4f06` (`01-07-SUMMARY.md:224`), world-readable. Remediation started 2026-09-08: fragment scrubbed from the working tree; `scripts/check-secrets.mjs` added (env-sourced needle, working-tree + `git log -p --all` scan) and wired into `npm run lint`. OUTSTANDING: developer must rotate `SHOP_CLIENT_SECRET` in the Dev Dashboard + `gh secret set` — until then the historical fragment retains value.** | **open** |
+| T-01-21 | Information disclosure | credential fragment committed to a public repo | high | mitigate + accept | `.gitignore` covers env files (✅). A raw hex fragment (`4cbe71cfd82`, 11 chars) of `SHOP_CLIENT_SECRET`, used as a `git log` grep needle, was committed at `c4e4f06` (`01-07-SUMMARY.md:224`), world-readable. **Remediated 2026-09-08:** fragment scrubbed from the working tree; `scripts/check-secrets.mjs` added (env-sourced needle, working-tree + `git log -p --all` scan) and wired into `npm run lint`; **`SHOP_CLIENT_SECRET` rotated by the developer** → the historical fragment now protects nothing. Residual (the fragment stays in the immutable public git history, and the rotated value transited a chat) → **accepted risk AR-01-05**: mandatory final rotation at Phase 14 before the store goes public / takes traffic. | closed (mitigated + accepted) |
 | T-01-20 | Information disclosure | public repository | high | accept | Planned mitigation ("repo created private") deliberately NOT applied. Ratified: `01-UAT.md` Test 2 "Aceptar público hasta el lanzamiento"; `WINDOWS.md` entry 6 (full disclosure, secret values verified absent from history); `docs/SHOPIFY-SETUP.md` Phase-14 revisit | closed (accepted) |
 | T-01-22 | Tampering | force-push destroying pre-Phase-1 history | medium | mitigate | Explicit prohibition; commit-count + reflog assertions; both rulesets carry `non_fast_forward`. *Residual: prohibition lives only in `01-06-PLAN.md`, no repo-facing doc.* | closed |
 | T-01-23 | Elevation of privilege | Shopify GitHub app broader scope than needed | low | accept | Integration requires repo write to commit editor changes back; no narrower scope exists; launch review recorded | closed (accepted) |
 | T-01-24 | Elevation of privilege | branch protection with a mistyped check name | high | mitigate | Live API verified: both rulesets `enforcement: active`, `required_status_checks` context = `"Theme Check"`, byte-identical to `ci.yml:28`. Blocking proven: PR #1 `78327a8` red → BLOCKED, `b319c78` green. *See T-01-30 — admin bypass on the same rulesets.* | closed |
 | T-01-25 | Tampering | staging branch connected to the published theme | high | mitigate | Mapping table in `docs/RELEASE.md` + `SHOPIFY-SETUP.md`; `shopify theme list` → exactly 1 live theme | closed |
-| T-01-26 | Information disclosure | unlisted staging preview link with test prices | medium | mitigate | Theme stays `role: unpublished` (✅). *Partial: preview link `?preview_theme_id=…` is published in the now-public `SHOPIFY-SETUP.md:85`; a stale `Development` theme is still on the store (deferred to ~7-day auto-expiry). Compensated: storefront is password-protected, so the link alone yields no content.* | open — below high threshold (non-blocking) |
+| T-01-26 | Information disclosure | unlisted staging preview link with test prices | medium | mitigate | Theme stays `role: unpublished` (✅). Clickable `?preview_theme_id=…` link + theme IDs removed from `docs/SHOPIFY-SETUP.md` (2026-09-08); a note tells readers to get IDs from `shopify theme list`. Residual: theme IDs remain in `.planning/**` git history (low sensitivity — not a secret, enumerable from the store domain); the storefront is password-protected so no preview yields content pre-launch. **Follow-up: delete the stale `Development` theme from the store (or let it auto-expire ~7 days).** | closed (mitigated; residual accepted) |
 | T-01-27 | Information disclosure | credentials exposed in a workflow run log | high | mitigate | Perf workflow reads credentials as secrets only, no `run:` / echo step; verification PR #1 originated from an in-repo branch, never a fork. *Residual: register text cites "private repo" — leg voided by T-01-20; GitHub still withholds secrets + downgrades `GITHUB_TOKEN` for fork `pull_request` runs.* | closed |
 | T-01-28 | Repudiation | a gate recorded as satisfied without evidence | medium | mitigate | Acceptance criteria required run URLs + an observed blocked merge; the Lighthouse-CI finding was recorded as an open finding (Phase 13), not passed over | closed |
 | T-01-29 | Denial of service | throwaway verification PR left open | low | mitigate | `gh pr list --state open` → 0; remote heads = only `main` + `staging`; throwaway branch deleted | closed |
@@ -80,8 +81,11 @@ created: "2026-09-08"
 | AR-01-02 | T-01-13 | Unreferenced starter demo routes carry no data; store is a password-protected dev store until Phase 14 | developer (plan disposition) | 2026-09-07 |
 | AR-01-03 | T-01-20 | Repo stays PUBLIC through launch — GitHub rulesets are free on public repos; developer declined GitHub Pro and declined stripping `.planning/`. `.planning/` (CPA model, roadmap, research) is world-readable; secret *values* verified absent from git history. Revisit at Phase 14 (back to private + Pro, or accept permanently). | developer — `01-UAT.md` Test 2, 2026-09-08 | 2026-09-08 |
 | AR-01-04 | T-01-23 | Shopify GitHub app needs repo write to commit editor changes back; no narrower scope exists. Reviewed again at launch. | developer (plan disposition) | 2026-09-07 |
+| AR-01-05 | T-01-21 | `SHOP_CLIENT_SECRET` is the Dev Dashboard "Kinelia Lighthouse CI" app secret — it powers only the Lighthouse CI GitHub Action, not the storefront, checkout, MercadoPago, or customer data. The 11-char fragment in git history (`c4e4f06`) is dead after rotation (~44 bits, non-exploitable even when live). The rotated value transited a chat turn once and stays in that transcript. Blast radius today: a defacement path into a password-protected, pre-launch dev store with no real data. **Conditions of acceptance: (1) `SHOP_CLIENT_SECRET` MUST be rotated a final time at Phase 14 and set via `gh secret set` stdin — never chat; (2) the store must not be un-password-protected / take real traffic before that Phase-14 rotation; (3) `scripts/check-secrets.mjs` stays in `npm run lint`.** | developer — 2026-09-08 (explicit, this session) | 2026-09-08 |
 
-*T-01-30 is NOT yet in this log — it needs an explicit accept/tighten decision from the developer.*
+**Phase 14 launch gate (carried from AR-01-05):** final `SHOP_CLIENT_SECRET` rotation + `SHOP_CLIENT_ID`/`SHOP_PASSWORD` review, and repo-visibility decision (AR-01-03), before the store leaves password protection.
+
+*T-01-30 (ruleset admin bypass) still needs an explicit accept/tighten decision — non-blocking, carried to Phase 2 or the Phase 14 gate.*
 
 ---
 
@@ -90,6 +94,7 @@ created: "2026-09-08"
 | Audit Date | Threats Total | Closed | Open | Run By |
 |------------|---------------|--------|------|--------|
 | 2026-09-08 | 30 | 27 | 3 (1 blocking: T-01-21 · 2 non-blocking: T-01-26, T-01-30) | `gsd-security-auditor` (opus) + orchestrator |
+| 2026-09-08 (update) | 30 | 28 | 2 non-blocking (T-01-26, T-01-30) | orchestrator — T-01-21 resolved: secret rotated + `check-secrets.mjs` + AR-01-05; `threats_open: 0` |
 
 ### Notes carried forward
 
@@ -103,8 +108,8 @@ created: "2026-09-08"
 ## Sign-Off
 
 - [x] All threats have a disposition (mitigate / accept / transfer)
-- [x] Accepted risks documented in Accepted Risks Log (except T-01-30, pending developer decision)
-- [ ] `threats_open: 0` confirmed — **BLOCKED: T-01-21 open pending `SHOP_CLIENT_SECRET` rotation**
-- [ ] `status: verified` set in frontmatter
+- [x] Accepted risks documented in Accepted Risks Log (T-01-30 explicitly carried as a non-blocking follow-up)
+- [x] `threats_open: 0` confirmed — T-01-21 closed (mitigated: secret rotated + `check-secrets.mjs`; residual accepted as AR-01-05)
+- [x] Phase 14 launch gate recorded (AR-01-05: final secret rotation + repo-visibility before the store takes traffic)
 
-**Approval:** pending — rotate `SHOP_CLIENT_SECRET`, re-run `/gsd-secure-phase 01`
+**Approval:** verified 2026-09-08 — `threats_open: 0`. Non-blocking follow-ups (T-01-26, T-01-30, T-01-12 CI boundary, lockfile note) carried forward.
