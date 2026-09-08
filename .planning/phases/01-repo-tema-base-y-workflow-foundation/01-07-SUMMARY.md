@@ -196,7 +196,7 @@ Throwaway (closed, unmerged): `78327a8` (offence), `b319c78` (offence removed).
 - **OPEN — CI enforces only the two Lighthouse category scores**, not the hard LCP/CLS/JS-weight thresholds (the action doesn't read custom assertions). Those run in the local `npm run perf` only. Phase 13 decides whether a custom CI workflow is worth building. `docs/PERF-BUDGET.md`.
 - **Repo is public** — see decision. Business plan (`.planning/`) is exposed. Review at Phase 14.
 - **Minor** — leftover dev theme `Development (0f9eff-...)` on the store (from `shopify theme dev`, session classifier blocked the delete); auto-expires ~7 days or the developer removes it in the admin.
-- **`SHOP_CLIENT_SECRET`** — rotate post-launch (transited a chat during 01-06).
+- **`SHOP_CLIENT_SECRET`** — rotation pulled forward to Phase 1 UAT (was: post-launch). Threat T-01-21: a ~12-hex fragment of the secret, used as a git-history grep needle, was committed to this public repo at `c4e4f06` (`01-07-SUMMARY.md:224`). Fragment scrubbed; secret rotated + `gh secret set` re-run; `scripts/check-secrets.mjs` added. See `01-SECURITY.md`.
 
 ## User Setup Completed This Plan
 
@@ -211,7 +211,7 @@ Throwaway (closed, unmerged): `78327a8` (offence), `b319c78` (offence removed).
 - **Phase 2 (design tokens)** starts against a working `Theme Check` gate on every PR.
 - **Phase 4** swaps the seeded `the-complete-snowboard` for the real hero product in `lighthouse.yml`.
 - **Phase 13** owns the Lighthouse CI resolution and the CI-vs-local assertion decision.
-- **Phase 14** reviews repo visibility and rotates `SHOP_CLIENT_SECRET`.
+- **Phase 14** reviews repo visibility (`SHOP_CLIENT_SECRET` rotation was pulled forward to Phase 1 — see Open Findings / `01-SECURITY.md` T-01-21).
 
 ## Self-Check: PASSED
 
@@ -221,7 +221,7 @@ Throwaway (closed, unmerged): `78327a8` (offence), `b319c78` (offence removed).
 - PR #1 check runs: `78327a8` Theme Check = failure, `b319c78` Theme Check = success (URLs in `docs/SHOPIFY-SETUP.md`)
 - `npm run lint` green on `main`
 - `main` / `staging` push CI green on `3d58dfa`
-- `git log -p --all | grep -E 'shpss_|4cbe71cfd82'` -> no credential value in history
+- git history scanned for Shopify token prefixes and for a fragment of the live client secret -> no credential value in history (needle values kept out of this doc; see `scripts/check-secrets.mjs`)
 
 ---
 *Phase: 01-repo-tema-base-y-workflow-foundation*

@@ -8,9 +8,10 @@
     "node": ">=22.12"
   },
   "scripts": {
-    "lint": "shopify theme check --fail-level error && node scripts/check-allowlist.mjs",
+    "lint": "shopify theme check --fail-level error && node scripts/check-allowlist.mjs && node scripts/check-secrets.mjs",
     "lint:all": "shopify theme check",
     "lint:allowlist": "node scripts/check-allowlist.mjs",
+    "lint:secrets": "node scripts/check-secrets.mjs",
     "perf": "node scripts/perf.mjs"
   },
   "devDependencies": {
