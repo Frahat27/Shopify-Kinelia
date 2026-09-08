@@ -1,44 +1,44 @@
 ---
 gsd_state_version: 1.0
-current_phase: 01
-current_phase_name: Repo, tema base y workflow foundation
-status: verifying
-stopped_at: Phase 1 executed 7/7; awaiting /gsd-verify-work 01; admin bypass added to rulesets
-last_updated: "2026-09-08T20:17:39.353Z"
+current_phase: 2
+current_phase_name: Sistema de diseno por tokens
+status: planning
+stopped_at: Phase 01 complete, ready to plan Phase 2
+last_updated: "2026-09-08T22:42:51.442Z"
 last_activity: 2026-09-08
-last_activity_desc: Phase 01 execution started
-state_head: 136857eead460c1c26f58700cd984006a1f13619
+last_activity_desc: Phase 01 complete, transitioned to Phase 2
+state_head: 9c1a0aec158aea904ddfc7101c9e9c674d7939dc
 progress:
   total_phases: 14
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 7
   completed_plans: 7
-  percent: 0
+  percent: 7
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-07)
+See: .planning/PROJECT.md (updated 2026-09-08)
 
 **Core value:** Maximizar el CVR de la pagina de producto (trafico pago Meta -> ordenes), sostenido por la regla CPA efectivo < margen.
-**Current focus:** Phase 01 — Repo, tema base y workflow foundation
+**Current focus:** Phase 2 — Sistema de diseno por tokens
 
 ## Current Position
 
-Phase: 01 (Repo, tema base y workflow foundation) — EXECUTING
-Plan: 7 of 7
-Status: Phase complete — ready for verification
-Last activity: 2026-09-08 — Completed 01-04 (ALLOWLIST.md + checker + OVERRIDES reconciliation)
+Phase: 2 — Sistema de diseno por tokens
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-09-08 — Phase 01 complete, transitioned to Phase 2
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█░░░░░░░░░░░░░] 1/14 phases (7%)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 0
+- Total plans completed: 7
 - Average duration: n/a
 - Total execution time: 0 hours
 
@@ -46,7 +46,7 @@ Progress: [░░░░░░░░░░] 0%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01 | 7 | - | - |
 
 **Recent Trend:**
 
@@ -77,6 +77,7 @@ Relevant open decisions for current work:
 - [Phase 01]: Home shell = sections/custom-section.liquid (contenedor de theme-blocks, base del multi-avatar); hello-world des-referenciado sin borrar
 - [Phase 01]: [Phase 01] Regla de propiedad del contenido (docs/RELEASE.md): la integración de GitHub de Shopify es dueña de config/settings_data.json y templates/*.json; se edita STAGING en el editor de temas y la integración commitea a la rama staging. Alternativa rechazada: git dueño del JSON con shopify theme pull periódico.
 - [Phase 01]: [Phase 01] Nombres exactos de tema para el plan 01-07: 'Kinelia — LIVE' (publicado, rama main) y 'Kinelia — STAGING' (no publicado, rama staging).
+- [Phase 01]: Repo público durante Etapa 1 (ratificado, revisar Phase 14). `SHOP_CLIENT_SECRET` rotado en Phase 1 tras filtrarse un fragmento a la historia pública; rotación final = gate de lanzamiento Phase 14 (`01-SECURITY.md` AR-01-03 / AR-01-05).
 
 ### Pending Todos
 
@@ -86,7 +87,9 @@ None yet.
 
 - Phase 12 / Phase 14 dependen de datos provistos por el usuario: credenciales de MercadoPago produccion, razon social AR, DNS del dominio.
 - REQUIREMENTS.md tenia un conteo stale de "58" requisitos v1; el conteo real es 71 (14 categorias). Traceability y Coverage actualizados a 71.
-- FOUND-01 parcial: el remote git y las ramas main/staging existen (01-06), pero la previsualización local con 'shopify theme dev' contra kinelia.myshopify.com no está probada (requiere login interactivo de navegador). Se completa en 01-07.
+- ⚠️ [Phase 14 gate] `SHOP_CLIENT_SECRET` rotación final + `gh secret set` por stdin + revisión de visibilidad del repo ANTES de sacar la tienda de password-protection (`01-SECURITY.md` AR-01-05).
+- ⚠️ [Phase 01 → follow-up no bloqueante] Decidir T-01-30 (admin bypass en los rulesets: `bypass_actors: [admin, always]` + `required_approving_review_count: 0`) — aceptar o endurecer. Mover `scripts/check-allowlist.mjs` + `check-secrets.mjs` al job CI requerido (T-01-12). Borrar el tema `Development` stale de la tienda.
+- Lighthouse: medición end-to-end de performance (harness local + CI) = Phase 13. El harness está cableado; la medición no corre limpio en Windows contra el proxy de `theme dev`.
 
 ## Deferred Items
 
@@ -98,6 +101,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-08T20:17:38.968Z
-Stopped at: Phase 1 executed 7/7; awaiting /gsd-verify-work 01; admin bypass added to rulesets
+Last session: 2026-09-08T22:44:00.000Z
+Stopped at: Phase 01 sealed (UAT 2/2 pass · VERIFICATION passed · SECURITY threats_open 0 · VALIDATION partial). Ready to plan Phase 2.
 Resume file: None

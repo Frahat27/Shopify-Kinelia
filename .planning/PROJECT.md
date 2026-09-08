@@ -21,13 +21,13 @@ Maximizar el CVR de la página de producto (sesiones de tráfico pago → órden
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ Workflow de desarrollo: Shopify CLI + este repo Git vinculado a Shopify, preview local con `shopify theme dev`, topología STAGING/LIVE, lint gate (`Theme Check` required) y harness de performance cableado — **Phase 1**
 
 ### Active
 
 Etapa 1 — Tema de Shopify (milestone v1):
 
-- [ ] Tema Shopify custom sobre la base Skeleton, mobile-first, construido hacia arriba desde un baseline casi sin JS
+- [ ] Tema Shopify custom sobre la base Skeleton, mobile-first, construido hacia arriba desde un baseline casi sin JS *(Phase 1: base Skeleton elegida + scaffold en la raíz del repo; falta construir el tema)*
 - [ ] Página de producto / landing optimizada para CVR: buy box con galería video-first, selector de bundle, selector de variantes talle × color con guía de talles, sticky Add-to-Cart en mobile, prueba social (rating + reviews), badges de oferta y ahorro, fila de confianza (garantía 90 días · envío · contra entrega)
 - [ ] Sistema multi-avatar: templates JSON por ángulo con bloques intercambiables (headline, agitación del problema, mecanismo, testimonios, "para quién es") y bloques fijos (buy box, oferta, garantía, FAQ, footer)
 - [ ] Al menos 1 template de avatar completo + 1 clon que demuestra que el sistema multi-avatar funciona
@@ -79,6 +79,8 @@ Etapa 1 (diferido a etapas posteriores, registrado para no re-agregarlo):
 | Sistema multi-avatar vía templates JSON + bloques de sección | Permite clonar la landing por ángulo sin rehacerla; nativo de Shopify | — Pending |
 | Mecánica del bundle a decidir en research | Impacta CVR y la arquitectura de producto / atribución (producto único con quantity breaks vs. packs separados vs. app) | — Pending |
 | Trabajo dividido en 3 etapas: tema → tracking/reviews/email → experimentos CVR | El usuario prioriza tener la base publicada y vendible antes de instrumentar | — Pending |
+| Repo `Shopify-Kinelia` **público** durante Etapa 1 | Los rulesets de branch protection de GitHub son gratis en repos públicos; el usuario declinó GitHub Pro y declinó sacar `.planning/`. `.planning/` (modelo CPA, roadmap, research) queda world-readable; los *valores* de secretos verificados ausentes de la historia git | ✓ Ratificada Phase 1 (2026-09-08) · revisar Phase 14 (`01-SECURITY.md` AR-01-03) |
+| `SHOP_CLIENT_SECRET` — rotación adelantada + gate de lanzamiento Phase 14 | Un fragmento de 11 chars del secreto se commiteó al repo público (`c4e4f06`); rotado en Phase 1. La tienda NO sale de password-protection ni toma tráfico hasta una rotación final + `gh secret set` por stdin en Phase 14 | ✓ Rotado Phase 1 · gate Phase 14 (`01-SECURITY.md` AR-01-05) |
 
 ### Tema base — tradeoffs evaluados
 
@@ -108,4 +110,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-07 after initialization*
+*Last updated: 2026-09-08 after Phase 1*

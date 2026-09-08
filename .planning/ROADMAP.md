@@ -13,7 +13,7 @@ Milestone: Etapa 1 -- Tema de Shopify publicado y vendible. Etapa 2 (instrumenta
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-- [ ] **Phase 1: Repo, tema base y workflow foundation** - Base del tema decidida y registrada, git + Shopify CLI, topologia STAGING/LIVE, Theme Check y harness de performance
+- [x] **Phase 1: Repo, tema base y workflow foundation** - Base del tema decidida y registrada, git + Shopify CLI, topologia STAGING/LIVE, Theme Check y harness de performance (completed 2026-09-08)
 - [ ] **Phase 2: Sistema de diseno por tokens** - Tokens de marca en un solo lugar, base.css derivado de tokens, locale es-AR scaffoldeado
 - [ ] **Phase 3: Layout shell + seams de Etapa 2** - theme.liquid, header/footer minimos, bus de eventos DOM y hooks no-op de medicion diferida
 - [ ] **Phase 4: Modelo de datos de producto y contenido** - Producto heroe talle x color, metafields, metaobjects y un avatar completo sembrado
@@ -293,7 +293,7 @@ Critical path: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 9 -> 10 -> 13 -> 14.
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Repo, tema base y workflow foundation | 7/7 | In Progress|  |
+| 1. Repo, tema base y workflow foundation | 7/7 | Complete    | 2026-09-08 |
 | 2. Sistema de diseno por tokens | 0/TBD | Not started | - |
 | 3. Layout shell + seams de Etapa 2 | 0/TBD | Not started | - |
 | 4. Modelo de datos de producto y contenido | 0/TBD | Not started | - |

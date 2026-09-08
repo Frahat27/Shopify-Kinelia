@@ -6,7 +6,7 @@
     {
       "number": "1",
       "name": "Repo, tema base y workflow foundation",
-      "status": "in_progress"
+      "status": "complete"
     },
     {
       "number": "2",
@@ -76,8 +76,8 @@
   ],
   "next": {
     "command": "/gsd:progress --next",
-    "label": "Advance to the next step (verify)",
-    "reason": "Phase 1 of 14 · 0% · ready to verify"
+    "label": "Advance to the next step (plan phase 2)",
+    "reason": "Phase 2 of 14 — needs a plan"
   },
-  "updated_at": "2026-09-08T20:12:05.980Z"
+  "updated_at": "2026-09-08T22:42:51.559Z"
 }
