@@ -78,7 +78,23 @@
     "colors": {
       "brand": "Colores de marca",
       "primary": "Verde primario",
-      "primary_info": "Logo, titulares, bloques de cierre y botones."
+      "primary_info": "Logo, titulares, bloques de cierre y botones.",
+      "primary_soft": "Verde suave",
+      "accent": "Terracota",
+      "accent_info": "Uso restringido: solo el precio. Nunca fondos, botones ni titulares.",
+      "bg": "Crema (fondo)",
+      "bg_info": "Fondo general. Nunca blanco puro.",
+      "text": "Texto principal",
+      "text_muted": "Texto secundario",
+      "support": "Paleta de apoyo (contenido educativo)",
+      "edu": "Azul profundo",
+      "edu_soft": "Azul claro",
+      "community": "Violeta profundo",
+      "community_soft": "Violeta claro"
+    },
+    "type": {
+      "heading": "Fuente de titulares",
+      "body": "Fuente de cuerpo"
     }
   }
 }
