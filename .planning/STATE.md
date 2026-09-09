@@ -2,18 +2,18 @@
 gsd_state_version: 1.0
 current_phase: 02
 current_phase_name: Sistema de diseno por tokens
-status: executing
-stopped_at: Completed 02-03-PLAN.md
-last_updated: "2026-09-09T13:21:00.883Z"
-last_activity: 2026-09-08
-last_activity_desc: Phase 02 execution started
-state_head: 670901ff066bc17a07103c64ff2ce499888dadff
+status: awaiting-verification
+stopped_at: Completed 02-04-PLAN.md — Phase 02 execution complete
+last_updated: "2026-09-09T00:00:00.000Z"
+last_activity: 2026-09-09
+last_activity_desc: Phase 02 execution complete (all 4 plans landed) — ready for end-of-phase verification
+state_head: 7fc723f
 progress:
   total_phases: 14
   completed_phases: 1
   total_plans: 11
-  completed_plans: 10
-  percent: 7
+  completed_plans: 11
+  percent: 8
 ---
 
 # Project State
@@ -27,26 +27,27 @@ See: .planning/PROJECT.md (updated 2026-09-08)
 
 ## Current Position
 
-Phase: 02 (Sistema de diseno por tokens) — EXECUTING
-Plan: 4 of 4
-Status: Ready to execute
-Last activity: 2026-09-08 — Phase 02 execution started
+Phase: 02 (Sistema de diseno por tokens) — EXECUTION COMPLETE, awaiting verification
+Plan: 4 of 4 — Complete
+Status: All 4 plans landed. Next: /gsd-verify-work (end-of-phase human-checks deferred from 02-01…02-04)
+Last activity: 2026-09-09 — Phase 02 execution complete
 
-Progress: [█░░░░░░░░░░░░░] 1/14 phases ([█░░░░░░░░░] 7%)
+Progress: [█░░░░░░░░░░░░░] 1/14 phases ([█░░░░░░░░░] 8%)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 7
+- Total plans completed: 11 (Phase 01: 7, Phase 02: 4)
 - Average duration: n/a
-- Total execution time: 0 hours
+- Total execution time: ~5 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 7 | - | - |
+| 02 | 4 | ~1h40m | ~25min |
 
 **Recent Trend:**
 
@@ -65,6 +66,7 @@ Progress: [█░░░░░░░░░░░░░] 1/14 phases ([█░░�
 | Phase 02 P01 | ~50min | 3 tasks | 11 files |
 | Phase 02 P02 | 6min | 3 tasks | 9 files |
 | Phase 02 P03 | 25min | 3 tasks | 12 files |
+| Phase 02 P04 | 20min | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -83,6 +85,7 @@ Relevant open decisions for current work:
 - [Phase 01]: Repo público durante Etapa 1 (ratificado, revisar Phase 14). `SHOP_CLIENT_SECRET` rotado en Phase 1 tras filtrarse un fragmento a la historia pública; rotación final = gate de lanzamiento Phase 14 (`01-SECURITY.md` AR-01-03 / AR-01-05).
 - [Phase 02]: check-tokens.mjs CONSTRAINED_TYPES admits font_picker (plus color_background/radio/checkbox) beyond the plan's literal color/select/range — css-variables.liquid still references settings.type_primary_font (font_picker) until 02-02 removes it; all admitted types are value-constrained so cannot close a <style> element
 - [Phase 02]: 02-02: espaciado y radio se emiten como custom properties estáticas en css-variables.liquid, no como settings del editor (desviación registrada de ROADMAP SC#1); rename Skeleton->Kinelia sin alias, guardado por check-tokens rule 5
+- [Phase 02]: 02-04: theme default language = Argentine Spanish (voseo), sole locale — `en.default.*` renamed to `es.default.*` by git mv (history preserved), no English fallback (verified: `shopify theme check --fail-level error` exits 0 Spanish-only — closes research A5). Brand copy (6 CTAs + root promise + legal legend) lives once under the `kinelia` locale namespace; `docs/BRAND-COPY.md` is the inherited contract (voseo voice + D-16 LOCKED prohibited claims); `check-tokens.mjs` rule 8 fails if the language drifts, a brand key disappears, or the legend gains an `_html` suffix. No user-facing string ever lives in a Liquid template.
 - [Phase 02]: 02-03: self-hosted DM Sans 400/500 + Inter 400/500/600 subset WOFF2 (191,596 B, latin+latin-ext, OFL 1.1); @font-face in css-variables.liquid with verbatim gwfh unicode-range; exactly 2 preloads (dm-sans-500 + inter-400); base.css full primitive set, var(--*) only, accent token in exactly one rule (.price) — DESIGN-03 + DESIGN-01 typography side; D-05/D-06/D-07/D-08/D-11/D-12/D-13 implemented
 
 ### Pending Todos
@@ -112,6 +115,7 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-09T13:20:45.666Z
-Stopped at: Completed 02-03-PLAN.md
+Last session: 2026-09-09
+Stopped at: Completed 02-04-PLAN.md — Phase 02 execution complete (all 4 plans landed)
 Resume file: None
+Next step: /gsd-verify-work for Phase 02 (end-of-phase human-checks deferred from plans 02-01 through 02-04)

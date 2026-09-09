@@ -75,9 +75,9 @@
     }
   ],
   "next": {
-    "command": "/gsd:progress --next",
-    "label": "Advance to the next step",
-    "reason": "Phase 2 of 14 · 7% · executing"
+    "command": "/gsd-verify-work",
+    "label": "Verify Phase 02 (end-of-phase human-checks)",
+    "reason": "Phase 2 of 14 · 8% · execution complete, all 4 plans landed"
   },
-  "updated_at": "2026-09-09T13:20:41.497Z"
+  "updated_at": "2026-09-09T00:00:00.000Z"
 }
