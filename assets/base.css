@@ -1,10 +1,145 @@
 /* assets/base.css — primitivas de diseño, todas derivadas de tokens.
    Ningún valor de color literal ni nombre de familia tipográfica puede aparecer acá:
    se consume únicamente var(--*) emitido por snippets/css-variables.liquid (D-02, D-17).
-   El reset (box-sizing, body, img/video) lo posee assets/critical.css — no se re-declara.
-   Plan 02-03 completa este archivo (escala tipográfica, botón, primitivas de formulario). */
+   scripts/check-tokens.mjs lo hace cumplir (reglas 1, 2, 5, 6).
 
+   El reset lo posee assets/critical.css y carga primero: box-sizing, margin, el body
+   como columna flex, las reglas de img/picture/video y el overflow-wrap de párrafos y
+   titulares. Acá NO se re-declara nada de eso — se estratifica encima.
+
+   Sistema plano (D-11): sin sombras, sin degradados, sin rampas de color. Separación por
+   color y espacio. Si un default del user agent trae elevación en un control, se anula
+   explícito, no se tematiza. */
+
+/* ---------------------------------------------------------------- tipografía */
+
+/* Cuerpo: familia de texto, peso regular, 16px, interlineado 1.5 — piso de D-07,
+   no un punto de partida. El público es de 45 a 65 y a menudo lee en un teléfono a
+   contraluz. Nunca se justifica (D-07). */
+body {
+  font-family:var(--font-body);
+  font-weight: var(--font-weight-regular);
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Titulares: familia de titulares en peso medium — el manual prohíbe el peso pesado en
+   titulares largos (D-05). Interlineado más ajustado y wrapping balanceado. */
+h1,
+h2,
+h3 {
+  font-family:var(--font-heading);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: 2.5rem;
+} /* 40px — titular, D-06 */
+
+h2 {
+  font-size: 1.625rem;
+} /* 26px — subtítulo, D-06 */
+
+h3 {
+  font-size: 1.25rem;
+} /* 20px — escalón intermedio */
+
+p {
+  line-height: 1.5;
+  max-width: 68ch;
+}
+
+small,
+.caption {
+  font-size: 0.8125rem; /* 13px — caption y legales, D-06 */
+  color: var(--color-text-muted);
+}
+
+/* ---------------------------------------------------------------- enlaces */
+
+/* Regla tracer de 02-01, extendida: color primario y un offset de subrayado que deja
+   el trazo libre de los descendentes. */
 a {
   color: var(--color-primary);
   text-underline-offset: 0.15em;
+}
+
+/* ---------------------------------------------------------------- botón (D-12) */
+
+/* Fondo verde primario, texto crema (el token de fondo). Sin borde, sin elevación.
+   Redondeo de esquina desde el token de radio, que resuelve a 2px (RQ-5).
+   Dos reglas absolutas: el botón NUNCA lleva el token de detalle (D-01) y NUNCA lleva
+   elevación por sombra o degradado (D-11). */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3) var(--space-5);
+  font-family:var(--font-body);
+  font-weight: var(--font-weight-medium);
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  border: 0;
+  border-radius: var(--radius);
+}
+
+/* El botón sobre un bloque verde se invierte: fondo crema, texto verde. */
+.button--on-primary {
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+}
+
+/* ---------------------------------------------------------------- formularios (D-13) */
+
+/* Tamaño de texto 1rem para que iOS no haga zoom del viewport al enfocar y para que el
+   piso de 16px del cuerpo se mantenga. Fondo crema, filete de 1px desde el token de
+   borde, redondeo consistente con D-10. */
+input,
+select,
+textarea {
+  font-size: 1rem;
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+/* Foco: outline sólido de 2px en el token primario con un offset chico. Un outline, no
+   una sombra — el sistema plano no tiene elevación de reserva y el anillo de foco tiene
+   que ser visible para un lector mayor en una pantalla con brillo bajo (D-07, D-11). */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* La etiqueta de formulario: bloque, en el color de texto, al tamaño del cuerpo. */
+label {
+  display: block;
+  color: var(--color-text);
+  font-size: 1rem;
+}
+
+/* ---------------------------------------------------------------- utility de etiqueta */
+
+/* El ÚNICO lugar del tema donde se permite convertir a mayúsculas (D-07). Etiqueta
+   corta tipo "eyebrow", al tamaño de caption y con un leve tracking. La regla 6 de
+   check-tokens solo admite uppercase en un selector que nombre esta utility. */
+.label-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.8125rem;
+}
+
+/* ---------------------------------------------------------------- el precio (D-01) */
+
+/* La ÚNICA aparición del token de detalle en todo el set de primitivas. El terracota
+   es de uso restringido: prohibido como fondo, botón, titular, ícono o borde. */
+.price {
+  color: var(--color-accent);
 }
