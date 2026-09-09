@@ -1,18 +1,18 @@
 ---
 gsd_state_version: 1.0
-current_phase: 2
+current_phase: 02
 current_phase_name: Sistema de diseno por tokens
-status: planning
-stopped_at: Phase 01 complete, ready to plan Phase 2
-last_updated: "2026-09-08T22:42:51.442Z"
+status: executing
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-09-09T12:41:20.467Z"
 last_activity: 2026-09-08
-last_activity_desc: Phase 01 complete, transitioned to Phase 2
-state_head: 9c1a0aec158aea904ddfc7101c9e9c674d7939dc
+last_activity_desc: Phase 02 execution started
+state_head: 5173eaa978e62771891d6cd2a9c43aad9251a945
 progress:
   total_phases: 14
   completed_phases: 1
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 11
+  completed_plans: 8
   percent: 7
 ---
 
@@ -23,16 +23,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-09-08)
 
 **Core value:** Maximizar el CVR de la pagina de producto (trafico pago Meta -> ordenes), sostenido por la regla CPA efectivo < margen.
-**Current focus:** Phase 2 — Sistema de diseno por tokens
+**Current focus:** Phase 02 — Sistema de diseno por tokens
 
 ## Current Position
 
-Phase: 2 — Sistema de diseno por tokens
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-09-08 — Phase 01 complete, transitioned to Phase 2
+Phase: 02 (Sistema de diseno por tokens) — EXECUTING
+Plan: 2 of 4
+Status: Ready to execute
+Last activity: 2026-09-08 — Phase 02 execution started
 
-Progress: [█░░░░░░░░░░░░░] 1/14 phases (7%)
+Progress: [█░░░░░░░░░░░░░] 1/14 phases ([█░░░░░░░░░] 7%)
 
 ## Performance Metrics
 
@@ -62,6 +62,7 @@ Progress: [█░░░░░░░░░░░░░] 1/14 phases (7%)
 | Phase 01 P04 | 5min | 3 tasks | 6 files |
 | Phase 01 P05 | 12min | 2 tasks | 3 files |
 | Phase 01 P06 | 3h | 3 tasks | 4 files |
+| Phase 02 P01 | ~50min | 3 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,7 @@ Relevant open decisions for current work:
 - [Phase 01]: [Phase 01] Regla de propiedad del contenido (docs/RELEASE.md): la integración de GitHub de Shopify es dueña de config/settings_data.json y templates/*.json; se edita STAGING en el editor de temas y la integración commitea a la rama staging. Alternativa rechazada: git dueño del JSON con shopify theme pull periódico.
 - [Phase 01]: [Phase 01] Nombres exactos de tema para el plan 01-07: 'Kinelia — LIVE' (publicado, rama main) y 'Kinelia — STAGING' (no publicado, rama staging).
 - [Phase 01]: Repo público durante Etapa 1 (ratificado, revisar Phase 14). `SHOP_CLIENT_SECRET` rotado en Phase 1 tras filtrarse un fragmento a la historia pública; rotación final = gate de lanzamiento Phase 14 (`01-SECURITY.md` AR-01-03 / AR-01-05).
+- [Phase 02]: check-tokens.mjs CONSTRAINED_TYPES admits font_picker (plus color_background/radio/checkbox) beyond the plan's literal color/select/range — css-variables.liquid still references settings.type_primary_font (font_picker) until 02-02 removes it; all admitted types are value-constrained so cannot close a <style> element
 
 ### Pending Todos
 
@@ -106,6 +108,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-08T22:44:00.000Z
-Stopped at: Phase 01 sealed (UAT 2/2 pass · VERIFICATION passed · SECURITY threats_open 0 · VALIDATION partial). Ready to plan Phase 2.
+Last session: 2026-09-09T12:41:11.111Z
+Stopped at: Completed 02-01-PLAN.md
 Resume file: None

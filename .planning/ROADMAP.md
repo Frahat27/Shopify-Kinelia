@@ -91,10 +91,11 @@ Registrado en `ALLOWLIST.md` y ratificado en el checkpoint de decision del plan 
   3. Existe `base.css` con reset, escala tipografica, colores, espaciado, botones y primitivas de formulario, todo derivado de tokens
   4. El locale es-AR (voseo) esta scaffoldeado y todo el texto de UI sale de archivos de locale
 
-**Plans**: 4 plans (4 waves, secuenciales — todos los planes comparten `css-variables.liquid` y `settings_schema.json`)
+**Plans**: 1/4 plans executed (4 waves, secuenciales — todos los planes comparten `css-variables.liquid` y `settings_schema.json`)
 
 Plans:
-- [ ] 02-01-PLAN.md — Tracer: un token de marca de punta a punta + `check-tokens.mjs`, la copia ejecutable de DESIGN-02, en `npm run lint` y en el gate de CI (wave 1)
+
+- [x] 02-01-PLAN.md — Tracer: un token de marca de punta a punta + `check-tokens.mjs`, la copia ejecutable de DESIGN-02, en `npm run lint` y en el gate de CI (wave 1)
 - [ ] 02-02-PLAN.md — Superficie completa de tokens: 10 colores + 2 familias como settings, escala de espaciado y radios estáticos, rename del vocabulario Skeleton (wave 2)
 - [ ] 02-03-PLAN.md — Fuentes self-hosted (5 WOFF2 subset, 2 preloads) + `base.css` con todas las primitivas de diseño derivadas de tokens (wave 3)
 - [ ] 02-04-PLAN.md — Locale es-AR voseo como único default + gate de locale en el checker + `docs/BRAND-COPY.md` (claims prohibidos) (wave 4)
@@ -302,7 +303,7 @@ Critical path: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 9 -> 10 -> 13 -> 14.
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Repo, tema base y workflow foundation | 7/7 | Complete    | 2026-09-08 |
-| 2. Sistema de diseno por tokens | 0/TBD | Not started | - |
+| 2. Sistema de diseno por tokens | 1/4 | In Progress|  |
 | 3. Layout shell + seams de Etapa 2 | 0/TBD | Not started | - |
 | 4. Modelo de datos de producto y contenido | 0/TBD | Not started | - |
 | 5. Buy box core | 0/TBD | Not started | - |
