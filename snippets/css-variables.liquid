@@ -1,4 +1,11 @@
 {% style %}
+  {% comment %}
+    KINELIA (plan 02-01): emisor de tokens. Este snippet y config/settings_schema.json
+    son los UNICOS dos lugares del tema donde puede vivir un valor de color literal (D-17).
+    Todo CSS de componente referencia var(--*); scripts/check-tokens.mjs lo hace cumplir.
+    Extendido acá con el primer token de marca (--color-primary) y su fallback Liquid.
+    Registrado en OVERRIDES.md.
+  {% endcomment %}
   {% # Loads all font variantions with display: swap %}
   {{ settings.type_primary_font | font_face: font_display: 'swap' }}
   {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
@@ -11,8 +18,13 @@
     --font-primary--weight: {{ settings.type_primary_font.weight }};
     --page-width: {{ settings.max_page_width }};
     --page-margin: {{ settings.min_page_margin }}px;
-    --color-background: {{ settings.background_color }};
-    --color-foreground: {{ settings.foreground_color }};
+    --color-background: {{ settings.background_color | default: '#FFFFFF' }};
+    --color-foreground: {{ settings.foreground_color | default: '#333333' }};
     --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+
+    {% # D-17 / Pitfall 4: cada token de color interpola un setting con fallback Liquid `default:`.
+       Un color picker vaciado en el editor devuelve "" y produce una declaracion invalida que
+       tira el token en silencio; el fallback lo evita. 02-02 suma las otras nueve familias. %}
+    --color-primary: {{ settings.color_primary | default: '#0F6E56' }};
   }
 {% endstyle %}

@@ -20,6 +20,14 @@
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
 
+    {% comment %}
+      KINELIA (plan 02-01): hoja de primitivas de diseño derivadas de tokens.
+      Carga después de critical.css y del snippet css-variables (que define los tokens),
+      sin preload — el preload es para critical.css; un segundo preload competiría con la
+      imagen del hero por ancho de banda. Registrado en OVERRIDES.md.
+    {% endcomment %}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
 

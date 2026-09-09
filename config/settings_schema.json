@@ -57,6 +57,17 @@
     "name": "t:general.colors",
     "settings": [
       {
+        "type": "header",
+        "content": "t:settings.colors.brand"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "default": "#0F6E56",
+        "label": "t:settings.colors.primary",
+        "info": "t:settings.colors.primary_info"
+      },
+      {
         "type": "color",
         "id": "background_color",
         "default": "#FFFFFF",

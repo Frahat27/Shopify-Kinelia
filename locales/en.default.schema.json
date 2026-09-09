@@ -72,6 +72,13 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
-    },
+    }
+  },
+  "settings": {
+    "colors": {
+      "brand": "Colores de marca",
+      "primary": "Verde primario",
+      "primary_info": "Logo, titulares, bloques de cierre y botones."
+    }
   }
 }

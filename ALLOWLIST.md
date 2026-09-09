@@ -53,6 +53,7 @@ o un section-group.
 | `blocks/group.liquid` | Primitiva de theme-block | Contenedor de layout para componer bloques anidados. |
 | `blocks/text.liquid` | Primitiva de theme-block | Bloque de texto editable. |
 | `assets/critical.css` | `stylesheet_tag` desde `layout/theme.liquid`, `layout/password.liquid`, `templates/gift_card.liquid` | CSS crítico inline-precargado. Único asset CSS de la Fase 1. |
+| `assets/base.css` | `stylesheet_tag` desde `layout/theme.liquid`, cargado después de `critical.css` | Primitivas de diseño derivadas de tokens (reset tipográfico, enlaces, botón y formularios) — Fase 2. Solo `var(--*)`: sin hex ni nombres de fuente literales; `scripts/check-tokens.mjs` lo hace cumplir. Sin preload para no competir con la imagen del hero (presupuesto LCP < 2,5 s). |
 | `assets/icon-account.svg` | `inline_asset_content` desde `sections/header.liquid` | Ícono de cuenta del header. |
 | `assets/icon-cart.svg` | `inline_asset_content` desde `sections/header.liquid` | Ícono de carrito del header. |
 

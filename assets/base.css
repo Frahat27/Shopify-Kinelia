@@ -1,0 +1,10 @@
+/* assets/base.css — primitivas de diseño, todas derivadas de tokens.
+   Ningún valor de color literal ni nombre de familia tipográfica puede aparecer acá:
+   se consume únicamente var(--*) emitido por snippets/css-variables.liquid (D-02, D-17).
+   El reset (box-sizing, body, img/video) lo posee assets/critical.css — no se re-declara.
+   Plan 02-03 completa este archivo (escala tipográfica, botón, primitivas de formulario). */
+
+a {
+  color: var(--color-primary);
+  text-underline-offset: 0.15em;
+}
