@@ -29,7 +29,10 @@ las ediciones a config/YAML/JSON llevan un comentario `# KINELIA:` o quedan regi
 | `config/settings_schema.json` | 02-01, 02-02 | 02-01: grupo `t:general.colors` extendido con el header `t:settings.colors.brand` y `color_primary`. 02-02: se completó la superficie de marca — las diez familias de color (seis primarias + cuatro de apoyo) como settings `color` con el hex verbatim del Brand Book de default; se reemplazó `background_color` (`#FFFFFF`, viola D-03) y `foreground_color` por `color_bg` / `color_text`; el `font_picker` `type_primary_font` pasó a dos `select` (`font_heading` / `font_body`, D-18); `input_corner_radius` `max`/`default` bajados a 2 para que el editor no pueda romper el sistema plano (D-10). `theme_info` sigue siendo el elemento 0. |
 | `snippets/css-variables.liquid` | 02-01, 02-02 | 02-01: emite `--color-primary` con fallback Liquid `| default:`. 02-02: emisor único de todo el vocabulario Kinelia — diez tokens de color + `--color-border` derivado, `--font-heading` / `--font-body` con stack de fallback de sistema + tres pesos, la escala `--space-1..8` (estática), `--radius` / `--radius-none`, `--icon-stroke-width`, y `--page-width` / `--page-margin` (ahora con guarda `| default:`). Se quitaron los cuatro `font_face` y las props family/style/weight que leían el `font_picker` ya eliminado. Reglas de marca D-01/D-03/D-04/D-11 como comentarios. Este snippet y `settings_schema.json` son los únicos dos lugares donde puede vivir un color literal (D-17), siempre como fallback. |
 | `layout/theme.liquid` | 02-01, 02-02 | 02-01: carga `assets/base.css` vía `stylesheet_tag` después de `critical.css`, sin preload. 02-02: se eliminó el bloque de fuentes del head del starter (preconnect al CDN de fuentes + preload derivado del `font_picker`) — al desaparecer el setting del schema ese bloque emitía un preload vacío en cada página (Pitfall 1). Las caras self-hosted y sus preloads llegan en el plan 02-03; esta remoción es un pre-empt acotado del trabajo de shell de la Fase 3. |
-| `locales/en.default.schema.json` | 02-01, 02-02 | 02-01: se quitó la coma colgante y se agregaron `settings.colors.brand` / `primary` / `primary_info`. 02-02: etiquetas de editor en español para cada clave `t:` nueva del schema — las diez familias de color, `settings.type.heading` / `body`, y los `info` de advertencia (uso restringido del terracota, nunca blanco puro). El plan 02-04 renombra este archivo a `es.default.schema.json`. |
+| `locales/es.default.schema.json` (era `en.default.schema.json`) | 02-01, 02-02, 02-04 | 02-01: se quitó la coma colgante y se agregaron `settings.colors.brand` / `primary` / `primary_info`. 02-02: etiquetas de editor en español para cada clave `t:` nueva del schema — las diez familias de color, `settings.type.heading` / `body`, y los `info` de advertencia (uso restringido del terracota, nunca blanco puro). 02-04: `git mv` de `en.default.schema.json` → `es.default.schema.json` (rename, no borrado — Pitfall 9) y traducción de los namespaces `general` / `labels` / `options` al español; strict JSON, sin BOM, LF. |
+| `locales/es.default.json` (era `en.default.json`) | 02-04 | `git mv` de `en.default.json` → `es.default.json` (rename con historia preservada, no borrado — Pitfall 9). Traducido a voseo rioplatense: cada namespace de inglés preservado (404, blog, cart, customers, collections, gift_card, password, search) más `general` / `products` / `sections` / `templates` / `newsletter`. Nuevo namespace `kinelia` con los seis CTAs aprobados, la promesa raíz y la leyenda legal (D-15). Sin precio placeholder (contenido de metaobject de la Fase 4). `_html` solo en las claves que ya lo llevaban. Strict JSON, sin BOM, LF. |
+| `scripts/check-tokens.mjs` | 02-01, 02-04 | 02-01: creado — 9 reglas, copia ejecutable de DESIGN-02. 02-04: extiende la regla 8 (locale) — el único `*.default.json` debe ser `es.default.json` (D-14); las ocho claves de `REQUIRED_STOREFRONT_KEYS` (seis CTAs + promesa raíz + leyenda legal) deben resolver a strings no vacíos (D-15); `kinelia.legal_disclaimer_html` no puede existir (T-02-16). Node stdlib, `process.exitCode` sin `process.exit()`. |
+| `ALLOWLIST.md` | 01-04, 02-01, 02-03, 02-04 | 02-04: nueva sección "Idioma del tema" — español rioplatense como único default, todo texto de UI sale de archivos de locale, nunca un string en un template Liquid. |
 | `assets/critical.css` | 02-02 | Rename de tokens del starter al esquema de marca: `--color-background` → `--color-bg`, `--color-foreground` → `--color-text`, `--font-primary--family` → `--font-body`, `--style-border-radius-inputs` → `--radius`, en las líneas 34/38/43/44/76/77/78. Las props de grilla de sección (`--content-width` / `--content-margin` / `--content-grid`) y de geometría de página NO se renombran. Comentario KINELIA registrando que la separación es por color y espacio, nunca por elevación (D-11). |
 | `sections/header.liquid` | 02-02 | Rename en el bloque `{% stylesheet %}`: `var(--color-foreground)` → `var(--color-text)`. Marcador KINELIA. Sin cambio estructural. |
 | `sections/footer.liquid` | 02-02 | Rename en el bloque `{% stylesheet %}`: `var(--color-foreground)` → `var(--color-text)`. Marcador KINELIA. Sin cambio estructural. |
@@ -109,6 +112,33 @@ en `docs/PERF-BUDGET.md` como segundo testigo, reemplazando el supuesto A2 de
 U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD,U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF
 ```
 
+## Locales
+
+**El default del tema pasó de inglés a español rioplatense por rename y traducción, no
+por borrado (plan 02-04).** `git mv locales/en.default.json → locales/es.default.json` y
+`git mv locales/en.default.schema.json → locales/es.default.schema.json`, luego traducción
+en su lugar. La regla permanente del proyecto es que el tema se reduce por no referenciar
+y nunca por borrar; un rename de locale no es un borrado de superficie de render y git
+mantiene la historia del archivo pegada a su contenido (Pitfall 9). `git log --follow --
+locales/es.default.json` muestra más de un commit.
+
+**Español es el único locale default.** Shopify permite exactamente un archivo `*.default`.
+Un segundo locale (un `en.json` mínimo) impondría la regla `MatchingTranslations` de Theme
+Check: cada clave tendría que mantenerse sincronizada entre los dos archivos para siempre —
+puro impuesto para una tienda de un solo mercado argentino.
+
+**Resultado verificado del supuesto A5 de `02-RESEARCH.md`.** El research anotó que la
+documentación de Shopify solo dice que se permite un archivo default y calla sobre si un
+archivo de inglés debe existir. El plan 02-04 corrió `shopify theme check --fail-level
+error` con el español como único default y **sin archivo de inglés**: salió con estado 0
+(las únicas dos advertencias son las de `AssetPreload` preexistentes del plan 02-03). El
+tema de un solo locale español está confirmado; no se agregó ningún stub `en.json`.
+
+**`scripts/check-tokens.mjs` es la copia ejecutada de esta regla; esta nota es su
+explicación humana.** El checker falla si el único `*.default.json` deja de ser
+`es.default.json`, si alguna de las ocho claves de copy aprobada desaparece, o si la
+leyenda legal se mueve a una clave con sufijo `_html`.
+
 ## Archivos eliminados
 
 **Ningún archivo de tema del starter se borró en la Fase 1.** La reducción se hace por NO
@@ -149,6 +179,7 @@ Archivos que agregamos sobre el starter, en la raíz del repo salvo indicación.
 | `assets/inter-400.woff2` | 02-03 | Inter Regular, subset WOFF2 latin + latin-ext, SIL OFL 1.1. Cuerpo de texto — peso del first paint, precargado (D-05, D-08). 50.696 bytes. |
 | `assets/inter-500.woff2` | 02-03 | Inter Medium, subset WOFF2 latin + latin-ext, SIL OFL 1.1. Etiquetas y botón (D-05). No precargado. 52.304 bytes. |
 | `assets/inter-600.woff2` | 02-03 | Inter SemiBold, subset WOFF2 latin + latin-ext, SIL OFL 1.1. Etiquetas y precio en contexto (D-05). No precargado. 52.452 bytes. |
+| `docs/BRAND-COPY.md` | 02-04 | Contrato de copy que heredan las fases de contenido: la voz voseo y su razón, los seis CTAs aprobados citados junto a su clave de locale, la promesa raíz, la leyenda legal obligatoria (dónde va y por qué es una clave plana), los cuatro claims prohibidos con su razón (D-16, LOCKED), los pares de color/tipografía que son decisiones de copy (D-02), y la regla de que un string de UI nunca vive en un template Liquid. |
 
 ## Componentes portados
 
@@ -169,4 +200,5 @@ commit y licencia verificada en el momento del porting.
 - El comportamiento nuevo va en archivos nuevos, no dentro de archivos del starter, siempre que sea posible.
 - Todo cambio en lo que el tema **renderiza** se registra en `ALLOWLIST.md`, y todo cambio en un archivo del **starter** se registra acá — ambos en la misma pull request que lo introduce.
 - El starter no se borra: la reducción es por no referenciar (ver `ALLOWLIST.md`).
+- Un string de cara al usuario nunca vive en un template Liquid: vive en `locales/es.default.json` y se referencia por clave (`{{ 'clave' | t }}`). La copy de marca además aparece en `docs/BRAND-COPY.md` en la misma pull request.
 - Después del primer guardado en el editor de temas, los settings almacenados en `config/settings_data.json` ganan sobre cualquier cambio posterior a un `default` del schema (Pitfall 3). Por eso un cambio de token post-lanzamiento es **o** una edición hecha en el editor de temas — que la integración de GitHub commitea de vuelta — **o** una edición revisada de `settings_data.json` en una pull request. Nunca las dos a la vez. El `default` del schema y el fallback Liquid `| default:` se mantienen correctos igual, para que una instalación fresca del tema se vea bien.
