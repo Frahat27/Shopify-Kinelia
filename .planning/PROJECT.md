@@ -22,6 +22,7 @@ Maximizar el CVR de la página de producto (sesiones de tráfico pago → órden
 ### Validated
 
 - ✓ Workflow de desarrollo: Shopify CLI + este repo Git vinculado a Shopify, preview local con `shopify theme dev`, topología STAGING/LIVE, lint gate (`Theme Check` required) y harness de performance cableado — **Phase 1**
+- ✓ Sistema de diseño por tokens (DESIGN-01…04): tokens de marca emitidos desde un solo lugar (`config/settings_schema.json` + `snippets/css-variables.liquid`), consumidos solo como `var(--*)` por `assets/base.css`; 5 WOFF2 subset self-hosted + 2 preloads sin host externo; `scripts/check-tokens.mjs` como contrato ejecutable en `npm run lint` y en el gate de CI; locale único es-AR voseo con namespace `kinelia.*` y `docs/BRAND-COPY.md` (claims prohibidos) — **Phase 2**. Verificado en storefront vivo. (La aplicación de la identidad visual completa a cada componente sigue en Active.)
 
 ### Active
 
@@ -81,6 +82,9 @@ Etapa 1 (diferido a etapas posteriores, registrado para no re-agregarlo):
 | Trabajo dividido en 3 etapas: tema → tracking/reviews/email → experimentos CVR | El usuario prioriza tener la base publicada y vendible antes de instrumentar | — Pending |
 | Repo `Shopify-Kinelia` **público** durante Etapa 1 | Los rulesets de branch protection de GitHub son gratis en repos públicos; el usuario declinó GitHub Pro y declinó sacar `.planning/`. `.planning/` (modelo CPA, roadmap, research) queda world-readable; los *valores* de secretos verificados ausentes de la historia git | ✓ Ratificada Phase 1 (2026-09-08) · revisar Phase 14 (`01-SECURITY.md` AR-01-03) |
 | `SHOP_CLIENT_SECRET` — rotación adelantada + gate de lanzamiento Phase 14 | Un fragmento de 11 chars del secreto se commiteó al repo público (`c4e4f06`); rotado en Phase 1. La tienda NO sale de password-protection ni toma tráfico hasta una rotación final + `gh secret set` por stdin en Phase 14 | ✓ Rotado Phase 1 · gate Phase 14 (`01-SECURITY.md` AR-01-05) |
+| Espaciado y radios como custom properties estáticas, no como settings del theme editor | Una escala de espaciado no es un control de merchant; solo color y tipografía son tuneables. El archivo de tokens (`css-variables.liquid`) sigue siendo la única fuente, así que DESIGN-02 se mantiene | ✓ Tomada Phase 2 (2026-09-08) · `OVERRIDES.md` Divergencia 2 + nota de desviación en ROADMAP |
+| Locale único es-AR (voseo) como default vía `git mv` de `en.*` → `es.*` | Un segundo archivo default o un cambio de idioma debe romper el build, no cambiar el comportamiento (D-14); la historia git se preserva con el rename | ✓ Tomada Phase 2 (2026-09-09) · `check-tokens.mjs` regla 8 lo hace cumplir |
+| `check-tokens.mjs` como copia ejecutable de DESIGN-02 | El contrato de tokens se cumple en cada `npm run lint` y en CI, no por revisión manual | ✓ En uso Phase 2 · huecos de enforcement conocidos (regex de color, parser de nesting de 1 nivel) registrados en `02-REVIEW.md` WR-01/WR-02 para endurecer antes de que el CSS use nesting |
 
 ### Tema base — tradeoffs evaluados
 
@@ -110,4 +114,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-08 after Phase 1*
+*Last updated: 2026-09-09 after Phase 2*

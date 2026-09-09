@@ -20,10 +20,10 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-08)
+See: .planning/PROJECT.md (updated 2026-09-09)
 
 **Core value:** Maximizar el CVR de la pagina de producto (trafico pago Meta -> ordenes), sostenido por la regla CPA efectivo < margen.
-**Current focus:** Phase 02 — Sistema de diseno por tokens
+**Current focus:** Phase 3 — Layout shell + seams de Etapa 2
 
 ## Current Position
 
@@ -32,7 +32,7 @@ Plan: Not started
 Status: Ready to plan
 Last activity: 2026-09-09 — Phase 02 complete, transitioned to Phase 3
 
-Progress: [█░░░░░░░░░░░░░] 1/14 phases ([█░░░░░░░░░] 8%)
+Progress: [██░░░░░░░░░░░░] 2/14 phases ([█░░░░░░░░░] 14%)
 
 ## Performance Metrics
 
@@ -97,8 +97,10 @@ None yet.
 - Phase 12 / Phase 14 dependen de datos provistos por el usuario: credenciales de MercadoPago produccion, razon social AR, DNS del dominio.
 - REQUIREMENTS.md tenia un conteo stale de "58" requisitos v1; el conteo real es 71 (14 categorias). Traceability y Coverage actualizados a 71.
 - ⚠️ [Phase 14 gate] `SHOP_CLIENT_SECRET` rotación final + `gh secret set` por stdin + revisión de visibilidad del repo ANTES de sacar la tienda de password-protection (`01-SECURITY.md` AR-01-05).
-- ⚠️ [Phase 01 → follow-up no bloqueante] Decidir T-01-30 (admin bypass en los rulesets: `bypass_actors: [admin, always]` + `required_approving_review_count: 0`) — aceptar o endurecer. Mover `scripts/check-allowlist.mjs` + `check-secrets.mjs` al job CI requerido (T-01-12). Borrar el tema `Development` stale de la tienda.
+- ⚠️ [Phase 01 → follow-up no bloqueante] Decidir T-01-30 (admin bypass en los rulesets: `bypass_actors: [admin, always]` + `required_approving_review_count: 0`) — aceptar o endurecer. Mover `scripts/check-allowlist.mjs` + `check-secrets.mjs` al job CI requerido (T-01-12).
 - Lighthouse: medición end-to-end de performance (harness local + CI) = Phase 13. El harness está cableado; la medición no corre limpio en Windows contra el proxy de `theme dev`.
+- ⚠️ [Phase 02 UAT → follow-up ops] Antes del próximo release, verificar que `Kinelia — LIVE` (#150931210446) y `Kinelia — STAGING` no cargan un `locales/en.default.*` huérfano del rename `en→es`. El dev theme efímero sí lo tenía (borrado, `theme dev` recreó uno limpio #150941597902). Chequeo: `shopify theme pull --live --only locales` o editor de código. Detalle en `02-UAT.md` Deferred Follow-Ups.
+- [Phase 02 code review — advisory, `02-REVIEW.md`] 6 warnings, ninguno bloqueante. Los relevantes: WR-05 `h4`–`h6` sin primitivas → faux-bold (viola D-05, invisible a `check-tokens`); WR-01/02 huecos en `check-tokens.mjs` (regex de color solo `#hex`, parser de la regla 6 de un solo nivel — endurecer antes de usar CSS nesting); WR-04 `<meta charset>`/`viewport` empujados KB adentro del `<head>` por el bloque de tokens + 5 `@font-face`; WR-06 CI hace `npm i -g @shopify/cli` sin pin y sin `setup-node`. Abordar en Fase 3 o una pasada de hardening.
 
 ### Assets recibidos
 
@@ -116,6 +118,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 ## Session Continuity
 
 Last session: 2026-09-09
-Stopped at: Phase 02 complete, ready to plan Phase 3
+Stopped at: Phase 02 verified and marked complete (UAT 19/19, code review advisory, verifier passed 4/4). Ready to plan Phase 3.
 Resume file: None
-Next step: /gsd-verify-work for Phase 02 (end-of-phase human-checks deferred from plans 02-01 through 02-04)
+Next step: /gsd-discuss-phase 3 (Layout shell + seams de Etapa 2) — no tiene CONTEXT.md todavía
