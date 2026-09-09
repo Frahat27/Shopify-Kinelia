@@ -14,7 +14,7 @@ Milestone: Etapa 1 -- Tema de Shopify publicado y vendible. Etapa 2 (instrumenta
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
 - [x] **Phase 1: Repo, tema base y workflow foundation** - Base del tema decidida y registrada, git + Shopify CLI, topologia STAGING/LIVE, Theme Check y harness de performance (completed 2026-09-08)
-- [ ] **Phase 2: Sistema de diseno por tokens** - Tokens de marca en un solo lugar, base.css derivado de tokens, locale es-AR scaffoldeado
+- [x] **Phase 2: Sistema de diseno por tokens** - Tokens de marca en un solo lugar, base.css derivado de tokens, locale es-AR scaffoldeado (completed 2026-09-09)
 - [ ] **Phase 3: Layout shell + seams de Etapa 2** - theme.liquid, header/footer minimos, bus de eventos DOM y hooks no-op de medicion diferida
 - [ ] **Phase 4: Modelo de datos de producto y contenido** - Producto heroe talle x color, metafields, metaobjects y un avatar completo sembrado
 - [ ] **Phase 5: Buy box core** - Galeria video-first, selector talle x color con guia de talles, precio + oferta, cart attributes de atribucion
@@ -98,7 +98,7 @@ Plans:
 - [x] 02-01-PLAN.md — Tracer: un token de marca de punta a punta + `check-tokens.mjs`, la copia ejecutable de DESIGN-02, en `npm run lint` y en el gate de CI (wave 1)
 - [x] 02-02-PLAN.md — Superficie completa de tokens: 10 colores + 2 familias como settings, escala de espaciado y radios estáticos, rename del vocabulario Skeleton (wave 2)
 - [x] 02-03-PLAN.md — Fuentes self-hosted (5 WOFF2 subset, 2 preloads) + `base.css` con todas las primitivas de diseño derivadas de tokens (wave 3)
-- [ ] 02-04-PLAN.md — Locale es-AR voseo como único default + gate de locale en el checker + `docs/BRAND-COPY.md` (claims prohibidos) (wave 4)
+- [x] 02-04-PLAN.md — Locale es-AR voseo como único default + gate de locale en el checker + `docs/BRAND-COPY.md` (claims prohibidos) (wave 4)
 
 **Nota de desviación (criterio 1)**: espaciado y radios se emiten como custom properties estáticas en `snippets/css-variables.liquid`, no como settings del editor — solo color y tipografía son tuneables por el merchant. El archivo de tokens sigue siendo la única fuente, así que DESIGN-02 se mantiene. Registrado en `OVERRIDES.md` (plan 02-02).
 **UI hint**: yes
@@ -303,7 +303,7 @@ Critical path: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 9 -> 10 -> 13 -> 14.
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Repo, tema base y workflow foundation | 7/7 | Complete    | 2026-09-08 |
-| 2. Sistema de diseno por tokens | 3/4 | In Progress|  |
+| 2. Sistema de diseno por tokens | 4/4 | Complete    | 2026-09-09 |
 | 3. Layout shell + seams de Etapa 2 | 0/TBD | Not started | - |
 | 4. Modelo de datos de producto y contenido | 0/TBD | Not started | - |
 | 5. Buy box core | 0/TBD | Not started | - |
