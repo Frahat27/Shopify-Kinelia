@@ -48,6 +48,67 @@ Cuatro decisiones donde la Fase 2 se apartó del starter o de la letra del ROADM
 
 4. **La edición del head de `layout/theme.liquid` como pre-empt acotado de la Fase 3.** Quitar el bloque de fuentes del starter en la Fase 2 no era opcional: dejarlo habría emitido un `<link rel="preload" href="">` vacío en cada página en el momento en que el setting del schema (`type_primary_font`) desapareció (Pitfall 1). El shell de header/footer de la Fase 3 no toca este bloque; por eso se registra acá como un pre-empt acotado y no como scope creep.
 
+## Divergencias de la Fase 2 (plan 02-03)
+
+### Self-host de las dos familias de marca, y la razón honesta
+
+Las dos familias (DM Sans, Inter) se sirven como archivos subset WOFF2 desde `assets/`,
+vía `@font-face` con `asset_url` en `snippets/css-variables.liquid`, en vez de enlazar a
+Google Fonts o a la Shopify Font Library. Motivos, por orden:
+
+1. **Presupuesto LCP.** Un host de fuentes de terceros agrega dos conexiones en el critical
+   path; el elemento LCP es la imagen del hero (`docs/PERF-BUDGET.md`) y cada conexión y
+   cada preload le compiten ancho de banda.
+2. **Privacidad del visitante.** Un `<link>` a `fonts.gstatic.com` filtra la IP de cada
+   visitante a Google en cada carga de página.
+3. **Control de subsetting.** El subset latin + latin-ext se elige acá, no lo decide un
+   tercero.
+
+**Corrección de la premisa de D-08 / 02-CONTEXT.** D-08 enmarcó el self-host como lo que
+"mantiene `RemoteAsset` en verde". Eso es inexacto: la regla `RemoteAsset` de Theme Check
+es de severidad **warning, no error**, así que `shopify theme check --fail-level error` (lo
+que corre `npm run lint`) nunca habría fallado por un `<link>` a Google Fonts. El camino de
+la Shopify Font Library también está en verde (su CDN es first-party de Shopify). El gate
+duro real contra un host de terceros es la regla 7 de `scripts/check-tokens.mjs` (agregada
+en el plan 02-01), que falla ante cualquier string `fonts.googleapis.com` /
+`fonts.gstatic.com` / `use.typekit` en `layout/`, `snippets/` o `assets/`.
+
+**Instancias estáticas, no variable font.** Dos pesos de la familia de titulares, tres de
+la de cuerpo. A tres pesos o menos por familia, los subset estáticos suman menos bytes que
+un archivo variable.
+
+**`font-display: swap`, no `optional`.** Para este público (45-65, celular a contraluz),
+ver el texto de inmediato en la fuente de fallback y luego en la de marca es mejor que no
+verlo. Precargar los dos pesos del first paint achica la ventana de swap a casi cero.
+
+**La edición del head de `layout/theme.liquid` (segunda mitad).** El plan 02-02 quitó el
+bloque de fuentes del starter y dejó un comentario. Este plan agrega en ese lugar
+exactamente **dos** `<link rel="preload" as="font">` — el titular medium y el cuerpo
+regular — resueltos por `asset_url` y marcados `crossorigin`. Dos, no cinco: cada preload
+compite con la imagen del hero.
+
+### Procedencia de los binarios de fuente
+
+Esta tabla es el control de seguridad de estos binarios (T-02-12): un archivo intercambiado
+aparece como un cambio de tamaño en un documento revisado, no solo como un diff binario
+opaco. WOFF2 es un formato de datos que no ejecuta código.
+
+| Familia | Proyecto upstream | Licencia | Subset | Pesos | Generador del subset | Bytes medidos en disco |
+|---------|-------------------|----------|--------|-------|----------------------|------------------------|
+| DM Sans | `github.com/googlefonts/dm-fonts` (vía google-webfonts-helper, que reempaqueta los archivos subset de Google Fonts) | SIL Open Font License 1.1 | latin + latin-ext (combinado en un archivo por peso) | 400, 500 | google-webfonts-helper (`gwfh.mranftl.com`), storeID `latin_latin-ext`, formato woff2 | `dm-sans-400.woff2` 17.904 · `dm-sans-500.woff2` 18.240 |
+| Inter | `github.com/rsms/inter` (vía google-webfonts-helper) | SIL Open Font License 1.1 | latin + latin-ext (combinado) | 400, 500, 600 | google-webfonts-helper, storeID `latin_latin-ext`, formato woff2 | `inter-400.woff2` 50.696 · `inter-500.woff2` 52.304 · `inter-600.woff2` 52.452 |
+
+**Total de los cinco archivos: 191.596 bytes (≈187,1 KB).** El mismo total está registrado
+en `docs/PERF-BUDGET.md` como segundo testigo, reemplazando el supuesto A2 de
+`02-RESEARCH.md` (que estimaba ≈120-175 KB sin medir).
+
+`unicode-range` usado, verbatim del generador (combinado latin + latin-ext de gwfh; ver
+`02-RESEARCH.md` §"Pattern 2" línea 264), idéntico para las cinco caras:
+
+```
+U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD,U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF
+```
+
 ## Archivos eliminados
 
 **Ningún archivo de tema del starter se borró en la Fase 1.** La reducción se hace por NO
@@ -83,6 +144,11 @@ Archivos que agregamos sobre el starter, en la raíz del repo salvo indicación.
 | `docs/SHOPIFY-SETUP.md` | 01-06 | Registro del setup externo: dominio de la dev store (`kinelia.myshopify.com`), URL del repo privado y sus ramas de topología, tabla de aplicaciones (Shopify GitHub app — pendiente 01-07; app de Dev Dashboard "Kinelia Lighthouse CI"), tabla de nombres de secrets de Actions (`SHOP_STORE` / `SHOP_CLIENT_ID` / `SHOP_CLIENT_SECRET` / `SHOP_PASSWORD`) y la lista de pendientes de 01-07. Solo nombres y ubicaciones, ningún valor. |
 | `assets/base.css` | 02-01 | Hoja de primitivas de diseño derivadas de tokens. Se crea acá con la regla tracer (`a { color: var(--color-primary) }`) y la completa el plan 02-03. Solo `var(--*)`: sin hex ni nombres de familia tipográfica; no re-declara el reset que posee `critical.css`. Fila en `ALLOWLIST.md`. |
 | `scripts/check-tokens.mjs` | 02-01 | Copia ejecutable de DESIGN-02: 9 reglas (deriva de color literal / de familia de marca, integridad de referencia al schema + guarda de inyección, guarda de fallback `| default:`, custom property indefinido, declaraciones prohibidas D-07/D-11, host de fuentes de terceros, sanidad estructural del locale, backstop de scan vacío). Node stdlib, mismo estilo que `check-allowlist.mjs`. Exporta `ALLOWED_FILES` y `EXEMPT_FILES`. En `npm run lint` y en el job CI requerido. |
+| `assets/dm-sans-400.woff2` | 02-03 | DM Sans Regular, subset WOFF2 latin + latin-ext, SIL OFL 1.1. Familia de titulares (D-05). 17.904 bytes medidos en disco. Procedencia en la tabla de abajo. |
+| `assets/dm-sans-500.woff2` | 02-03 | DM Sans Medium, subset WOFF2 latin + latin-ext, SIL OFL 1.1. Peso de titular del first paint — precargado (D-05, D-08). 18.240 bytes. |
+| `assets/inter-400.woff2` | 02-03 | Inter Regular, subset WOFF2 latin + latin-ext, SIL OFL 1.1. Cuerpo de texto — peso del first paint, precargado (D-05, D-08). 50.696 bytes. |
+| `assets/inter-500.woff2` | 02-03 | Inter Medium, subset WOFF2 latin + latin-ext, SIL OFL 1.1. Etiquetas y botón (D-05). No precargado. 52.304 bytes. |
+| `assets/inter-600.woff2` | 02-03 | Inter SemiBold, subset WOFF2 latin + latin-ext, SIL OFL 1.1. Etiquetas y precio en contexto (D-05). No precargado. 52.452 bytes. |
 
 ## Componentes portados
 

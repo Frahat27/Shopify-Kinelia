@@ -39,6 +39,7 @@ Lighthouse en CI y decide si vale asentar las métricas duras ahí.**
 | `cumulative-layout-shift`        | ≤ 0.1             | error     | **solo local** | Constraint de `CLAUDE.md` + Core Web Vitals | No. Número fijo.                        |
 | `total-blocking-time`            | ≤ 200 ms          | warn      | **solo local** | Proxy de "presupuesto de JS ajustado"     | Se endurece junto con el peso de script en Fase 13. |
 | `resource-summary:script:size`   | ≤ 150000 bytes    | warn      | **solo local** | **SUPUESTO / ASSUMPTION** (ver abajo)     | Se confirma con el desarrollador; pasa a número duro en Fase 13. |
+| peso total de fuentes (`assets/*.woff2`) | 191.596 bytes medidos (arranque) | referencia | medido en disco (Fase 2, plan 02-03) | Cinco subset WOFF2: DM Sans 400/500 + Inter 400/500/600, latin + latin-ext | Baja si se recorta un peso; el número duro y la medición mobile throttled son de Fase 13. |
 
 ## Detalle por número
 
@@ -88,6 +89,34 @@ Por eso:
 `total-blocking-time` (≤ 200 ms, `warn`) acompaña a este número como segunda
 señal de que el presupuesto de JS se está desbordando; se endurece junto con él
 en Fase 13.
+
+### Peso de fuentes — 191.596 bytes MEDIDOS (reemplaza el supuesto A2)
+
+El tema self-hostea las dos familias de marca como subset WOFF2 en `assets/` (decisión
+D-08, registrada en `OVERRIDES.md` §"Divergencias de la Fase 2 (plan 02-03)"). El
+`02-RESEARCH.md` cargaba el supuesto A2: "≈120-175 KB para los cinco archivos", sin medir.
+Este plan mide los archivos directamente en disco y los registra acá:
+
+| Archivo | Peso | ¿Precargado? |
+|---------|------|--------------|
+| `assets/dm-sans-400.woff2` | 17.904 bytes | no |
+| `assets/dm-sans-500.woff2` | 18.240 bytes | **sí** (peso de titular del first paint) |
+| `assets/inter-400.woff2` | 50.696 bytes | **sí** (cuerpo del first paint) |
+| `assets/inter-500.woff2` | 52.304 bytes | no |
+| `assets/inter-600.woff2` | 52.452 bytes | no |
+| **Total** | **191.596 bytes (≈187,1 KB)** | 2 de 5 precargados |
+
+**Posición de presupuesto.** Estos bytes están en el critical path, al lado de la imagen
+del hero, que es el elemento LCP. Por eso **solo dos** de los cinco archivos llevan
+`<link rel=preload>` (el titular medium y el cuerpo regular): precargar los cinco cambiaría
+la métrica que todo el tema optimiza por un peso de fuente que aparece bajo el fold. Los
+otros tres pesos cargan on-demand cuando el CSS los referencia, con `font-display: swap`
+cubriendo la ventana.
+
+**La medición mobile throttled es de la Fase 13.** El harness local de Lighthouse no corre
+limpio en esta máquina Windows contra el proxy de `shopify theme dev` (`.planning/WINDOWS.md`
+entrada 7). Este plan mide los bytes de fuente desde el filesystem; la corrida mobile
+throttled con LCP/CLS reales es de la Fase 13.
 
 ## Objetivo de referencia del harness — leer antes de confiar en un check verde
 

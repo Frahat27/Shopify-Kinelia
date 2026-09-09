@@ -54,6 +54,11 @@ o un section-group.
 | `blocks/text.liquid` | Primitiva de theme-block | Bloque de texto editable. |
 | `assets/critical.css` | `stylesheet_tag` desde `layout/theme.liquid`, `layout/password.liquid`, `templates/gift_card.liquid` | CSS crítico inline-precargado. Único asset CSS de la Fase 1. |
 | `assets/base.css` | `stylesheet_tag` desde `layout/theme.liquid`, cargado después de `critical.css` | Primitivas de diseño derivadas de tokens (reset tipográfico, enlaces, botón y formularios) — Fase 2. Solo `var(--*)`: sin hex ni nombres de fuente literales; `scripts/check-tokens.mjs` lo hace cumplir. Sin preload para no competir con la imagen del hero (presupuesto LCP < 2,5 s). |
+| `assets/dm-sans-400.woff2` | `@font-face` en `snippets/css-variables.liquid` (`asset_url`) | DM Sans Regular, subset latin + latin-ext (acentos y ñ), SIL OFL 1.1. Familia de titulares (D-05). Self-hosted en vez del CDN de fuentes: quita el RTT a un tercero en el critical path y no filtra la IP del visitante (D-08). Peso: ver `docs/PERF-BUDGET.md`. |
+| `assets/dm-sans-500.woff2` | `@font-face` en `snippets/css-variables.liquid` (`asset_url`) + `<link rel=preload>` en `layout/theme.liquid` | DM Sans Medium, subset latin + latin-ext, SIL OFL 1.1. Peso de titular en el first paint — se precarga (uno de solo dos preloads; cada preload compite con la imagen del hero, el elemento LCP). D-05, D-08. |
+| `assets/inter-400.woff2` | `@font-face` en `snippets/css-variables.liquid` (`asset_url`) + `<link rel=preload>` en `layout/theme.liquid` | Inter Regular, subset latin + latin-ext, SIL OFL 1.1. Cuerpo de texto — peso del first paint, se precarga (el segundo de dos preloads). D-05, D-08. |
+| `assets/inter-500.woff2` | `@font-face` en `snippets/css-variables.liquid` (`asset_url`) | Inter Medium, subset latin + latin-ext, SIL OFL 1.1. Etiquetas y botón (D-05). No se precarga: aparece bajo el fold. D-08. |
+| `assets/inter-600.woff2` | `@font-face` en `snippets/css-variables.liquid` (`asset_url`) | Inter SemiBold, subset latin + latin-ext, SIL OFL 1.1. Solo etiquetas y precio en contexto (D-05). No se precarga. D-08. |
 | `assets/icon-account.svg` | `inline_asset_content` desde `sections/header.liquid` | Ícono de cuenta del header. |
 | `assets/icon-cart.svg` | `inline_asset_content` desde `sections/header.liquid` | Ícono de carrito del header. |
 
