@@ -34,9 +34,18 @@
  * sections/header.liquid ya los lleva y una escala de espaciado machine-enforced
  * seria puro ruido. Es una preocupacion de code review.
  *
- * El plan 02-04 extiende el check de locale: la sola default debera ser espanol
- * y las ocho claves de copy aprobado (leyenda legal + seis CTAs + promesa raiz)
- * deberan resolver a strings no vacios.
+ * El plan 02-04 extendio el check de locale (regla 8):
+ *   - el unico *.default.json debe ser el espanol (es.default.json) — asi un
+ *     segundo archivo default o un cambio de idioma rompe el build, no cambia
+ *     la tienda en silencio (D-14),
+ *   - las ocho claves de copy aprobado (leyenda legal + seis CTAs + promesa
+ *     raiz, en REQUIRED_STOREFRONT_KEYS) deben resolver a un string no vacio
+ *     dentro de es.default.json — un objeto intermedio faltante es tan falla
+ *     como una hoja faltante (D-15),
+ *   - la clave de la leyenda legal NO puede llevar el sufijo _html: una clave
+ *     con ese sufijo se renderiza sin escapar, y la leyenda es prosa que una
+ *     fase posterior nunca debe poder convertir en un punto de inyeccion
+ *     renombrando la clave (T-02-16).
  *
  * Node standard library únicamente. Uso: node scripts/check-tokens.mjs
  */
@@ -64,6 +73,28 @@ export const ALLOWED_FILES = new Set([
 // REFERENCIAR, nunca borrando, y nada del embudo de Kinelia la enlaza. Lleva dos
 // colores literales y una sombra: exenta por ruta exacta, no se limpia.
 export const EXEMPT_FILES = new Set(["sections/hello-world.liquid"]);
+
+// La copy de marca aprobada (D-15), en forma de ruta con puntos dentro de
+// locales/es.default.json. Cada fase posterior la referencia por clave en vez de
+// reescribirla; su explicacion humana esta en docs/BRAND-COPY.md. Si una de
+// estas ocho rutas no resuelve a un string no vacio, el build falla.
+export const REQUIRED_STOREFRONT_KEYS = [
+  "kinelia.cta.quiero_las_mias",
+  "kinelia.cta.ver_talles_precio",
+  "kinelia.cta.elegir_talle",
+  "kinelia.cta.comprar",
+  "kinelia.cta.comprar_ahora",
+  "kinelia.cta.pedir_whatsapp",
+  "kinelia.promesa_raiz",
+  "kinelia.legal_disclaimer",
+];
+
+// La clave de la leyenda legal, y su variante prohibida con sufijo de markup.
+export const LEGAL_LEGEND_KEY = "kinelia.legal_disclaimer";
+export const LEGAL_LEGEND_HTML_KEY = "kinelia.legal_disclaimer_html";
+
+// Prefijo de idioma que debe llevar el unico locale default del storefront (D-14).
+const DEFAULT_LOCALE_LANG = "es";
 
 const EMITTER = "snippets/css-variables.liquid";
 const SCHEMA = "config/settings_schema.json";
@@ -102,6 +133,14 @@ function rel(abs) {
 
 function read(relPath) {
   return readFileSync(join(ROOT, relPath), "utf8");
+}
+
+// Camina una ruta con puntos ("a.b.c") por un objeto. Un objeto intermedio
+// faltante devuelve undefined, igual que una hoja faltante.
+function getPath(obj, dotted) {
+  return dotted.split(".").reduce((acc, key) => {
+    return acc != null && typeof acc === "object" ? acc[key] : undefined;
+  }, obj);
 }
 
 // Quita comentarios Liquid ({% comment %}, {% # %}) y CSS (/* */) antes de
@@ -346,6 +385,48 @@ function main() {
         JSON.parse(raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw);
       } catch (error) {
         violations.push(`locales/${target}: no parsea como JSON estricto (${error.message})`);
+      }
+    }
+  }
+
+  // (8b) El unico locale default del storefront debe ser el espanol (D-14). Un
+  // segundo archivo default o un cambio de idioma rompe el build en vez de
+  // cambiar la tienda en silencio.
+  if (defaults.length === 1) {
+    const only = defaults[0];
+    const lang = only.replace(/\.default\.json$/, "");
+    if (lang !== DEFAULT_LOCALE_LANG) {
+      violations.push(
+        `locales/${only}: el unico locale default del storefront debe ser "${DEFAULT_LOCALE_LANG}.default.json" (espanol), no "${lang}" (D-14)`
+      );
+    }
+  }
+
+  // (8c) La copy de marca aprobada debe resolver a strings no vacios dentro de
+  // es.default.json, y la leyenda legal no puede llevar el sufijo _html (D-15,
+  // T-02-16). Un objeto intermedio faltante es tan falla como una hoja faltante.
+  const esStorefront = join(localesDir, `${DEFAULT_LOCALE_LANG}.default.json`);
+  if (existsSync(esStorefront)) {
+    let esDoc = null;
+    try {
+      const raw = readFileSync(esStorefront, "utf8");
+      esDoc = JSON.parse(raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw);
+    } catch {
+      // el error de parseo estricto ya se reporto en el bucle de arriba
+    }
+    if (esDoc) {
+      for (const keyPath of REQUIRED_STOREFRONT_KEYS) {
+        const value = getPath(esDoc, keyPath);
+        if (typeof value !== "string" || value.trim() === "") {
+          violations.push(
+            `locales/${DEFAULT_LOCALE_LANG}.default.json: la clave de copy aprobada "${keyPath}" no resuelve a un string no vacio (D-15)`
+          );
+        }
+      }
+      if (getPath(esDoc, LEGAL_LEGEND_HTML_KEY) !== undefined) {
+        violations.push(
+          `locales/${DEFAULT_LOCALE_LANG}.default.json: "${LEGAL_LEGEND_HTML_KEY}" lleva el sufijo _html — la leyenda legal es prosa plana y se auto-escapa; usa "${LEGAL_LEGEND_KEY}" (T-02-16)`
+        );
       }
     }
   }
