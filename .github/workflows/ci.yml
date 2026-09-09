@@ -47,6 +47,14 @@ jobs:
       # "Theme Check" job — the required status check on main/staging — red on
       # an error-level offence. Same command as the local `npm run lint`.
       - name: Theme Check (gate)
+        # KINELIA (plan 02-01): closes the Phase-1 residual T-01-12. check-allowlist.mjs
+        # and check-secrets.mjs ran only in the local `npm run lint`, never in the
+        # required CI job — a laptop-only check eventually stops running. All three
+        # Node checkers (tokens, allowlist, secrets) now run in this same gate step,
+        # right after the theme linter. Node is preinstalled on ubuntu-latest.
         run: |
           npm install -g @shopify/cli
           shopify theme check --fail-level error
+          node scripts/check-tokens.mjs
+          node scripts/check-allowlist.mjs
+          node scripts/check-secrets.mjs

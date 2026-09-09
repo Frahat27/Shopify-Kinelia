@@ -1,1 +1,11 @@
 *.json linguist-language=jsonc
+
+# KINELIA (plan 02-01): el JSON de locale y de config queda pineado a fin de linea
+# LF y sin BOM. Un editor de Windows que introduzca CRLF o un byte-order mark (U+FEFF)
+# rompe el parseo JSON estricto de scripts/check-tokens.mjs y puede hacer que el parser
+# de schema de Shopify rechace el archivo. El scaffold del plan 01-01 normalizo los
+# finales de linea a CRLF; estas lineas recortan la excepcion para ese JSON. Los
+# binarios de fuente se marcan binary para que git nunca les toque los finales de linea.
+locales/*.json text eol=lf
+config/*.json  text eol=lf
+assets/*.woff2 binary
