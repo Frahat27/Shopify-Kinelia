@@ -1,30 +1,70 @@
 {% style %}
   {% comment %}
-    KINELIA (plan 02-01): emisor de tokens. Este snippet y config/settings_schema.json
-    son los UNICOS dos lugares del tema donde puede vivir un valor de color literal (D-17).
-    Todo CSS de componente referencia var(--*); scripts/check-tokens.mjs lo hace cumplir.
-    Extendido acá con el primer token de marca (--color-primary) y su fallback Liquid.
-    Registrado en OVERRIDES.md.
+    KINELIA (plan 02-02): emisor unico del vocabulario de tokens de Kinelia.
+    Este snippet y config/settings_schema.json son los UNICOS dos lugares del tema
+    donde puede vivir un valor de color literal (D-17), y aca siempre como fallback
+    Liquid `| default:`, nunca como declaracion hard-coded. Todo CSS de componente
+    referencia var(--*); scripts/check-tokens.mjs lo hace cumplir.
+
+    02-02 reemplazo el font_picker del starter por dos select de familia (D-18) y
+    quito el plumbing de Shopify Font Library. Las @font-face self-hosted y sus
+    preloads llegan en el plan 02-03; entre este commit y 02-03 el tema renderiza
+    en la familia de sistema de fallback (mejor que un preload roto). Registrado
+    en OVERRIDES.md.
+
+    Reglas de marca que gobiernan este archivo:
+    - D-01: --color-accent es de USO RESTRINGIDO. Su unico uso sancionado en toda la
+      tienda es el precio. Nunca un fondo, un boton, un titular, un icono ni un borde.
+    - D-03: el fondo es crema. NO hay un token de blanco puro, a proposito.
+    - D-04: la paleta de apoyo (edu / community) es para el contenido educativo de las
+      Fases 7-8. Un solo color de apoyo por pieza. Las primitivas de base.css no la usan.
+    - D-11: NO hay token de elevacion. El sistema es plano; una sombra que traiga un
+      reset se anula, no se tematiza.
   {% endcomment %}
-  {% # Loads all font variantions with display: swap %}
-  {{ settings.type_primary_font | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
-
   :root {
-    --font-primary--family: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
-    --font-primary--style: {{ settings.type_primary_font.style }};
-    --font-primary--weight: {{ settings.type_primary_font.weight }};
-    --page-width: {{ settings.max_page_width }};
-    --page-margin: {{ settings.min_page_margin }}px;
-    --color-background: {{ settings.background_color | default: '#FFFFFF' }};
-    --color-foreground: {{ settings.foreground_color | default: '#333333' }};
-    --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+    {% # Tipografia (D-05). settings.font_* es un select: una opcion hoy, lugar para mas. Familias self-hosted en 02-03. %}
+    --font-heading: {{ settings.font_heading | default: 'DM Sans' }}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-body: {{ settings.font_body | default: 'Inter' }}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
 
-    {% # D-17 / Pitfall 4: cada token de color interpola un setting con fallback Liquid `default:`.
-       Un color picker vaciado en el editor devuelve "" y produce una declaracion invalida que
-       tira el token en silencio; el fallback lo evita. 02-02 suma las otras nueve familias. %}
+    {% # Colores de marca — tuneables desde el theme editor. `| default:` protege un color picker vaciado, que devuelve "" y tiraria el token en silencio (Pitfall 4). %}
     --color-primary: {{ settings.color_primary | default: '#0F6E56' }};
+    --color-primary-soft: {{ settings.color_primary_soft | default: '#9FE1CB' }};
+    {% # D-01: --color-accent es de uso restringido — su unico uso sancionado es el precio. %}
+    --color-accent: {{ settings.color_accent | default: '#D85A30' }};
+    {% # D-03: crema, nunca blanco puro. %}
+    --color-bg: {{ settings.color_bg | default: '#F1EFE8' }};
+    --color-text: {{ settings.color_text | default: '#2C2C2A' }};
+    --color-text-muted: {{ settings.color_text_muted | default: '#5F5E5A' }};
+    {% # D-13: borde plano de 1px para formularios, derivado del texto secundario. %}
+    --color-border: {{ settings.color_text_muted | default: '#5F5E5A' }};
+    {% # Paleta de apoyo (D-04) — presente para las Fases 7-8; base.css no la toca. %}
+    --color-edu: {{ settings.color_edu | default: '#24566E' }};
+    --color-edu-soft: {{ settings.color_edu_soft | default: '#CBDDE6' }};
+    --color-community: {{ settings.color_community | default: '#54487A' }};
+    --color-community-soft: {{ settings.color_community_soft | default: '#DDD7E8' }};
+
+    {% # Escala de espaciado base-4 (D-09). Estatica: una escala de espaciado no es un control de merchant. Vive en este unico archivo, asi DESIGN-02 se cumple igual. %}
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+    --space-8: 64px;
+
+    {% # Radio (D-10). 2px de tope; 0 explicito para el caso badge. Sin token de sombra ni de degradado (D-11). %}
+    --radius: {{ settings.input_corner_radius | default: 2 }}px;
+    --radius-none: 0;
+
+    {% # Grosor de trazo de los iconos del starter — Skeleton nunca lo definio. %}
+    --icon-stroke-width: 1.5px;
+
+    {% # Geometria de pagina — la usan las secciones del starter. %}
+    --page-width: {{ settings.max_page_width | default: '90rem' }};
+    --page-margin: {{ settings.min_page_margin | default: 20 }}px;
   }
 {% endstyle %}
