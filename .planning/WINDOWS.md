@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 7
+open_count: 8
 waived_count: 0
 fixed_count: 1
-total_count: 8
-last_updated: 2026-09-09T13:21:02.288Z
+total_count: 9
+last_updated: 2026-09-09T00:00:00.000Z
 ---
 
 # Broken Windows Ledger
@@ -23,6 +23,7 @@ last_updated: 2026-09-09T13:21:02.288Z
 | 6 | 01 | deviation | docs/SHOPIFY-SETUP.md |  | OVERRIDE (developer-confirmed twice, full disclosure): repo Frahat27/Shopify-Kinelia made PUBLIC in 01-07. Contradicts 01-07 must_haves backstop 'repository is created private' + threat T-01-20. Reason: GitHub branch protection/rulesets require a paid plan on private repos; developer declined GitHub Pro and declined stripping .planning/ first. Exposes .planning/ (full business plan), docs/*. Secret VALUES stay encrypted (verified not in git history). OWNER RATIFICATION + Phase 14 revisit (private+Pro, or accept public) — tracked in 01-UAT.md. | open |  | 2026-09-08T20:07:06.886Z |  |
 | 7 | 01 | unrun-verify | scripts/perf.mjs |  | OPEN: local npm run perf does not complete a clean Lighthouse measurement against shopify theme dev — the theme dev proxy holds a connection open (network never idle, 45s page-load timeout) and chrome-launcher throws EPERM on Windows temp cleanup. Harness executes and collects artifacts. Fix in Phase 13 by targeting a deployed preview URL. | open |  | 2026-09-08T20:51:49.193Z |  |
 | 8 | 02 | lint-warning | layout/theme.liquid |  | 2 Theme Check AssetPreload warnings on the raw <link rel=preload> font tags — raw links chosen for explicit type/crossorigin/asset_url control and to satisfy the plan verify; npm run lint (--fail-level error) green, npm run lint:all shows the 2 warnings | open |  | 2026-09-09T13:21:02.288Z |  |
+| 9 | 02 | flaky-tool | package.json |  | OPEN (environmental, not a code defect): `shopify theme check` intermittently reports ~16 `[error]: ValidSchema` offences — all "Unable to parse content from https://raw.githubusercontent.com/Shopify/theme-liquid-docs/.../theme_block.json | default_setting_values.json". This is Theme Check failing to fetch/parse Shopify's REMOTE JSON schemas (GitHub raw rate-limit / transient); it hits starter section files the 02-04 locale work never touched. Exit code flips between 0 (bundled-schema fallback, `npm run lint` green) and 1 on retry with no source change. The 3 deterministic Node checkers (check-allowlist / check-secrets / check-tokens) pass every run. CI uses `theme-check-action` on GitHub runners with clean githubusercontent access — unaffected. Revisit in Phase 13 if it blocks local work; consider pinning schemas offline. | open |  | 2026-09-09T00:00:00.000Z |  |
 
 ````json
 [
@@ -120,6 +121,18 @@ last_updated: 2026-09-09T13:21:02.288Z
     "status": "open",
     "reason": "",
     "recorded_at": "2026-09-09T13:21:02.288Z",
+    "resolved_at": null
+  },
+  {
+    "id": 9,
+    "kind": "flaky-tool",
+    "phase": "02",
+    "file": "package.json",
+    "line": null,
+    "description": "OPEN (environmental, not a code defect): `shopify theme check` intermittently reports ~16 [error]: ValidSchema offences — all 'Unable to parse content from https://raw.githubusercontent.com/Shopify/theme-liquid-docs/.../theme_block.json | default_setting_values.json'. Theme Check failing to fetch/parse Shopify's REMOTE JSON schemas (GitHub raw rate-limit / transient); hits starter section files the 02-04 locale work never touched. Exit code flips between 0 (bundled-schema fallback, npm run lint green) and 1 on retry with no source change. The 3 deterministic Node checkers pass every run. CI uses theme-check-action on GitHub runners with clean githubusercontent access — unaffected. Revisit Phase 13 if it blocks local work; consider pinning schemas offline.",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-09T00:00:00.000Z",
     "resolved_at": null
   }
 ]
