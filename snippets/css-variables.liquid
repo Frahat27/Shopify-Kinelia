@@ -7,10 +7,9 @@
     referencia var(--*); scripts/check-tokens.mjs lo hace cumplir.
 
     02-02 reemplazo el font_picker del starter por dos select de familia (D-18) y
-    quito el plumbing de Shopify Font Library. Las @font-face self-hosted y sus
-    preloads llegan en el plan 02-03; entre este commit y 02-03 el tema renderiza
-    en la familia de sistema de fallback (mejor que un preload roto). Registrado
-    en OVERRIDES.md.
+    quito el plumbing de Shopify Font Library. 02-03 agrego las cinco caras
+    self-hosted (bloque de abajo) y los dos preloads del first paint en
+    layout/theme.liquid. Registrado en OVERRIDES.md.
 
     Reglas de marca que gobiernan este archivo:
     - D-01: --color-accent es de USO RESTRINGIDO. Su unico uso sancionado en toda la
@@ -21,6 +20,67 @@
     - D-11: NO hay token de elevacion. El sistema es plano; una sombra que traiga un
       reset se anula, no se tematiza.
   {% endcomment %}
+
+  {% comment %}
+    KINELIA (plan 02-03): las dos familias de marca se sirven self-hosted desde assets/
+    (D-08). Cinco caras subset WOFF2 (latin + latin-ext para los acentos y la ñ del
+    español), estrategia de display "swap", source resuelto por el filtro asset_url
+    (Shopify CDN, mismo origen).
+    Las declaraciones van ACA, dentro del mismo {% style %} inline en el <head>, para
+    que lleguen con cero requests extra y antes de que se parsee critical.css o base.css,
+    y para que las caras vivan al lado de los tokens que las nombran.
+
+    unicode-range: verbatim del generador (google-webfonts-helper, combinado
+    latin + latin-ext; 02-RESEARCH.md Pattern 2). NO se tipea a mano un rango de
+    codepoints — un rango mal tipeado tira un glifo a la fuente de fallback en silencio.
+
+    D-05: la familia de titulares (DM Sans) se usa en 400 y 500 nada mas — NUNCA en
+    bold (700) en un titular largo. El peso mas pesado del cuerpo (Inter 600) queda
+    reservado para etiquetas y precios en contexto, no para parrafos.
+  {% endcomment %}
+  {% assign kinelia_font_range = 'U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD,U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF' %}
+
+  @font-face {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url({{ 'dm-sans-400.woff2' | asset_url }}) format('woff2');
+    unicode-range: {{ kinelia_font_range }};
+  }
+  @font-face {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url({{ 'dm-sans-500.woff2' | asset_url }}) format('woff2');
+    unicode-range: {{ kinelia_font_range }};
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url({{ 'inter-400.woff2' | asset_url }}) format('woff2');
+    unicode-range: {{ kinelia_font_range }};
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url({{ 'inter-500.woff2' | asset_url }}) format('woff2');
+    unicode-range: {{ kinelia_font_range }};
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url({{ 'inter-600.woff2' | asset_url }}) format('woff2');
+    unicode-range: {{ kinelia_font_range }};
+  }
+
   :root {
     {% # Tipografia (D-05). settings.font_* es un select: una opcion hoy, lugar para mas. Familias self-hosted en 02-03. %}
     --font-heading: {{ settings.font_heading | default: 'DM Sans' }}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

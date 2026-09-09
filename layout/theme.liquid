@@ -8,9 +8,23 @@
       KINELIA (plan 02-02): se quito el bloque de fuentes del starter. Dependia del
       objeto font_picker del schema; al reemplazarlo por dos select de familia (D-18)
       ese objeto pasa a nil y el bloque emitia un preload vacio en cada pagina
-      (Pitfall 1). Las familias self-hosted y sus preloads llegan en el plan 02-03
-      — pre-empt acotado del trabajo de shell de la Fase 3. Registrado en OVERRIDES.md.
+      (Pitfall 1).
+
+      KINELIA (plan 02-03): en su lugar, exactamente DOS preloads self-hosted — el peso
+      de titular (DM Sans 500) y el de cuerpo (Inter 400), los dos pesos del first paint.
+      Reemplazan el preconnect al CDN de fuentes del starter y su preload derivado de la
+      Shopify Font Library. Dos, no cinco: cada preload compite con la imagen del hero por
+      ancho de banda, y el hero es el elemento LCP (docs/PERF-BUDGET.md). Los otros tres
+      pesos cargan on-demand con estrategia de display swap. Las cinco caras se declaran
+      en snippets/css-variables.liquid. Registrado en OVERRIDES.md.
+
+      Link crudo en vez del filtro preload_tag a proposito: necesitamos control explicito
+      de type + crossorigin + asset_url para el subset self-hosted, y la verificacion del
+      plan afirma la sintaxis del link. Theme Check marca AssetPreload como WARNING (no
+      error) — npm run lint (fail-level error) sigue verde; el trade-off esta aceptado.
     {% endcomment %}
+    <link rel="preload" as="font" type="font/woff2" href="{{ 'dm-sans-500.woff2' | asset_url }}" crossorigin>
+    <link rel="preload" as="font" type="font/woff2" href="{{ 'inter-400.woff2' | asset_url }}" crossorigin>
 
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
