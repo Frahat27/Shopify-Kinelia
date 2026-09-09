@@ -11,7 +11,7 @@
     {
       "number": "2",
       "name": "Sistema de diseno por tokens",
-      "status": "in_progress"
+      "status": "complete"
     },
     {
       "number": "3",
@@ -75,9 +75,9 @@
     }
   ],
   "next": {
-    "command": "/gsd-verify-work",
-    "label": "Verify Phase 02 (end-of-phase human-checks)",
-    "reason": "Phase 2 of 14 · 8% · execution complete, all 4 plans landed"
+    "command": "/gsd:progress --next",
+    "label": "Advance to the next step (plan phase 3)",
+    "reason": "Phase 3 of 14 — needs a plan"
   },
-  "updated_at": "2026-09-09T00:00:00.000Z"
+  "updated_at": "2026-09-09T15:26:54.210Z"
 }
