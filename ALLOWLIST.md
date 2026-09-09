@@ -109,6 +109,23 @@ Cuando una fase posterior suma un módulo JavaScript legítimo a `assets/`, actu
 regla anti-JS de `scripts/check-allowlist.mjs` en esa misma PR, con la fila de allowlist
 que lo justifica.
 
+## Idioma del tema
+
+El tema sirve **español rioplatense (voseo) como único idioma default** (D-14). El único
+archivo de locale default es `locales/es.default.json` (storefront) con su hermano
+`locales/es.default.schema.json` (etiquetas del editor de temas); no hay locale de
+inglés. Shopify permite exactamente un archivo `*.default`, y para una tienda de un solo
+mercado un segundo locale solo agregaría la obligación permanente de sincronizar cada
+clave entre los dos archivos (regla `MatchingTranslations` de Theme Check).
+
+**Todo texto de cara al usuario sale de un archivo de locale, nunca de una plantilla
+Liquid.** Un cambio de copy es una edición de `locales/es.default.json` referenciada por
+clave desde el template (`{{ 'clave' | t }}`). Nunca se escribe un string en español —ni
+en inglés— directo en un `.liquid`. La copy de marca aprobada (CTAs, promesa raíz,
+leyenda legal) vive bajo el namespace `kinelia` y está documentada en `docs/BRAND-COPY.md`.
+`scripts/check-tokens.mjs` falla si el default deja de ser español o si una de las claves
+de copy aprobada desaparece.
+
 ## Desviación registrada — Criterio de éxito 3 de la Fase 1
 
 **Criterio de éxito 3 del ROADMAP, textual:**

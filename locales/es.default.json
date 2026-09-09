@@ -1,52 +1,135 @@
 {
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Saltar al contenido",
+      "close": "Cerrar",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "loading": "Cargando",
+      "menu": "Menú",
+      "search": "Buscar"
+    },
+    "social": {
+      "share": "Compartir",
+      "whatsapp": "Escribinos por WhatsApp"
+    }
+  },
   "404": {
-    "title": "404",
-    "not_found": "Page not found.",
-    "back_to_shopping": "Back to shopping"
+    "title": "No encontramos esta página",
+    "not_found": "La página que buscás no existe o cambió de dirección.",
+    "back_to_shopping": "Volver a la tienda"
   },
   "blog": {
-    "article_comments": "Comments",
-    "article_metadata_html": "{{ date }} by {{ author }}",
-    "comment_form_body": "Comment",
+    "article_comments": "Comentarios",
+    "article_metadata_html": "{{ date }} por {{ author }}",
+    "comment_form_body": "Comentario",
     "comment_form_email": "Email",
-    "comment_form_name": "Name",
-    "comment_form_submit": "Post",
-    "comment_form_title": "Add a comment"
+    "comment_form_name": "Nombre",
+    "comment_form_submit": "Publicar",
+    "comment_form_title": "Dejá un comentario"
   },
   "cart": {
-    "checkout": "Checkout",
-    "title": "Cart",
-    "update": "Update",
-    "remove": "Remove"
+    "title": "Carrito",
+    "checkout": "Finalizar compra",
+    "update": "Actualizar",
+    "remove": "Quitar",
+    "empty": "Tu carrito está vacío",
+    "subtotal": "Subtotal",
+    "continue_shopping": "Seguí comprando",
+    "note": "Dejá una aclaración para tu pedido"
   },
   "customers": {
     "login": {
       "email": "Email",
-      "password": "Password",
-      "submit": "Sign in",
-      "title": "Login"
+      "password": "Contraseña",
+      "submit": "Iniciar sesión",
+      "title": "Ingresá a tu cuenta"
     }
   },
   "collections": {
-    "title": "Collections"
+    "title": "Colecciones"
   },
   "gift_card": {
-    "add_to_apple_wallet": "Add to Apple Wallet",
-    "card": "Gift card",
-    "expired": "This gift card has expired",
-    "expires_on": "Expires on {{ expires_on }}",
-    "use_at_checkout": "Use this gift card at checkout"
+    "add_to_apple_wallet": "Agregar a Apple Wallet",
+    "card": "Tarjeta de regalo",
+    "expired": "Esta tarjeta de regalo venció",
+    "expires_on": "Vence el {{ expires_on }}",
+    "use_at_checkout": "Usá esta tarjeta de regalo al finalizar la compra"
   },
   "password": {
-    "title": "This shop is private",
-    "password": "Password",
-    "enter": "Enter"
+    "title": "Esta tienda todavía no abrió",
+    "password": "Contraseña",
+    "enter": "Entrar"
   },
   "search": {
-    "title": "Search",
-    "placeholder": "Search articles, pages, or products",
-    "submit": "Search",
-    "no_results_html": "No results found for {{ terms }}",
-    "results_for_html": "{{ count }} results found for {{ terms }}"
+    "title": "Buscar",
+    "placeholder": "Buscá productos o páginas",
+    "submit": "Buscar",
+    "no_results_html": "No hay resultados para {{ terms }}",
+    "results_for_html": "{{ count }} resultados para {{ terms }}"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Sumar al carrito",
+      "sold_out": "Sin stock",
+      "unavailable": "No disponible",
+      "quantity": "Cantidad",
+      "size": "Talle",
+      "color": "Color",
+      "price": "Precio",
+      "on_sale": "Oferta",
+      "size_guide": "Ver guía de talles",
+      "from_price_html": "Desde {{ price }}"
+    }
+  },
+  "sections": {
+    "header": {
+      "cart": "Carrito",
+      "menu": "Menú",
+      "search": "Buscar",
+      "account": "Mi cuenta"
+    },
+    "footer": {
+      "payment_methods": "Formas de pago",
+      "newsletter_title": "Enterate de las novedades"
+    }
+  },
+  "templates": {
+    "404": {
+      "title": "No encontramos esta página",
+      "back": "Volver al inicio"
+    },
+    "contact": {
+      "form": {
+        "name": "Nombre",
+        "email": "Email",
+        "phone": "Teléfono",
+        "message": "Mensaje",
+        "send": "Enviar"
+      }
+    },
+    "search": {
+      "title": "Buscar",
+      "placeholder": "Buscá productos o páginas",
+      "submit": "Buscar",
+      "no_results": "No hay resultados para \"{{ terms }}\""
+    }
+  },
+  "newsletter": {
+    "label": "Email",
+    "submit": "Suscribirme",
+    "success": "Listo, ya estás suscripta"
+  },
+  "kinelia": {
+    "cta": {
+      "quiero_las_mias": "Quiero las mías",
+      "ver_talles_precio": "Ver talles y precio",
+      "elegir_talle": "Elegir mi talle",
+      "comprar": "Comprar",
+      "comprar_ahora": "Comprar ahora",
+      "pedir_whatsapp": "Pedir por WhatsApp"
+    },
+    "promesa_raiz": "Llegá a la noche con las piernas descansadas.",
+    "legal_disclaimer": "Producto de uso cotidiano para el confort de las piernas. No reemplaza el tratamiento ni el diagnóstico médico. Ante várices, trombosis, diabetes o embarazo, consultá a tu médico antes de usarlo."
   }
 }
