@@ -20,6 +20,7 @@
   </div>
 </footer>
 
+{% comment %} KINELIA (plan 02-02): el bloque de estilos consume el token de marca --color-text (rename del starter). {% endcomment %}
 {% stylesheet %}
   footer {
     display: flex;
@@ -28,7 +29,7 @@
   }
   footer a {
     text-decoration: none;
-    color: var(--color-foreground);
+    color: var(--color-text);
   }
   footer .footer__links,
   footer .footer__payment {

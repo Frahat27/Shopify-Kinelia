@@ -31,17 +31,17 @@ input,
 textarea,
 select {
   font: inherit;
-  border-radius: var(--style-border-radius-inputs);
+  border-radius: var(--radius);
 }
 
 select {
-  background-color: var(--color-background);
+  background-color: var(--color-bg);
   color: currentcolor;
 }
 
 dialog {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 p {
@@ -72,10 +72,16 @@ p:empty {
 }
 
 /** Theme styles below */
+
+/* KINELIA (plan 02-02): los tokens del starter se renombraron al esquema de marca
+   Kinelia (bg / text / font-body / radius) en todos los archivos que los consumen.
+   El sistema Kinelia separa por color y espacio, nunca por elevacion (D-11): no hay
+   sombras ni degradados; una sombra que introduzca un default del user agent se
+   anula explicitamente, no se tematiza. */
 body {
-  font-family: var(--font-primary--family);
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 /** Section layout utilities */

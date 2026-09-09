@@ -65,6 +65,20 @@ Alternativa rechazada: **git dueño del JSON, con `shopify theme pull` periódic
 editor.** Se descartó porque tiene mayor riesgo de drift (dos caminos de escritura que se
 pisan) sin ningún beneficio que lo compense.
 
+### Tokens de marca después del lanzamiento
+
+Los valores de los tokens de marca (color, tipografía) viven como `default` en
+`config/settings_schema.json` y como fallback Liquid `| default:` en
+`snippets/css-variables.liquid`. Pero **después del primer guardado en el editor de temas**,
+`config/settings_data.json` almacena todos los valores actuales y esos ganan sobre cualquier
+cambio posterior a un `default` del schema. Por eso un cambio de token post-lanzamiento es
+**o** una edición en el editor de temas de STAGING (que la integración de GitHub commitea de
+vuelta y llega a LIVE por el mismo camino de pull request), **o** una edición revisada de
+`config/settings_data.json` en una pull request — nunca las dos a la vez. Las divergencias de
+tokens de la Fase 2 (rename del starter, espaciado estático, `select` de familia, edición del
+head) están registradas en `OVERRIDES.md` §"Divergencias de la Fase 2"; este runbook no las
+repite para que no se desincronicen.
+
 ## Checklist de release
 
 Cada ítem es un chequeo con una condición de aprobación, no una sugerencia. No se mergea a
