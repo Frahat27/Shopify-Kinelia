@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 current_phase: 02
 current_phase_name: Sistema de diseno por tokens
 status: executing
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-09-09T13:02:28.809Z"
+stopped_at: Completed 02-03-PLAN.md
+last_updated: "2026-09-09T13:21:00.883Z"
 last_activity: 2026-09-08
 last_activity_desc: Phase 02 execution started
-state_head: 4ed4e36d7278087d208a4352cb63b657594264e5
+state_head: 670901ff066bc17a07103c64ff2ce499888dadff
 progress:
   total_phases: 14
   completed_phases: 1
   total_plans: 11
-  completed_plans: 9
+  completed_plans: 10
   percent: 7
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-09-08)
 ## Current Position
 
 Phase: 02 (Sistema de diseno por tokens) — EXECUTING
-Plan: 3 of 4
+Plan: 4 of 4
 Status: Ready to execute
 Last activity: 2026-09-08 — Phase 02 execution started
 
@@ -64,6 +64,7 @@ Progress: [█░░░░░░░░░░░░░] 1/14 phases ([█░░�
 | Phase 01 P06 | 3h | 3 tasks | 4 files |
 | Phase 02 P01 | ~50min | 3 tasks | 11 files |
 | Phase 02 P02 | 6min | 3 tasks | 9 files |
+| Phase 02 P03 | 25min | 3 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -82,6 +83,7 @@ Relevant open decisions for current work:
 - [Phase 01]: Repo público durante Etapa 1 (ratificado, revisar Phase 14). `SHOP_CLIENT_SECRET` rotado en Phase 1 tras filtrarse un fragmento a la historia pública; rotación final = gate de lanzamiento Phase 14 (`01-SECURITY.md` AR-01-03 / AR-01-05).
 - [Phase 02]: check-tokens.mjs CONSTRAINED_TYPES admits font_picker (plus color_background/radio/checkbox) beyond the plan's literal color/select/range — css-variables.liquid still references settings.type_primary_font (font_picker) until 02-02 removes it; all admitted types are value-constrained so cannot close a <style> element
 - [Phase 02]: 02-02: espaciado y radio se emiten como custom properties estáticas en css-variables.liquid, no como settings del editor (desviación registrada de ROADMAP SC#1); rename Skeleton->Kinelia sin alias, guardado por check-tokens rule 5
+- [Phase 02]: 02-03: self-hosted DM Sans 400/500 + Inter 400/500/600 subset WOFF2 (191,596 B, latin+latin-ext, OFL 1.1); @font-face in css-variables.liquid with verbatim gwfh unicode-range; exactly 2 preloads (dm-sans-500 + inter-400); base.css full primitive set, var(--*) only, accent token in exactly one rule (.price) — DESIGN-03 + DESIGN-01 typography side; D-05/D-06/D-07/D-08/D-11/D-12/D-13 implemented
 
 ### Pending Todos
 
@@ -110,6 +112,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-09T13:02:17.581Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-09-09T13:20:45.666Z
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None

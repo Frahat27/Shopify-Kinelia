@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 6
+open_count: 7
 waived_count: 0
 fixed_count: 1
-total_count: 7
-last_updated: 2026-09-08T20:51:49.193Z
+total_count: 8
+last_updated: 2026-09-09T13:21:02.288Z
 ---
 
 # Broken Windows Ledger
@@ -22,6 +22,7 @@ last_updated: 2026-09-08T20:51:49.193Z
 | 5 | 01 | deviation | docs/PERF-BUDGET.md |  | OPEN: CI enforces only categories:performance>=0.6 and categories:accessibility>=0.95 (the Lighthouse action ignores custom assertions). Hard LCP/CLS/JS-weight thresholds run in local npm run perf only. Phase 13 decides whether a custom CI workflow is worth building. | open |  | 2026-09-08T19:54:37.579Z |  |
 | 6 | 01 | deviation | docs/SHOPIFY-SETUP.md |  | OVERRIDE (developer-confirmed twice, full disclosure): repo Frahat27/Shopify-Kinelia made PUBLIC in 01-07. Contradicts 01-07 must_haves backstop 'repository is created private' + threat T-01-20. Reason: GitHub branch protection/rulesets require a paid plan on private repos; developer declined GitHub Pro and declined stripping .planning/ first. Exposes .planning/ (full business plan), docs/*. Secret VALUES stay encrypted (verified not in git history). OWNER RATIFICATION + Phase 14 revisit (private+Pro, or accept public) — tracked in 01-UAT.md. | open |  | 2026-09-08T20:07:06.886Z |  |
 | 7 | 01 | unrun-verify | scripts/perf.mjs |  | OPEN: local npm run perf does not complete a clean Lighthouse measurement against shopify theme dev — the theme dev proxy holds a connection open (network never idle, 45s page-load timeout) and chrome-launcher throws EPERM on Windows temp cleanup. Harness executes and collects artifacts. Fix in Phase 13 by targeting a deployed preview URL. | open |  | 2026-09-08T20:51:49.193Z |  |
+| 8 | 02 | lint-warning | layout/theme.liquid |  | 2 Theme Check AssetPreload warnings on the raw <link rel=preload> font tags — raw links chosen for explicit type/crossorigin/asset_url control and to satisfy the plan verify; npm run lint (--fail-level error) green, npm run lint:all shows the 2 warnings | open |  | 2026-09-09T13:21:02.288Z |  |
 
 ````json
 [
@@ -107,6 +108,18 @@ last_updated: 2026-09-08T20:51:49.193Z
     "status": "open",
     "reason": "",
     "recorded_at": "2026-09-08T20:51:49.193Z",
+    "resolved_at": null
+  },
+  {
+    "id": 8,
+    "kind": "lint-warning",
+    "phase": "02",
+    "file": "layout/theme.liquid",
+    "line": null,
+    "description": "2 Theme Check AssetPreload warnings on the raw <link rel=preload> font tags — raw links chosen for explicit type/crossorigin/asset_url control and to satisfy the plan verify; npm run lint (--fail-level error) green, npm run lint:all shows the 2 warnings",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-09T13:21:02.288Z",
     "resolved_at": null
   }
 ]
