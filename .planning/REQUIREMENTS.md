@@ -20,7 +20,7 @@ Etapa 1 — Tema de Shopify publicado y vendible. Cada requisito mapea a una fas
 ### Design System (DESIGN)
 
 - [ ] **DESIGN-01**: Los tokens de marca (color, tipografía, espaciado) de la guía de marca están en `settings_schema.json` y expuestos como custom properties CSS
-- [ ] **DESIGN-02**: Un cambio de marca se hace en un solo lugar (tokens), sin tocar CSS de componentes
+- [x] **DESIGN-02**: Un cambio de marca se hace en un solo lugar (tokens), sin tocar CSS de componentes
 - [ ] **DESIGN-03**: Existe `base.css` con reset, escala tipográfica, colores, espaciado, botones y primitivas de formulario
 - [ ] **DESIGN-04**: El locale es-AR (voseo) está scaffoldeado y todo el texto de UI sale de archivos de locale
 
@@ -193,7 +193,7 @@ Mapeado en ROADMAP.md el 2026-09-07. Cada requisito v1 mapea a exactamente una f
 | FOUND-06 | Phase 1 | Complete |
 | FOUND-07 | Phase 1 | Complete |
 | DESIGN-01 | Phase 2 | Pending |
-| DESIGN-02 | Phase 2 | Pending |
+| DESIGN-02 | Phase 2 | Complete |
 | DESIGN-03 | Phase 2 | Pending |
 | DESIGN-04 | Phase 2 | Pending |
 | SHELL-01 | Phase 3 | Pending |

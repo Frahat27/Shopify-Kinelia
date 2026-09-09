@@ -11,7 +11,7 @@
     {
       "number": "2",
       "name": "Sistema de diseno por tokens",
-      "status": "pending"
+      "status": "in_progress"
     },
     {
       "number": "3",
@@ -79,5 +79,5 @@
     "label": "Advance to the next step",
     "reason": "Phase 2 of 14 · 7% · executing"
   },
-  "updated_at": "2026-09-09T12:41:06.863Z"
+  "updated_at": "2026-09-09T13:02:13.243Z"
 }

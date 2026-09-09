@@ -3,16 +3,16 @@ gsd_state_version: 1.0
 current_phase: 02
 current_phase_name: Sistema de diseno por tokens
 status: executing
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-09-09T12:41:20.467Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-09-09T13:02:28.809Z"
 last_activity: 2026-09-08
 last_activity_desc: Phase 02 execution started
-state_head: 5173eaa978e62771891d6cd2a9c43aad9251a945
+state_head: 4ed4e36d7278087d208a4352cb63b657594264e5
 progress:
   total_phases: 14
   completed_phases: 1
   total_plans: 11
-  completed_plans: 8
+  completed_plans: 9
   percent: 7
 ---
 
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-09-08)
 ## Current Position
 
 Phase: 02 (Sistema de diseno por tokens) — EXECUTING
-Plan: 2 of 4
+Plan: 3 of 4
 Status: Ready to execute
 Last activity: 2026-09-08 — Phase 02 execution started
 
@@ -63,6 +63,7 @@ Progress: [█░░░░░░░░░░░░░] 1/14 phases ([█░░�
 | Phase 01 P05 | 12min | 2 tasks | 3 files |
 | Phase 01 P06 | 3h | 3 tasks | 4 files |
 | Phase 02 P01 | ~50min | 3 tasks | 11 files |
+| Phase 02 P02 | 6min | 3 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -80,6 +81,7 @@ Relevant open decisions for current work:
 - [Phase 01]: [Phase 01] Nombres exactos de tema para el plan 01-07: 'Kinelia — LIVE' (publicado, rama main) y 'Kinelia — STAGING' (no publicado, rama staging).
 - [Phase 01]: Repo público durante Etapa 1 (ratificado, revisar Phase 14). `SHOP_CLIENT_SECRET` rotado en Phase 1 tras filtrarse un fragmento a la historia pública; rotación final = gate de lanzamiento Phase 14 (`01-SECURITY.md` AR-01-03 / AR-01-05).
 - [Phase 02]: check-tokens.mjs CONSTRAINED_TYPES admits font_picker (plus color_background/radio/checkbox) beyond the plan's literal color/select/range — css-variables.liquid still references settings.type_primary_font (font_picker) until 02-02 removes it; all admitted types are value-constrained so cannot close a <style> element
+- [Phase 02]: 02-02: espaciado y radio se emiten como custom properties estáticas en css-variables.liquid, no como settings del editor (desviación registrada de ROADMAP SC#1); rename Skeleton->Kinelia sin alias, guardado por check-tokens rule 5
 
 ### Pending Todos
 
@@ -108,6 +110,6 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-09T12:41:11.111Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-09-09T13:02:17.581Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None
