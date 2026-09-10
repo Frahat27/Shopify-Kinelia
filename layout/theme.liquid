@@ -66,9 +66,21 @@
   </head>
 
   <body>
+    {%- comment -%}
+      KINELIA (plan 03-01): landmarks del shell del documento (SHELL-03, D-08). El skip
+      link es el primer elemento enfocable de la pagina y apunta al landmark principal,
+      con su etiqueta leida de la clave de locale de accesibilidad (nunca un string en la
+      plantilla). La live region viaja en cada pagina, vacia, y la escribe
+      Kinelia.a11y.announce. El landmark <main> envuelve el contenido de la ruta — que
+      hoy va suelto — y es el objetivo del skip link. El focus trap se difiere a sus
+      consumidores reales (Fases 5 y 6). Registrado en OVERRIDES.md.
+    {%- endcomment -%}
+    <a class="skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+    <div id="a11y-live-region" class="visually-hidden" role="status" aria-live="polite"></div>
+
     {% sections 'header-group' %}
 
-    {{ content_for_layout }}
+    <main id="MainContent">{{ content_for_layout }}</main>
 
     {% sections 'footer-group' %}
 

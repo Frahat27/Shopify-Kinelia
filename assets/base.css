@@ -136,6 +136,51 @@ label {
   font-size: 0.8125rem;
 }
 
+/* ---------------------------------------------------------------- utilities del shell (03-01) */
+
+/* Saca el elemento de la página visual pero lo deja en el árbol de accesibilidad:
+   la técnica de recorte de 1px, no un display/visibility (esos también lo sacan
+   del árbol de a11y). La usa la live region del shell y el skip link en reposo. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* El skip link: invisible hasta que toma foco, y ahí se vuelve un control visible
+   y legible arriba de todo. Consume solo tokens — fondo primario, texto crema (el
+   token de fondo), igual que .button; sin sombra ni degradado (sistema plano). */
+.skip-link {
+  position: absolute;
+  inset-inline-start: var(--space-2);
+  inset-block-start: var(--space-2);
+  z-index: 100;
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  border-radius: var(--radius);
+}
+
+.skip-link:not(:focus):not(:focus-visible) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ---------------------------------------------------------------- el precio (D-01) */
 
 /* La ÚNICA aparición del token de detalle en todo el set de primitivas. El terracota

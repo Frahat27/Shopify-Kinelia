@@ -60,6 +60,22 @@
     }
   }
 
+  // ---- accesibilidad: anunciar en la live region del shell (D-08, Pitfall 7) ----
+  // Busca la region de forma perezosa y tolera su ausencia. Limpia el texto,
+  // fuerza una lectura de layout y recien despues escribe el mensaje: una live
+  // region solo habla ante un cambio de contenido, asi que anunciar dos veces
+  // seguidas el mismo mensaje es mudo sin esta secuencia — y "agregado al carrito"
+  // dos veces seguidas es exactamente el caso que va a pegar la Fase 6.
+  var live = null;
+  function announce(message) {
+    if (!live) live = document.getElementById("a11y-live-region");
+    if (!live) return;
+    live.textContent = "";
+    void live.offsetWidth;
+    live.textContent = message;
+  }
+
   window.Kinelia = window.Kinelia || {};
   window.Kinelia.events = { emit: emit, on: on, off: off, NAMES: NAMES };
+  window.Kinelia.a11y = { announce: announce };
 })();
