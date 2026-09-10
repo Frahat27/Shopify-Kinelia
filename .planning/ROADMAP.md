@@ -115,12 +115,12 @@ Plans:
   3. Existe un bus de eventos DOM (`variant:changed`, `product:added`, `cart:updated`) listo para el sticky ATC y para consumidores de Etapa 2
   4. `ETAPA-2-SEAMS.md` documenta el contrato de cart attributes (`visitante_id`, `utm_*`, `view`) y de eventos para el trabajo de medicion diferido
 
-**Plans**: 0/4 plans executed (4 waves, secuenciales — todos los planes comparten `ALLOWLIST.md` y `OVERRIDES.md`, y los planes 1, 3 y 4 comparten `layout/theme.liquid` o `locales/*`)
+**Plans**: 1/4 plans executed (4 waves, secuenciales — todos los planes comparten `ALLOWLIST.md` y `OVERRIDES.md`, y los planes 1, 3 y 4 comparten `layout/theme.liquid` o `locales/*`)
 
 Plans:
 **Wave 1**
 
-- [ ] 03-01-PLAN.md — Tracer: el seam de Etapa 2 montado en el `<head>` + `assets/events.js` (primer JS del tema) probado de punta a punta + allowlist de JS en `check-allowlist.mjs` + landmarks del shell (wave 1, checkpoint de decisión: contrato de eventos y cart attributes)
+- [x] 03-01-PLAN.md — Tracer: el seam de Etapa 2 montado en el `<head>` + `assets/events.js` (primer JS del tema) probado de punta a punta + allowlist de JS en `check-allowlist.mjs` + landmarks del shell (wave 1, checkpoint de decisión: contrato de eventos y cart attributes)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -322,7 +322,7 @@ Critical path: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 9 -> 10 -> 13 -> 14.
 |-------|----------------|--------|-----------|
 | 1. Repo, tema base y workflow foundation | 7/7 | Complete    | 2026-09-08 |
 | 2. Sistema de diseno por tokens | 4/4 | Complete    | 2026-09-09 |
-| 3. Layout shell + seams de Etapa 2 | 0/4 | Planned      | - |
+| 3. Layout shell + seams de Etapa 2 | 1/4 | In Progress|  |
 | 4. Modelo de datos de producto y contenido | 0/TBD | Not started | - |
 | 5. Buy box core | 0/TBD | Not started | - |
 | 6. Bundle spike + selector + carrito + sticky ATC | 0/TBD | Not started | - |
