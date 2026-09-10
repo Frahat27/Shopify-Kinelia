@@ -3,11 +3,11 @@ gsd_state_version: 1.0
 current_phase: 03
 current_phase_name: Layout shell + seams de Etapa 2
 status: executing
-stopped_at: Completed 03-01-PLAN.md
-last_updated: "2026-09-10T21:15:08.294Z"
-last_activity: 2026-09-09
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-09-10T21:34:43.623Z"
+last_activity: 2026-09-10
 last_activity_desc: Phase 02 complete, transitioned to Phase 3
-state_head: 057024d556201b7515d451e41421bc92a5206d95
+state_head: ef629478e5f10bda8ce89769cf335c40a53f7b37
 progress:
   total_phases: 14
   completed_phases: 2
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-09-09)
 ## Current Position
 
 Phase: 03 (Layout shell + seams de Etapa 2) — EXECUTING
-Plan: 03-01 complete (1 of 4) — next: 03-02
+Plan: 4-01 complete (1 of 4) — next: 03-02
 Status: Ready to execute 03-02
 Last activity: 2026-09-10 — 03-01 ejecutado (seam de Etapa 2 + bus de eventos DOM + landmarks del shell)
 
@@ -69,6 +69,7 @@ Progress: [██░░░░░░░░░░░░] 2/14 phases ([█░░�
 | Phase 02 P03 | 25min | 3 tasks | 12 files |
 | Phase 02 P04 | 20min | 3 tasks | 8 files |
 | Phase 03 P01 | 12 min | 3 tasks | 9 files |
+| Phase 03 P02 | 15 min | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -90,6 +91,7 @@ Relevant open decisions for current work:
 - [Phase 02]: 02-04: theme default language = Argentine Spanish (voseo), sole locale — `en.default.*` renamed to `es.default.*` by git mv (history preserved), no English fallback (verified: `shopify theme check --fail-level error` exits 0 Spanish-only — closes research A5). Brand copy (6 CTAs + root promise + legal legend) lives once under the `kinelia` locale namespace; `docs/BRAND-COPY.md` is the inherited contract (voseo voice + D-16 LOCKED prohibited claims); `check-tokens.mjs` rule 8 fails if the language drifts, a brand key disappears, or the legend gains an `_html` suffix. No user-facing string ever lives in a Liquid template.
 - [Phase 02]: 02-03: self-hosted DM Sans 400/500 + Inter 400/500/600 subset WOFF2 (191,596 B, latin+latin-ext, OFL 1.1); @font-face in css-variables.liquid with verbatim gwfh unicode-range; exactly 2 preloads (dm-sans-500 + inter-400); base.css full primitive set, var(--*) only, accent token in exactly one rule (.price) — DESIGN-03 + DESIGN-01 typography side; D-05/D-06/D-07/D-08/D-11/D-12/D-13 implemented
 - [Phase 03]: 03-01: contrato del bus de eventos DOM LOCKED (checkpoint, usuario "confirmado", verbatim) — 5 nombres `variant:changed` / `product:added` / `cart:updated` / `cart:loading` / `cart:error` (convención `namespace:verbo-en-pasado`, dinero en centavos, sin PII en `detail`); namespace `window.Kinelia` con `.events` (emit/on/off/NAMES) y `.a11y` (announce); 7 cart attributes (`visitante_id` + 5 `utm_*` + `view`, `view` lo escribe el script de atribución hermano en Fase 10). `assets/events.js` = primer JS del tema (IIFE, wrapper fino sobre `CustomEvent`, sin registro propio). JS entra al tema por `JS_ASSET_ALLOWLIST` en `check-allowlist.mjs` (patrón que heredan Fases 5/6/11). `analytics-hooks.liquid` = seam no-op (100% comentario). `<head>` de `theme.liquid` + `password.liquid` reordenado: charset/compat/viewport arriba del bloque de tokens (Pitfall 1 / WR-04). Skip link + `<main id=MainContent>` + `<div id=a11y-live-region aria-live=polite>` en el shell; focus trap diferido a Fases 5/6.
+- [Phase 03]: 03-02: contrato de medición diferida escrito como ETAPA-2-SEAMS.md (spec propia del tema, transcrita del repo hermano y citándolo como origen — D-04). check-seams.mjs es su copia ejecutable: lee el array NAMES de events.js y falla si un nombre del bus, uno de los 8 tipos de /collect o uno de los 7 cart attributes falta en el doc en formato de código; backstop de scan vacío; piso de 3000 chars. En npm run lint (tras check-tokens) y en el gate CI requerido. Séptimo cart attribute (view): dueño = script de atribución hermano en Fase 10; elección de implementación (snippet del tema vs script hermano actualizado) abierta hasta Fase 10. Fase 3 no integra ninguna API externa (COVERAGE.md con evidencia).
 
 ### Pending Todos
 
@@ -121,7 +123,7 @@ Items acknowledged and deferred at milestone close, most recent first:
 
 ## Session Continuity
 
-Last session: 2026-09-10T21:15:07.600Z
-Stopped at: Completed 03-01-PLAN.md
+Last session: 2026-09-10T21:33:33.205Z
+Stopped at: Completed 03-02-PLAN.md
 Resume file: None
 Next step: /gsd-execute-phase 3 (siguiente plan: 03-02 — ETAPA-2-SEAMS.md + check-seams.mjs) + /gsd-verify-work 3 al cierre de la fase

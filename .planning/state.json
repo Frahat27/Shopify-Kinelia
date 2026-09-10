@@ -16,7 +16,7 @@
     {
       "number": "3",
       "name": "Layout shell + seams de Etapa 2",
-      "status": "pending"
+      "status": "in_progress"
     },
     {
       "number": "4",
@@ -79,5 +79,5 @@
     "label": "Advance to the next step",
     "reason": "Phase 3 of 14 · 14% · executing"
   },
-  "updated_at": "2026-09-10T20:36:22.309Z"
+  "updated_at": "2026-09-10T21:32:57.341Z"
 }

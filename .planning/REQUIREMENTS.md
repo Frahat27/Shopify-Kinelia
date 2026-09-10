@@ -28,8 +28,8 @@ Etapa 1 — Tema de Shopify publicado y vendible. Cada requisito mapea a una fas
 
 - [x] **SHELL-01**: `theme.liquid` incluye el shell del documento con `css-variables.liquid` (tokens) y `analytics-hooks.liquid` (no-op, seam de Etapa 2)
 - [ ] **SHELL-02**: Header mínimo y footer con links legales AR, afordancia de WhatsApp y bloque de newsletter deshabilitado
-- [ ] **SHELL-03**: Existe un bus de eventos DOM (`variant:changed`, `product:added`, `cart:updated`) que consumen el sticky ATC y, luego, Etapa 2
-- [ ] **SHELL-04**: `ETAPA-2-SEAMS.md` documenta el contrato de cart attributes y eventos para el trabajo de medición diferido
+- [x] **SHELL-03**: Existe un bus de eventos DOM (`variant:changed`, `product:added`, `cart:updated`) que consumen el sticky ATC y, luego, Etapa 2
+- [x] **SHELL-04**: `ETAPA-2-SEAMS.md` documenta el contrato de cart attributes y eventos para el trabajo de medición diferido
 
 ### Data Model (DATA)
 
@@ -198,8 +198,8 @@ Mapeado en ROADMAP.md el 2026-09-07. Cada requisito v1 mapea a exactamente una f
 | DESIGN-04 | Phase 2 | Complete |
 | SHELL-01 | Phase 3 | Complete |
 | SHELL-02 | Phase 3 | Pending |
-| SHELL-03 | Phase 3 | Pending |
-| SHELL-04 | Phase 3 | Pending |
+| SHELL-03 | Phase 3 | Complete |
+| SHELL-04 | Phase 3 | Complete |
 | DATA-01 | Phase 4 | Pending |
 | DATA-02 | Phase 4 | Pending |
 | DATA-03 | Phase 4 | Pending |
