@@ -118,10 +118,20 @@ Plans:
 **Plans**: 0/4 plans executed (4 waves, secuenciales — todos los planes comparten `ALLOWLIST.md` y `OVERRIDES.md`, y los planes 1, 3 y 4 comparten `layout/theme.liquid` o `locales/*`)
 
 Plans:
+**Wave 1**
 
 - [ ] 03-01-PLAN.md — Tracer: el seam de Etapa 2 montado en el `<head>` + `assets/events.js` (primer JS del tema) probado de punta a punta + allowlist de JS en `check-allowlist.mjs` + landmarks del shell (wave 1, checkpoint de decisión: contrato de eventos y cart attributes)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 03-02-PLAN.md — `ETAPA-2-SEAMS.md` (contrato de medición diferida) + `scripts/check-seams.mjs`, su copia ejecutable, en `npm run lint` y en el gate de CI + declaración de cobertura de API (wave 2)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 03-03-PLAN.md — Marcas de la marca en `assets/` + favicon, `sections/announcement-bar.liquid`, tokens de altura y apilado del shell, header mínimo sticky en mobile (wave 3)
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
 - [ ] 03-04-PLAN.md — Footer AR (linklist legal, WhatsApp, newsletter apagado, iconos de pago), FAB de WhatsApp que cede ante la sticky ATC de Fase 6, y `docs/RUNBOOK-STAGING.md` (wave 4)
 
 **UI hint**: yes
