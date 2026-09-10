@@ -1,0 +1,35 @@
+{%- comment -%}
+  ============================================================================
+  KINELIA · analytics-hooks.liquid · SEAM DE ETAPA 2 (SHELL-01)
+  ----------------------------------------------------------------------------
+  NO-OP EN ETAPA 1. Este snippet no renderiza nada visible ni ejecutable hoy.
+  Cero bytes al cliente. Se monta en layout/theme.liquid dentro del <head>,
+  despues de meta-tags y antes de content_for_header (D-03).
+
+  En ETAPA 2, aca se enchufa la medicion diferida — sin refactor del <head>:
+    · Pixel de Meta + Conversions API (via Custom Pixels / Web Pixels API, TRACK-01)
+    · Propiedad de analitica web (Custom Pixels, TRACK-02)
+    · Script de atribucion de primera parte kinelia-atribucion.js (repo hermano
+      ../../Kinelia/web/, ATTR-01) — cookie de primera parte kinelia_attr,
+      first-touch de UTMs, sync de cart attributes via /cart/update.js
+      (read-modify-write, sin pisar claves ajenas), cola de eventos del funnel
+      a /collect.
+
+  El contrato completo (los siete cart attributes, los ocho eventos del funnel,
+  la forma del detail de los cinco eventos del bus DOM, el hook
+  data-kinelia="oferta" del bloque de precio) esta en ETAPA-2-SEAMS.md (SHELL-04,
+  lo escribe el plan 03-02).
+
+  El bus de eventos DOM (assets/events.js, window.Kinelia.events) es la UNICA
+  API de eventos interna del tema (D-02). NO se expone un segundo global de
+  analitica ni un shim de seguimiento paralelo. En Etapa 2 este snippet se
+  suscribe al bus DOM y reenvia a los endpoints; no introduce un segundo sistema.
+
+  Cuando se active la atribucion: descomentar la linea de abajo y reemplazar
+  <proyecto> por el ref real del proyecto Supabase. La linea vive dentro de un
+  comentario a proposito — este repositorio es publico en Etapa 1 y el seam no
+  debe abrir ninguna conexion a un tercero hasta que Etapa 2 lo decida.
+{%- endcomment -%}
+{%- comment -%}
+  <script src="https://<proyecto>.supabase.co/storage/v1/object/public/web/kinelia-atribucion.js" defer></script>
+{%- endcomment -%}

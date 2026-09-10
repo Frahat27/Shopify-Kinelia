@@ -1,6 +1,19 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
+    {%- comment -%}
+      KINELIA (plan 03-01): las tres meta declaraciones de codificacion, compatibilidad
+      y area visible van en las primeras lineas del <head>, ARRIBA del bloque de tokens.
+      El navegador exige la declaracion de codificacion dentro de los primeros ~1024
+      bytes; snippets/css-variables.liquid emite un <style> inline con cinco @font-face
+      y el :root completo — varios KB — que la empujaba fuera de esa ventana y ponia en
+      riesgo cada acento y cada eñe del copy es-AR (Pitfall 1, review WR-04). Movidas
+      aca desde snippets/meta-tags.liquid, que ya no las emite. Registrado en OVERRIDES.md.
+    {%- endcomment -%}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     {% # Inlined CSS Variables %}
     {% render 'css-variables' %}
 
@@ -40,6 +53,15 @@
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
 
+    {%- comment -%}
+      KINELIA (plan 03-01): seam no-op de Etapa 2 (SHELL-01). Se monta tras meta-tags y
+      antes de content_for_header (D-03) — donde el script de atribucion de Etapa 2 tiene
+      que correr para capturar UTMs first-touch y setear su cookie antes de cualquier
+      navegacion, pero despues de que el <title> y las tags sociales esten resueltos.
+      Hoy no renderiza nada: cero bytes al cliente. Registrado en OVERRIDES.md.
+    {%- endcomment -%}
+    {% render 'analytics-hooks' %}
+
     {{ content_for_header }}
   </head>
 
@@ -49,5 +71,13 @@
     {{ content_for_layout }}
 
     {% sections 'footer-group' %}
+
+    {%- comment -%}
+      KINELIA (plan 03-01): primer script del tema — el bus de eventos DOM
+      (window.Kinelia.events, D-05). defer explicito: el filtro script_tag no lo agrega
+      solo y un script que bloquea el parser es un error de lint (Pitfall 2). Nadie
+      emite eventos en la Fase 3 (D-07). Registrado en ALLOWLIST.md y OVERRIDES.md.
+    {%- endcomment -%}
+    <script src="{{ 'events.js' | asset_url }}" defer></script>
   </body>
 </html>

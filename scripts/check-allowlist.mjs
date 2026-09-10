@@ -9,7 +9,9 @@
  * Falla (exit != 0) cuando:
  *   - un template JSON o un section-group referencia un `type` de section que no
  *     está en RENDER_ALLOWLIST,
- *   - aparece un archivo `.js` o `.mjs` directamente en `assets/`,
+ *   - aparece un archivo `.js` o `.mjs` en `assets/` que no está en
+ *     JS_ASSET_ALLOWLIST (la Fase 1 no agregó JS; la Fase 3 abre la superficie
+ *     con una lista explícita, no la elimina),
  *   - un archivo de `assets/` lleva en el nombre una librería front-end pesada,
  *   - no encuentra ningún template JSON que inspeccionar (un scan vacío no puede
  *     reportar éxito).
@@ -47,6 +49,14 @@ export const RENDER_ALLOWLIST = [
 
 // Librerías front-end pesadas que nunca se vendorizan en `assets/`.
 const FORBIDDEN_ASSET_SUBSTRINGS = ["jquery", "swiper", "react", "vue", "alpine"];
+
+// Módulos JavaScript de primera parte admitidos en `assets/`. La Fase 1 no
+// agregó JS; la Fase 3 (plan 03-01) abre la superficie con esta lista explícita
+// — el primer módulo del tema es el bus de eventos DOM. Cualquier `.js`/`.mjs`
+// que NO esté acá sigue empujando una violación, y FORBIDDEN_ASSET_SUBSTRINGS
+// también aplica a los listados. `ALLOWLIST.md` §"Renderiza" lo explica fila por
+// fila; sumar un módulo acá va en la misma pull request que lo introduce.
+export const JS_ASSET_ALLOWLIST = new Set(["events.js"]);
 
 // ---------------------------------------------------------------- helpers
 
@@ -130,16 +140,18 @@ function main() {
     }
   }
 
-  // assets/ — la Fase 1 no agrega JavaScript. Las fases posteriores actualizan
-  // esta regla junto con RENDER_ALLOWLIST cuando suman un módulo legítimo.
+  // assets/ — la Fase 1 no agregó JavaScript. Desde la Fase 3 (plan 03-01) un
+  // módulo de primera parte entra solo si está en JS_ASSET_ALLOWLIST; cualquier
+  // otro `.js`/`.mjs` sigue siendo una violación. La regla se aflojó con una
+  // lista, no se eliminó.
   const assetsDir = join(ROOT, "assets");
   const assetNames = existsSync(assetsDir) ? readdirSync(assetsDir).sort() : [];
 
   for (const name of assetNames) {
     const ext = extname(name).toLowerCase();
-    if (ext === ".js" || ext === ".mjs") {
+    if ((ext === ".js" || ext === ".mjs") && !JS_ASSET_ALLOWLIST.has(name)) {
       violations.push(
-        `assets/${name}: JavaScript en assets/ no está permitido en esta fase`
+        `assets/${name}: JavaScript en assets/ solo se admite vía JS_ASSET_ALLOWLIST (ver ALLOWLIST.md §"Renderiza")`
       );
     }
 
@@ -162,11 +174,17 @@ function main() {
     return;
   }
 
+  const jsAssets = assetNames.filter((name) => {
+    const ext = extname(name).toLowerCase();
+    return ext === ".js" || ext === ".mjs";
+  });
+
   console.log(
     `check-allowlist: OK — ${templateFiles.length} templates + ` +
       `${groupFiles.length} section-groups inspeccionados, ` +
       `${referencedTypes.size} tipos de section referenciados, ` +
-      `${assetNames.length} archivos en assets/.`
+      `${assetNames.length} archivos en assets/ ` +
+      `(${jsAssets.length} JS, todos en JS_ASSET_ALLOWLIST).`
   );
 }
 

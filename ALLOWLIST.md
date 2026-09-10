@@ -49,7 +49,8 @@ o un section-group.
 | `templates/gift_card.liquid` | Ruta de gift card | Template Liquid (no JSON) que Shopify sirve para gift cards emitidas. |
 | `snippets/css-variables.liquid` | `render` desde `layout/theme.liquid` | Emite los custom properties CSS de los tokens de marca (Fase 2). |
 | `snippets/image.liquid` | `render` desde varias sections | Helper de `<img>` responsive con `width`/`height`. |
-| `snippets/meta-tags.liquid` | `render` desde `layout/theme.liquid` | Open Graph, Twitter card y `<title>`. |
+| `snippets/meta-tags.liquid` | `render` desde `layout/theme.liquid` | Open Graph, Twitter card y `<title>`. Las tres meta de codificación/compatibilidad/área visible se movieron al `<head>` de `layout/theme.liquid` (plan 03-01, Pitfall 1). |
+| `snippets/analytics-hooks.liquid` | `render` desde `layout/theme.liquid` (`<head>`, tras `meta-tags`, antes de `content_for_header`) | Seam no-op de Etapa 2 (SHELL-01, D-01/D-03). Hoy es 100% comentario: cero bytes al cliente, cero request a terceros. En Etapa 2 se enchufa acá la medición diferida (pixel de Meta, analítica web, script de atribución de primera parte) sin refactor del `<head>` — por eso vale contra el CVR: "conectar la medición" es editar un archivo ya referenciado. |
 | `blocks/group.liquid` | Primitiva de theme-block | Contenedor de layout para componer bloques anidados. |
 | `blocks/text.liquid` | Primitiva de theme-block | Bloque de texto editable. |
 | `assets/critical.css` | `stylesheet_tag` desde `layout/theme.liquid`, `layout/password.liquid`, `templates/gift_card.liquid` | CSS crítico inline-precargado. Único asset CSS de la Fase 1. |
@@ -61,6 +62,7 @@ o un section-group.
 | `assets/inter-600.woff2` | `@font-face` en `snippets/css-variables.liquid` (`asset_url`) | Inter SemiBold, subset latin + latin-ext, SIL OFL 1.1. Solo etiquetas y precio en contexto (D-05). No se precarga. D-08. |
 | `assets/icon-account.svg` | `inline_asset_content` desde `sections/header.liquid` | Ícono de cuenta del header. |
 | `assets/icon-cart.svg` | `inline_asset_content` desde `sections/header.liquid` | Ícono de carrito del header. |
+| `assets/events.js` | `<script src … defer>` desde `layout/theme.liquid` (antes de `</body>`) | Primer módulo JS del tema (SHELL-03, D-05). Bus de eventos DOM (`window.Kinelia.events` — wrapper fino sobre `CustomEvent`) + helper de accesibilidad (`window.Kinelia.a11y.announce`, plan 03-01 Task 3). Es la **única** API de eventos interna: el sticky ATC (Fase 6) y los consumidores de Etapa 2 se cuelgan de acá en vez de recablear el `<head>`. Presupuesto: ~2 KB, `defer`, nadie emite en Fase 3 (D-07) — el primer consumo real de `resource-summary:script:size`. |
 
 ## Presente, no renderiza
 
@@ -95,7 +97,7 @@ chequeo.
 | Librerías de carousel pesadas (Swiper y similares) | Para la galería se usa una librería liviana y touch-first (Embla, ~5 KB) cargada como asset único; nunca una librería pesada. |
 | Cualquier dependencia que requiera un paso de compilación antes del deploy | Rompe el round-trip GitHub ↔ editor de Shopify; agrega un toolchain que mantener. El tema no tiene build step. |
 | Cualquier archivo en `assets/` sin una fila en `## Renderiza` que lo justifique contra el CVR y el presupuesto de performance | Un asset no revisado es peso que el embudo paga en silencio. |
-| JavaScript en `assets/` durante la Fase 1 | La Fase 1 no agrega JS. Las fases posteriores actualizan `scripts/check-allowlist.mjs` **junto con** esta tabla cuando suman un módulo legítimo. |
+| JavaScript en `assets/` fuera de `JS_ASSET_ALLOWLIST` | La Fase 1 no agregó JS. Desde la Fase 3 (plan 03-01) un módulo de primera parte entra solo si está en el `Set` `JS_ASSET_ALLOWLIST` de `scripts/check-allowlist.mjs` (hoy: `events.js`), sumado **en la misma pull request** que la fila de `## Renderiza` que lo justifica. Cualquier otro `.js`/`.mjs` sigue siendo una violación, y la prohibición de librerías pesadas (`jquery`, `swiper`, `react`, `vue`, `alpine`) también aplica a los listados. |
 
 ## Regla de adición
 
@@ -154,7 +156,10 @@ verifica en el momento del porting y se registra en `OVERRIDES.md` §"Componente
 - **Predictive search / búsqueda mínima → Fase 11** (Home + páginas legales AR + 404 +
   búsqueda).
 - **Bus de eventos DOM + helpers de accesibilidad → Fase 3** (Layout shell + seams de
-  Etapa 2).
+  Etapa 2). **Entregado (plan 03-01):** `assets/events.js` — `window.Kinelia.events`
+  (`emit` / `on` / `off` / `NAMES`) sobre `CustomEvent`, y `window.Kinelia.a11y.announce`
+  sobre un `<div aria-live="polite">` del shell. La regla anti-JS de
+  `scripts/check-allowlist.mjs` se aflojó a `JS_ASSET_ALLOWLIST` en la misma PR.
 
 **Qué verifica la Fase 1 en lugar del criterio como está escrito:**
 

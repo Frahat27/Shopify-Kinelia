@@ -1,7 +1,10 @@
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
+{%- comment -%}
+  KINELIA (plan 03-01): las tres meta declaraciones de codificacion, compatibilidad y
+  area visible se movieron a las primeras lineas de layout/theme.liquid, arriba del
+  bloque de tokens inline, para que la de codificacion caiga dentro de los primeros
+  ~1024 bytes del <head> (Pitfall 1, review WR-04). Este snippet ya no las emite para
+  no declararlas dos veces. Registrado en OVERRIDES.md.
+{%- endcomment -%}
 {%- liquid
   assign og_title = page_title | default: shop.name
   assign og_url = canonical_url | default: request.origin

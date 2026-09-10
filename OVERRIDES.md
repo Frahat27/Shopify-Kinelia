@@ -28,7 +28,10 @@ las ediciones a config/YAML/JSON llevan un comentario `# KINELIA:` o quedan regi
 | `.shopifyignore` | 01-03, 01-04 | 01-03: exclusiones root-anchored de planning/instrucciones/docs/dev-tooling del push por CLI. 01-04: agrega `/scripts/` para que el checker de allowlist nunca se suba a un tema. |
 | `config/settings_schema.json` | 02-01, 02-02 | 02-01: grupo `t:general.colors` extendido con el header `t:settings.colors.brand` y `color_primary`. 02-02: se completó la superficie de marca — las diez familias de color (seis primarias + cuatro de apoyo) como settings `color` con el hex verbatim del Brand Book de default; se reemplazó `background_color` (`#FFFFFF`, viola D-03) y `foreground_color` por `color_bg` / `color_text`; el `font_picker` `type_primary_font` pasó a dos `select` (`font_heading` / `font_body`, D-18); `input_corner_radius` `max`/`default` bajados a 2 para que el editor no pueda romper el sistema plano (D-10). `theme_info` sigue siendo el elemento 0. |
 | `snippets/css-variables.liquid` | 02-01, 02-02 | 02-01: emite `--color-primary` con fallback Liquid `| default:`. 02-02: emisor único de todo el vocabulario Kinelia — diez tokens de color + `--color-border` derivado, `--font-heading` / `--font-body` con stack de fallback de sistema + tres pesos, la escala `--space-1..8` (estática), `--radius` / `--radius-none`, `--icon-stroke-width`, y `--page-width` / `--page-margin` (ahora con guarda `| default:`). Se quitaron los cuatro `font_face` y las props family/style/weight que leían el `font_picker` ya eliminado. Reglas de marca D-01/D-03/D-04/D-11 como comentarios. Este snippet y `settings_schema.json` son los únicos dos lugares donde puede vivir un color literal (D-17), siempre como fallback. |
-| `layout/theme.liquid` | 02-01, 02-02 | 02-01: carga `assets/base.css` vía `stylesheet_tag` después de `critical.css`, sin preload. 02-02: se eliminó el bloque de fuentes del head del starter (preconnect al CDN de fuentes + preload derivado del `font_picker`) — al desaparecer el setting del schema ese bloque emitía un preload vacío en cada página (Pitfall 1). Las caras self-hosted y sus preloads llegan en el plan 02-03; esta remoción es un pre-empt acotado del trabajo de shell de la Fase 3. |
+| `layout/theme.liquid` | 02-01, 02-02, 03-01 | 02-01: carga `assets/base.css` vía `stylesheet_tag` después de `critical.css`, sin preload. 02-02: se eliminó el bloque de fuentes del head del starter (preconnect al CDN de fuentes + preload derivado del `font_picker`) — al desaparecer el setting del schema ese bloque emitía un preload vacío en cada página (Pitfall 1). Las caras self-hosted y sus preloads llegan en el plan 02-03; esta remoción es un pre-empt acotado del trabajo de shell de la Fase 3. 03-01: las tres meta de codificación/compatibilidad/área visible suben a las primeras líneas del `<head>` (arriba del bloque de tokens — Pitfall 1 / WR-04); se monta `{% render 'analytics-hooks' %}` tras `meta-tags` y antes de `content_for_header` (D-03); se carga `assets/events.js` con `<script defer>` antes de `</body>` (D-05); Task 3 agrega el skip link, la live region y el landmark `<main>`. |
+| `snippets/meta-tags.liquid` | 03-01 | Deja de emitir las tres meta de codificación/compatibilidad/área visible (líneas 1-3 del starter): se movieron al `<head>` de `layout/theme.liquid` para que la de codificación caiga en los primeros ~1024 bytes (Pitfall 1). Se declaraban dos veces si se dejaban acá. |
+| `scripts/check-allowlist.mjs` | 03-01 | La regla anti-JS de `assets/` (blanket ban de la Fase 1) se reemplaza por un `Set` exportado `JS_ASSET_ALLOWLIST` (hoy: `events.js`). Cualquier `.js`/`.mjs` no listado sigue empujando una violación; `FORBIDDEN_ASSET_SUBSTRINGS` sigue aplicando. Header del archivo y comentario de contexto actualizados. Node stdlib, `process.exitCode` sin `process.exit()`. |
+| `ALLOWLIST.md` | 01-04, 02-01, 02-03, 02-04, 03-01 | 03-01: filas nuevas en `## Renderiza` para `snippets/analytics-hooks.liquid` y `assets/events.js`; la fila de `## Nunca agregar` sobre JS pasa de "prohibido en Fase 1" a "solo vía `JS_ASSET_ALLOWLIST`"; la desviación registrada "bus de eventos DOM + helpers a11y → Fase 3" se marca entregada. |
 | `locales/es.default.schema.json` (era `en.default.schema.json`) | 02-01, 02-02, 02-04 | 02-01: se quitó la coma colgante y se agregaron `settings.colors.brand` / `primary` / `primary_info`. 02-02: etiquetas de editor en español para cada clave `t:` nueva del schema — las diez familias de color, `settings.type.heading` / `body`, y los `info` de advertencia (uso restringido del terracota, nunca blanco puro). 02-04: `git mv` de `en.default.schema.json` → `es.default.schema.json` (rename, no borrado — Pitfall 9) y traducción de los namespaces `general` / `labels` / `options` al español; strict JSON, sin BOM, LF. |
 | `locales/es.default.json` (era `en.default.json`) | 02-04 | `git mv` de `en.default.json` → `es.default.json` (rename con historia preservada, no borrado — Pitfall 9). Traducido a voseo rioplatense: cada namespace de inglés preservado (404, blog, cart, customers, collections, gift_card, password, search) más `general` / `products` / `sections` / `templates` / `newsletter`. Nuevo namespace `kinelia` con los seis CTAs aprobados, la promesa raíz y la leyenda legal (D-15). Sin precio placeholder (contenido de metaobject de la Fase 4). `_html` solo en las claves que ya lo llevaban. Strict JSON, sin BOM, LF. |
 | `scripts/check-tokens.mjs` | 02-01, 02-04 | 02-01: creado — 9 reglas, copia ejecutable de DESIGN-02. 02-04: extiende la regla 8 (locale) — el único `*.default.json` debe ser `es.default.json` (D-14); las ocho claves de `REQUIRED_STOREFRONT_KEYS` (seis CTAs + promesa raíz + leyenda legal) deben resolver a strings no vacíos (D-15); `kinelia.legal_disclaimer_html` no puede existir (T-02-16). Node stdlib, `process.exitCode` sin `process.exit()`. |
@@ -112,9 +115,30 @@ en `docs/PERF-BUDGET.md` como segundo testigo, reemplazando el supuesto A2 de
 U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD,U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF
 ```
 
-## Locales
+## Divergencias de la Fase 3 (plan 03-01)
 
-**El default del tema pasó de inglés a español rioplatense por rename y traducción, no
+Dos divergencias respecto al starter, ambas previstas por los contratos del repo.
+
+1. **El reorden del `<head>` de `layout/theme.liquid`.** Las tres meta de codificación,
+   compatibilidad y área visible dejan de vivir en `snippets/meta-tags.liquid` (líneas 1-3
+   del starter) y suben a las tres primeras líneas del `<head>`, arriba de
+   `{% render 'css-variables' %}`. El bloque de tokens inline (cinco `@font-face` + el
+   `:root` completo, varios KB) empujaba la declaración de codificación fuera de la ventana
+   de ~1024 bytes que el navegador lee, y de esa declaración depende cada acento y cada eñe
+   del copy es-AR (Pitfall 1 de `03-RESEARCH.md`, WR-04 de `02-REVIEW.md`). Es un reorden y
+   una remoción de duplicado, no un borrado de superficie: `meta-tags.liquid` sigue
+   emitiendo Open Graph, Twitter card y `<title>`. Reversible — mover tres líneas es local.
+
+2. **El primer asset JavaScript del tema.** `assets/events.js` es el primer `.js` que entra
+   a `assets/` desde que existe el repo. El precedente que fija — un asset admitido por un
+   `Set` explícito (`JS_ASSET_ALLOWLIST`) más el checker actualizado en la misma pull
+   request — lo heredan las Fases 5, 6 y 11. La `## Regla de adición` de `ALLOWLIST.md` ya
+   describía exactamente este cambio, y la `## Desviación registrada` ya asignaba "bus de
+   eventos DOM + helpers de accesibilidad → Fase 3". El módulo se escribió desde cero (no se
+   portó código de Dawn/Horizon — Pitfall 6). Costly: revertir el asset es limpio, el
+   precedente no.
+
+
 por borrado (plan 02-04).** `git mv locales/en.default.json → locales/es.default.json` y
 `git mv locales/en.default.schema.json → locales/es.default.schema.json`, luego traducción
 en su lugar. La regla permanente del proyecto es que el tema se reduce por no referenciar
@@ -180,6 +204,8 @@ Archivos que agregamos sobre el starter, en la raíz del repo salvo indicación.
 | `assets/inter-500.woff2` | 02-03 | Inter Medium, subset WOFF2 latin + latin-ext, SIL OFL 1.1. Etiquetas y botón (D-05). No precargado. 52.304 bytes. |
 | `assets/inter-600.woff2` | 02-03 | Inter SemiBold, subset WOFF2 latin + latin-ext, SIL OFL 1.1. Etiquetas y precio en contexto (D-05). No precargado. 52.452 bytes. |
 | `docs/BRAND-COPY.md` | 02-04 | Contrato de copy que heredan las fases de contenido: la voz voseo y su razón, los seis CTAs aprobados citados junto a su clave de locale, la promesa raíz, la leyenda legal obligatoria (dónde va y por qué es una clave plana), los cuatro claims prohibidos con su razón (D-16, LOCKED), los pares de color/tipografía que son decisiones de copy (D-02), y la regla de que un string de UI nunca vive en un template Liquid. |
+| `snippets/analytics-hooks.liquid` | 03-01 | Seam no-op de Etapa 2 (SHELL-01, D-01). Cuerpo 100% comentario Liquid: nombra a cada consumidor diferido (pixel de Meta + CAPI vía Web Pixels, analítica web, script de atribución de primera parte del repo hermano) y mantiene la línea `<script src>` de atribución dentro de un comentario, con el placeholder `<proyecto>` en el host — el repo es público en Etapa 1. Cero bytes al cliente, cero request a terceros. Montado desde `layout/theme.liquid`. |
+| `assets/events.js` | 03-01 | Primer módulo JavaScript del tema (SHELL-03, D-05). IIFE en modo estricto: `window.Kinelia.events` (`emit` / `on` / `off` / `NAMES`) — wrapper fino sobre `document` + `CustomEvent`, sin registro propio ni cola — y `window.Kinelia.a11y.announce` (Task 3). ~2 KB, cargado con `defer`. Fila en `ALLOWLIST.md` §"Renderiza" y en `JS_ASSET_ALLOWLIST` de `scripts/check-allowlist.mjs`. |
 
 ## Componentes portados
 
@@ -191,6 +217,7 @@ commit y licencia verificada en el momento del porting.
 | Componente | Repo origen | Archivo origen | Commit | Licencia |
 |------------|-------------|----------------|--------|----------|
 | _(ninguno en Fase 1)_ | — | — | — | — |
+| Bus de eventos DOM (`assets/events.js`) — plan 03-01 | `github.com/Shopify/horizon` | `assets/events.js` | — (no fijado) | **Sin copia de código.** Solo se tomó como inspiración de patrón la convención de nombres `namespace:verbo-en-pasado` (`media:started-playing`, `slideshow:select`). El módulo de Kinelia se escribió desde cero: Dawn y Horizon NO son MIT (su licencia restringe el uso a temas de Shopify — Pitfall 6), así que no se sublicencia ni se copia su código. |
 
 ## Reglas
 
