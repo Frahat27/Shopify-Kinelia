@@ -111,6 +111,16 @@ Cuando una fase posterior suma un módulo JavaScript legítimo a `assets/`, actu
 regla anti-JS de `scripts/check-allowlist.mjs` en esa misma PR, con la fila de allowlist
 que lo justifica.
 
+## Contrato de medición diferida
+
+El contrato que la Etapa 2 usa para conectarse al tema sin refactor vive en
+`ETAPA-2-SEAMS.md` (raíz del repo): los 7 atributos de carrito, los 8 tipos de evento del
+endpoint `/collect`, los 5 eventos del bus DOM del tema con la forma de su `detail`, el hook
+`data-kinelia="oferta"` y las reglas de seguridad de payload. `scripts/check-seams.mjs` es
+su copia ejecutada — lee los nombres publicados de `assets/events.js` y falla si el
+documento y el código se desincronizan. Un cambio en el bus de eventos o en los atributos de
+carrito actualiza `ETAPA-2-SEAMS.md` en la misma pull request que lo introduce.
+
 ## Idioma del tema
 
 El tema sirve **español rioplatense (voseo) como único idioma default** (D-14). El único
