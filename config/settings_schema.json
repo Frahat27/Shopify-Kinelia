@@ -156,5 +156,16 @@
         "default": 2
       }
     ]
+  },
+  {
+    "name": "t:general.whatsapp",
+    "settings": [
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "t:settings.whatsapp.number",
+        "info": "t:settings.whatsapp.number_info"
+      }
+    ]
   }
 ]

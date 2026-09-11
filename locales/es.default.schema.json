@@ -31,7 +31,8 @@
     "sidebar": "Barra lateral",
     "text": "Texto",
     "theme": "Tema",
-    "typography": "Tipografía"
+    "typography": "Tipografía",
+    "whatsapp": "WhatsApp"
   },
   "labels": {
     "alignment": "Alineación",
@@ -46,6 +47,7 @@
     "padding": "Relleno",
     "page_margin": "Margen de página",
     "page_width": "Ancho de página",
+    "show_newsletter": "Mostrar newsletter",
     "show_payment_icons": "Mostrar íconos de pago",
     "text_style": "Estilo de texto",
     "text": "Texto"
@@ -102,6 +104,10 @@
     "type": {
       "heading": "Fuente de titulares",
       "body": "Fuente de cuerpo"
+    },
+    "whatsapp": {
+      "number": "Número de WhatsApp",
+      "number_info": "Formato internacional: solo dígitos, sin signo +, espacios ni guiones (ej.: 5491122334455). Sin número cargado, el link del footer y el botón flotante no se muestran."
     }
   }
 }

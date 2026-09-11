@@ -1,3 +1,16 @@
+{%- comment -%}
+  KINELIA (plan 03-04): footer.liquid — cierra SHELL-02 (D-14, D-15, D-16, D-17).
+  El menu de links legales sigue siendo el link_list del starter: su contenido es
+  del theme editor (docs/RELEASE.md), asi que el codigo solo aporta el loop y la
+  guarda por tamano — ningun target de pagina se tipea en este archivo. El link
+  de WhatsApp lee el numero desde el theme setting global `whatsapp_number`
+  (config/settings_schema.json) y renderiza nada si esta vacio: un numero
+  inventado que llega a un desconocido es peor que un boton que todavia no hace
+  nada. El bloque de newsletter existe detras de un checkbox que sale apagado
+  (`show_newsletter`, default false) — Etapa 2 prende el switch, no escribe
+  markup. El bloque de pagos del starter se conserva verbatim: colapsa solo
+  hasta que la Fase 12 configure una pasarela.
+{%- endcomment -%}
 <footer>
   <div class="footer__copyright">
     &copy;
@@ -5,11 +18,49 @@
     {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
   </div>
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+  {%- if section.settings.menu.links.size > 0 -%}
+    <div class="footer__legal">
+      <p class="footer__legal-heading">{{ 'sections.footer.legal_links_heading' | t }}</p>
+      <nav class="footer__links" aria-label="{{ 'sections.footer.legal_links_heading' | t }}">
+        {% for link in section.settings.menu.links %}
+          {{ link.title | link_to: link.url }}
+        {% endfor %}
+      </nav>
+    </div>
+  {%- endif -%}
+
+  {%- if settings.whatsapp_number != blank -%}
+    <div class="footer__whatsapp">
+      <a
+        class="footer__whatsapp-link"
+        href="https://wa.me/{{ settings.whatsapp_number }}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {{ 'icon-whatsapp.svg' | inline_asset_content }}
+        <span>{{ 'kinelia.cta.pedir_whatsapp' | t }}</span>
+      </a>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.show_newsletter -%}
+    <div class="footer__newsletter">
+      <p class="footer__newsletter-heading">{{ 'sections.footer.newsletter_title' | t }}</p>
+      {%- form 'customer', class: 'footer__newsletter-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label for="footer-newsletter-email" class="visually-hidden">{{ 'newsletter.label' | t }}</label>
+        <input
+          type="email"
+          name="contact[email]"
+          id="footer-newsletter-email"
+          placeholder="{{ 'newsletter.label' | t }}"
+          autocomplete="email"
+          required
+        >
+        <button type="submit">{{ 'newsletter.submit' | t }}</button>
+      {%- endform -%}
+    </div>
+  {%- endif -%}
 
   <div class="footer__payment">
     {% if section.settings.show_payment_icons %}
@@ -20,12 +71,34 @@
   </div>
 </footer>
 
-{% comment %} KINELIA (plan 02-02): el bloque de estilos consume el token de marca --color-text (rename del starter). {% endcomment %}
+{%- if settings.whatsapp_number != blank -%}
+  <a
+    class="wa-fab"
+    href="https://wa.me/{{ settings.whatsapp_number }}"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="{{ 'kinelia.cta.pedir_whatsapp' | t }}"
+  >
+    {{ 'icon-whatsapp.svg' | inline_asset_content }}
+  </a>
+{%- endif -%}
+
+{% comment %}
+  KINELIA (plan 02-02): el bloque de estilos consume el token de marca --color-text (rename del starter).
+
+  KINELIA (plan 03-04): las regiones del footer se apilan en telefono y se
+  reparten en pantallas anchas (mismo breakpoint que sections/header.liquid,
+  48rem). El glyph de contacto se dimensiona contra la escala de espaciado. El
+  setting de texto libre `whatsapp_number` NUNCA se interpola aca — solo en el
+  target de un link (T-03-17).
+{% endcomment %}
 {% stylesheet %}
   footer {
     display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
+    flex-direction: column;
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+    padding-block: var(--space-5);
   }
   footer a {
     text-decoration: none;
@@ -34,7 +107,76 @@
   footer .footer__links,
   footer .footer__payment {
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+  .footer__legal-heading,
+  .footer__newsletter-heading {
+    margin: 0 0 var(--space-2);
+    font-weight: var(--font-weight-medium);
+  }
+  .footer__whatsapp-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .footer__whatsapp-link svg {
+    width: var(--space-5);
+    height: var(--space-5);
+  }
+  .footer__newsletter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 48rem) {
+    footer {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  {% comment %}
+    KINELIA (plan 03-04): boton flotante de WhatsApp — SHELL-02 (D-15). Vive en
+    esta section porque footer-group.json se monta en cada ruta de storefront,
+    y una section puede llevar un {% stylesheet %} scoped que un layout no
+    puede. Cuadrado redondeado (tope de marca --radius, nunca un circulo con
+    sombra), color de marca (nunca el verde de WhatsApp, Pitfall 4), sin
+    elevacion ni animacion (D-11). Nivel de apilamiento --z-fab, definido en
+    plan 03-03 (header sticky < FAB < overlay), asi un drawer futuro (Fase 5/6)
+    lo cubre en vez de perforarlo.
+
+    Regla de convivencia con la Fase 6: cuando el body lleve la clase
+    `has-sticky-atc`, el FAB se oculta en telefono. Esta regla ya existe; la
+    Fase 6 solo tiene que poner la clase cuando la barra sticky de agregar al
+    carrito exista — no inventar un segundo selector.
+  {% endcomment %}
+  .wa-fab {
+    position: fixed;
+    inset-block-end: var(--space-5);
+    inset-inline-end: var(--space-5);
+    z-index: var(--z-fab);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--space-7);
+    height: var(--space-7);
+    border-radius: var(--radius);
+    background-color: var(--color-primary);
+    color: var(--color-bg);
+  }
+  .wa-fab svg {
+    width: var(--space-5);
+    height: var(--space-5);
+  }
+
+  @media (max-width: 47.9375rem) {
+    body.has-sticky-atc .wa-fab {
+      display: none;
+    }
   }
 {% endstylesheet %}
 
@@ -46,6 +188,12 @@
       "type": "link_list",
       "id": "menu",
       "label": "t:labels.menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "t:labels.show_newsletter",
+      "default": false
     },
     {
       "type": "checkbox",
