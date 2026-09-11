@@ -164,6 +164,22 @@ explicación humana.** El checker falla si el único `*.default.json` deja de se
 `es.default.json`, si alguna de las ocho claves de copy aprobada desaparece, o si la
 leyenda legal se mueve a una clave con sufijo `_html`.
 
+## Divergencias de la Fase 3 (plan 03-03)
+
+1. **Sustitución manual del optimizador de vectores.** El research de la Fase 3 preveía
+   correr `npx svgo` one-off sobre `kinelia_horizontal.svg` (D-18). El entorno de ejecución
+   no tiene `svgo` instalado ni red hacia el registro de npm, así que `npx svgo` no puede
+   resolver el paquete. En su lugar se removieron a mano, con un script Node de una sola
+   corrida que no se agrega al manifiesto (`package.json` sin nuevas `dependencies`), los
+   atributos `fill` duplicados que dejó la herramienta de tracing (potrace) en ambos
+   archivos, y en el isotipo además la declaración XML, el `DOCTYPE` y el comentario
+   `<metadata>` de atribución a potrace. Resultado verificado: ambos archivos son menores
+   que su fuente (`kinelia_horizontal.svg` 7.587 B < 7.617 B; `kinelia_isotipo.svg` 3.085 B
+   < 3.419 B), sin ningún elemento con el atributo `fill` repetido, y con `viewBox` intacto.
+   Desviación Regla 3 (bloqueo de tooling) — no se instaló ningún paquete ni se sustituyó
+   `svgo` por una alternativa: la transformación se hizo con Node stdlib, exactamente el
+   mismo nivel de invasión que un `npx svgo` habría tenido.
+
 ## Archivos eliminados
 
 **Ningún archivo de tema del starter se borró en la Fase 1.** La reducción se hace por NO
@@ -209,6 +225,8 @@ Archivos que agregamos sobre el starter, en la raíz del repo salvo indicación.
 | `assets/events.js` | 03-01 | Primer módulo JavaScript del tema (SHELL-03, D-05). IIFE en modo estricto: `window.Kinelia.events` (`emit` / `on` / `off` / `NAMES`) — wrapper fino sobre `document` + `CustomEvent`, sin registro propio ni cola — y `window.Kinelia.a11y.announce` (Task 3). ~2 KB, cargado con `defer`. Fila en `ALLOWLIST.md` §"Renderiza" y en `JS_ASSET_ALLOWLIST` de `scripts/check-allowlist.mjs`. |
 | `ETAPA-2-SEAMS.md` | 03-02 | Contrato de la medición diferida (SHELL-04, D-04). Especificación propia del tema — 7 atributos de carrito, 8 tipos de evento del endpoint `/collect`, 5 eventos del bus DOM con la forma de su `detail`, el hook `data-kinelia="oferta"`, dónde se renderiza el script de atribución y las reglas de seguridad de payload. Híbrido: transcribe el contrato inline y cita `../../Kinelia/web/kinelia-atribucion.js` y `../../Kinelia/supabase/functions/collect/index.ts` como origen (leídos 2026-09-10). El séptimo atributo (`view`) queda con dueño asignado (script de atribución hermano, Fase 10) y la elección de implementación abierta hasta la Fase 10. |
 | `scripts/check-seams.mjs` | 03-02 | Copia ejecutable del contrato SHELL-04. Lee el array `NAMES` de `assets/events.js` y falla si un nombre del bus, uno de los 8 tipos de evento del embudo o uno de los 7 atributos de carrito no aparece en `ETAPA-2-SEAMS.md` en formato de código; backstop de scan vacío; falla si el documento no existe o es más corto que 3000 caracteres. Exporta `FUNNEL_EVENT_TYPES`, `CART_ATTRIBUTES`, `OFFER_HOOK_ATTR`. Node stdlib, `process.exitCode` sin `process.exit()`. En `npm run lint` y en el job CI requerido. |
+| `assets/kinelia_horizontal.svg` | 03-03 | Marca horizontal de Kinelia, logo de header (D-18). Copiada de `A- Logo/A.2 Logo/kinelia_horizontal.svg` (carpeta gitignoreada, ver `.gitignore`) y optimizada a mano en la Fase 3 — sin `svgo` disponible ni red en el sandbox (npx svgo habría fallado; ver "Sustitución manual del optimizador" abajo), se removieron a mano los atributos `fill` duplicados que dejó la herramienta de tracing (potrace) en cada `<g>`. 7.587 bytes medidos en disco (fuente: 7.617 bytes). La carpeta de origen sigue excluida de control de versiones. |
+| `assets/kinelia_isotipo.svg` | 03-03 | Isotipo compacto de Kinelia, favicon (D-18). Copiado de `A- Logo/A.1 Isotipo/kinelia_isotipo.svg` (carpeta gitignoreada) y optimizado a mano en la Fase 3: se quitó la declaración XML, el `DOCTYPE`, el comentario `<metadata>` de atribución a potrace y el atributo `fill` duplicado del `<g>`. 3.085 bytes medidos en disco (fuente: 3.419 bytes). La carpeta de origen sigue excluida de control de versiones. |
 
 ## Componentes portados
 

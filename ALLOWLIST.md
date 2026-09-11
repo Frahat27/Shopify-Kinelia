@@ -63,6 +63,8 @@ o un section-group.
 | `assets/icon-account.svg` | `inline_asset_content` desde `sections/header.liquid` | Ícono de cuenta del header. |
 | `assets/icon-cart.svg` | `inline_asset_content` desde `sections/header.liquid` | Ícono de carrito del header. |
 | `assets/events.js` | `<script src … defer>` desde `layout/theme.liquid` (antes de `</body>`) | Primer módulo JS del tema (SHELL-03, D-05). Bus de eventos DOM (`window.Kinelia.events` — wrapper fino sobre `CustomEvent`) + helper de accesibilidad (`window.Kinelia.a11y.announce`, plan 03-01 Task 3). Es la **única** API de eventos interna: el sticky ATC (Fase 6) y los consumidores de Etapa 2 se cuelgan de acá en vez de recablear el `<head>`. Presupuesto: ~2 KB, `defer`, nadie emite en Fase 3 (D-07) — el primer consumo real de `resource-summary:script:size`. |
+| `assets/kinelia_horizontal.svg` | `inline_asset_content` desde `sections/header.liquid` (logo, link a `routes.root_url`) | La marca de Kinelia en el header (D-10, D-18) en vez de pedirle prestado el nombre de la tienda como texto — es lo primero que un shopper que llega de un anuncio de Meta necesita reconocer. Vectorial, escala sin peso extra por breakpoint. Vendorizado desde la carpeta de marca gitignoreada y optimizado en la Fase 3 (7.587 B, menor al original de 7.617 B; ver `OVERRIDES.md`). |
+| `assets/kinelia_isotipo.svg` | `<link rel="icon">` en `layout/theme.liquid` | El icono compacto de marca como favicon (D-18) — la pestaña del navegador es reconocible en un teléfono con muchas pestañas abiertas. Un solo formato vectorial; sin raster de respaldo, cada asset extra es peso que el embudo paga sin necesitarlo. Vendorizado y optimizado en la Fase 3 (3.085 B, menor al original de 3.419 B; ver `OVERRIDES.md`). |
 
 ## Presente, no renderiza
 

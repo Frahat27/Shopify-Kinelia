@@ -50,6 +50,14 @@
     {% endcomment %}
     {{ 'base.css' | asset_url | stylesheet_tag }}
 
+    {%- comment -%}
+      KINELIA (plan 03-03): favicon con el isotipo de marca (D-18). Un solo icono
+      vectorial — cubre todos los navegadores de este publico y un segundo raster
+      de respaldo es peso que el embudo paga en cada pagina sin necesitarlo.
+      Registrado en ALLOWLIST.md y OVERRIDES.md.
+    {%- endcomment -%}
+    <link rel="icon" type="image/svg+xml" href="{{ 'kinelia_isotipo.svg' | asset_url }}">
+
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
 
