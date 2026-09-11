@@ -1,25 +1,34 @@
 ---
-status: testing
+status: partial
 phase: 03-layout-shell-seams-de-etapa-2
 source: [03-VERIFICATION.md]
 started: 2026-09-11T13:20:00Z
-updated: 2026-09-11T13:20:00Z
+updated: 2026-09-11T15:10:00Z
 ---
 
 ## Current Test
+<!-- SESSION BLOCKED — see note below. Not "awaiting user response": no live UAT can proceed
+     until the deploy-sync blocker is resolved (local main is 68 commits ahead of origin/main;
+     neither Kinelia — STAGING nor Kinelia — LIVE has any Phase 2/3 code). -->
 
 number: 1
 name: Charset order + seam invisibility (ver-fuente / DevTools)
 expected: |
   El charset aparece antes de cualquier byte del bloque de tokens inline; el seam
   (`snippets/analytics-hooks.liquid`) es invisible en el DOM renderizado.
-awaiting: user response
+awaiting: deploy-sync blocker resolved (see Gaps)
 
 ## Tests
 
 ### 1. Charset order + seam invisibility (ver-fuente / DevTools)
 expected: El charset aparece antes de cualquier byte del bloque de tokens inline; el seam es invisible en el DOM renderizado.
 result: [pending]
+note: >
+  Primer intento (2026-09-11T14:35Z) inspeccionó kinelia.myshopify.com (tema STAGING,
+  150931144910) y registró un "issue" de orden de charset. Se retractó: se confirmó que
+  ni STAGING ni LIVE (150931210446) tienen código de Fase 2/3 desplegado — ver gap
+  G-03-DEPLOY-SYNC. El hallazgo de orden de charset era sobre el theme.liquid de Fase 1,
+  no sobre el código actual. Test vuelve a pending hasta reintentar contra el tema real.
 
 ### 2. Bus de eventos en consola del navegador
 expected: `Kinelia.events.on` y `document.addEventListener` reciben el mismo payload al emitir; tras `off` el primero deja de recibir.
@@ -69,5 +78,34 @@ issues: 0
 pending: 11
 skipped: 0
 blocked: 0
+
+## Session Blocker (not a code gap — environment/process)
+
+**G-03-DEPLOY-SYNC — Neither Shopify theme reflects Phase 2/3 code; UAT cannot proceed live.**
+
+Root cause confirmed via git: local `main` is **68 commits ahead of `origin/main`**
+(`c70fafa` on 2026-09-08, Phase 1 close, is still the tip of both `origin/main` and
+`origin/staging`). Nothing from Phase 2 or Phase 3 has ever been pushed to GitHub, so
+the Shopify GitHub integration has deployed nothing new to either theme:
+
+- `Kinelia — STAGING` (150931144910, tracks `staging`) — confirmed via raw fetch of the
+  live preview: no `events.js` script tag, no `analytics-hooks` render call, no
+  `kinelia_isotipo` favicon, no `announcement-bar` section, no WhatsApp FAB. Frozen at
+  Phase 1.
+- `Kinelia — LIVE` (150931210446, tracks `main`) — same raw-fetch check, same result.
+  Also frozen at Phase 1, because `origin/main` never advanced either.
+
+Additionally, this deviates from `docs/RELEASE.md`'s documented flow (PR into `staging`
+first for QA, then PR `staging` → `main` for release): all Phase 1-close-to-now work
+landed directly on local `main`, bypassing `staging` entirely, and was never pushed.
+`staging` is a clean ancestor of `main` (no divergent staging-only commits), so a
+fast-forward-style reconciliation is possible without conflicts — but pushing 68 commits
+to a shared remote and triggering a live-theme deploy is an irreversible, outward-facing
+action this session will not take without explicit direction.
+
+**Blocks:** every remaining test in this UAT (2, 3, 6, 7, 8, 9, 10, 11 all require
+inspecting the live rendered theme). Tests 4, 5 may be answerable without a live theme
+(document review / CI log review) — resumable now if you want partial progress while
+the deploy question is resolved.
 
 ## Gaps
