@@ -1,13 +1,26 @@
+{% comment %}
+  KINELIA (plan 03-03): header.liquid — SHELL-02 (D-10, D-11, D-12, D-18). El
+  header hace exactamente tres cosas: identificar la marca, llegar al carrito
+  con su contador, y llegar a la cuenta cuando esta habilitada — nada mas
+  compite por atencion con el buy box. La marca de Kinelia reemplaza al nombre
+  de la tienda como texto; el componente de cuenta y el contador de carrito del
+  starter se conservan verbatim (ya hacen lo correcto). El menu sigue vacio por
+  defecto y no ocupa espacio mientras lo este (Pitfall 9). En telefono, el
+  header queda pinned junto con la franja de anuncio como un solo bloque:
+  ver "Presupuesto pinned en telefono" al final de este archivo.
+{% endcomment %}
 <header>
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
+  <a href="{{ routes.root_url }}" class="header__logo-link" aria-label="{{ shop.name }}">
+    {{ 'kinelia_horizontal.svg' | inline_asset_content }}
+  </a>
 
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+  {% if section.settings.menu.links.size > 0 %}
+    <div class="header__menu">
+      {% for link in section.settings.menu.links %}
+        {{ link.title | link_to: link.url }}
+      {% endfor %}
+    </div>
+  {% endif %}
 
   <div class="header__icons">
     {% if shop.customer_accounts_enabled %}
@@ -16,7 +29,7 @@
       </shopify-account>
     {% endif %}
 
-    <a href="{{ routes.cart_url }}">
+    <a href="{{ routes.cart_url }}" aria-label="{{ 'sections.header.cart' | t }}">
       {% if cart.item_count > 0 %}
         <sup>{{ cart.item_count }}</sup>
       {% endif %}
@@ -26,13 +39,29 @@
   </div>
 </header>
 
-{% comment %} KINELIA (plan 02-02): el bloque de estilos consume el token de marca --color-text (rename del starter). {% endcomment %}
+{% comment %}
+  KINELIA (plan 02-02): el bloque de estilos consume el token de marca --color-text (rename del starter).
+
+  KINELIA (plan 03-03): min-height reservado por token en vez del alto literal
+  del starter, para que el header no salte al pintarse (D-12). El logo se
+  constrine contra --header-height para que nunca empuje el header mas alto
+  que el espacio reservado. Solo en telefono el header queda pinned, offset por
+  la altura de la franja de anuncio, al nivel de apilamiento mas bajo del
+  shell (--z-sticky-header) — el mismo que usa sections/announcement-bar.liquid,
+  asi los dos leen como un bloque unico en vez de superponerse.
+
+  Presupuesto pinned en telefono (para las Fases 6 y 13, que pesan su ATC
+  sticky y su medicion de layout shift contra este numero): la altura de la
+  franja de anuncio mas la altura compacta del header — hoy 2.25rem + 3.75rem
+  = 6rem sobre el fold. Subir cualquiera de los dos tokens sube ese numero.
+{% endcomment %}
 {% stylesheet %}
   header {
-    height: 5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-height: var(--header-height);
+    background-color: var(--color-bg);
   }
   header a {
     position: relative;
@@ -51,10 +80,31 @@
   header svg {
     width: 2rem;
   }
+  .header__logo-link svg {
+    width: auto;
+    max-height: calc(var(--header-height) - var(--space-5));
+  }
   header .header__menu,
   header .header__icons {
     display: flex;
-    gap: 1rem;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 48rem) {
+    header {
+      min-height: var(--header-height-desktop);
+    }
+    .header__logo-link svg {
+      max-height: calc(var(--header-height-desktop) - var(--space-5));
+    }
+  }
+
+  @media (max-width: 47.9375rem) {
+    header {
+      position: sticky;
+      top: var(--announcement-bar-height);
+      z-index: var(--z-sticky-header);
+    }
   }
 {% endstylesheet %}
 

@@ -28,7 +28,7 @@ o un section-group.
 |---------|------------|---------|
 | `layout/theme.liquid` | Layout de todas las rutas de storefront | Documento HTML base: `<head>`, CSS crítico, `header-group`, `footer-group`, `content_for_layout`. |
 | `layout/password.liquid` | Layout de la tienda con contraseña | La tienda vive con contraseña hasta la Fase 14; esta es la envoltura de esa pantalla. |
-| `sections/header.liquid` | Header global (vía `sections/header-group.json`) | Logo, cuenta y carrito en cada página. Usa `icon-account.svg` e `icon-cart.svg`. |
+| `sections/header.liquid` | Header global (vía `sections/header-group.json`) | Marca, cuenta y carrito en cada página (D-10, D-18). Inlinea `assets/kinelia_horizontal.svg` como logo (link a `routes.root_url`, nombre accesible desde `shop.name`), además de `icon-account.svg` e `icon-cart.svg`. El menú (`link_list` vacío por defecto) no ocupa espacio mientras esté vacío (D-11). En teléfono queda pinned junto con `announcement-bar` como un solo bloque (D-12). |
 | `sections/header-group.json` | Grupo de secciones del header, montado por `layout/theme.liquid` | Punto de montaje editable del header. Desde la Fase 3 (plan 03-03) monta también `announcement-bar`, primera en el orden. |
 | `sections/footer.liquid` | Footer global (vía `sections/footer-group.json`) | Menú, íconos de pago y datos legales en cada página. |
 | `sections/footer-group.json` | Grupo de secciones del footer, montado por `layout/theme.liquid` | Punto de montaje editable del footer. |
