@@ -32,6 +32,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # KINELIA (fix 03-REVIEW WR-02): package.json declares "engines": { "node":
+      # ">=22.12" }, but nothing pinned the runner's Node version before this —
+      # the four scripts/check-*.mjs checkers ran against whatever ubuntu-latest
+      # happened to preinstall, so the engines field was documentation-only and a
+      # runner Node drift below 22.12 would never be caught. node-version-file
+      # reads package.json's engines.node directly, so the two never drift apart.
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+
       # Nice-to-have: posts a "Theme Check Report" check with inline annotations
       # on the PR diff. This action does NOT fail its own job step on offences
       # (it only reflects them in that separate check) — plan 01-07 finding — so
