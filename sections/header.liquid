@@ -54,6 +54,13 @@
   sticky y su medicion de layout shift contra este numero): la altura de la
   franja de anuncio mas la altura compacta del header — hoy 2.25rem + 3.75rem
   = 6rem sobre el fold. Subir cualquiera de los dos tokens sube ese numero.
+
+  KINELIA (fix 03-REVIEW CR-01): kinelia_horizontal.svg ya no hardcodea sus
+  fills (dos hex literales, uno de ellos el accent restringido #D85A30 — D-01
+  prohibe ese token fuera de .price). El SVG usa fill="currentColor" en ambos
+  <g>; .header__logo-link fija el color de marca a var(--color-primary), NUNCA
+  var(--color-accent), asi un rebrand de color sigue siendo un cambio de
+  tokens (DESIGN-02) y el logo nunca vuelve a leer el color del precio.
 {% endcomment %}
 {% stylesheet %}
   header {
@@ -70,6 +77,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .header__logo-link {
+    color: var(--color-primary);
   }
   header a sup {
     position: absolute;
