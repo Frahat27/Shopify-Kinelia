@@ -10,7 +10,17 @@
   (`show_newsletter`, default false) — Etapa 2 prende el switch, no escribe
   markup. El bloque de pagos del starter se conserva verbatim: colapsa solo
   hasta que la Fase 12 configure una pasarela.
+
+  KINELIA (fix 03-REVIEW WR-01): `whatsapp_number` es un setting de texto
+  libre (config/settings_schema.json) sin formato forzado, pero
+  docs/RUNBOOK-STAGING.md documenta el contrato de entrada (solo digitos, sin
+  `+`, sin espacios ni guiones). Un operador que pega el numero con ese
+  formato humano producia un link `wa.me` roto en silencio. `wa_number` se
+  normaliza una sola vez aca (quita espacios/`+`/guiones) y se escapa antes
+  de interpolarse en los dos `href`, en vez de repetir
+  `settings.whatsapp_number` crudo en cada lugar.
 {%- endcomment -%}
+{%- assign wa_number = settings.whatsapp_number | remove: ' ' | remove: '+' | remove: '-' | escape -%}
 <footer>
   <div class="footer__copyright">
     &copy;
@@ -29,11 +39,11 @@
     </div>
   {%- endif -%}
 
-  {%- if settings.whatsapp_number != blank -%}
+  {%- if wa_number != blank -%}
     <div class="footer__whatsapp">
       <a
         class="footer__whatsapp-link"
-        href="https://wa.me/{{ settings.whatsapp_number }}"
+        href="https://wa.me/{{ wa_number }}"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -71,10 +81,10 @@
   </div>
 </footer>
 
-{%- if settings.whatsapp_number != blank -%}
+{%- if wa_number != blank -%}
   <a
     class="wa-fab"
-    href="https://wa.me/{{ settings.whatsapp_number }}"
+    href="https://wa.me/{{ wa_number }}"
     target="_blank"
     rel="noopener noreferrer"
     aria-label="{{ 'kinelia.cta.pedir_whatsapp' | t }}"
