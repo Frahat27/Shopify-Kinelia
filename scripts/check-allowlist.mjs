@@ -38,6 +38,7 @@ export const RENDER_ALLOWLIST = [
   "404",
   "password",
   "header",
+  "announcement-bar",
   "footer",
   // Presentes fuera del embudo: el template resuelve si se navega directo, pero
   // nada dentro del embudo de Kinelia las enlaza (ver ALLOWLIST.md).

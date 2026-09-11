@@ -126,5 +126,30 @@
     {% # Geometria de pagina — la usan las secciones del starter. %}
     --page-width: {{ settings.max_page_width | default: '90rem' }};
     --page-margin: {{ settings.min_page_margin | default: 20 }}px;
+
+    {% comment %}
+      KINELIA (plan 03-03): presupuesto vertical y orden de apilamiento del shell
+      (SHELL-02). Estaticos, no settings del editor — igual que la escala de
+      espaciado (D-09): un orden de apilamiento no es un control que un dueno de
+      tienda deba poder romper desde el editor.
+
+      Las tres alturas se reservan ANTES de que su contenido pinte (min-height en
+      la barra de anuncio y en el header), asi el bloque sticky de mobile no
+      genera layout shift. --header-height es el compacto de telefono;
+      --header-height-desktop se activa desde el breakpoint de tablet.
+
+      Orden de apilamiento (bajo a alto): header sticky < boton flotante (FAB de
+      WhatsApp) < overlay. El research sugeria el FAB por encima del cart drawer;
+      se invierte a proposito (decision del plan, no del research): un drawer que
+      el boton de chat perfora se ve roto, asi que el drawer y cualquier modal
+      futuro (Fase 5 guia de talles, Fase 6 cart drawer) toman el nivel de overlay
+      y cubren tanto al header como al FAB. Desviacion registrada en OVERRIDES.md.
+    {% endcomment %}
+    --announcement-bar-height: 2.25rem;
+    --header-height: 3.75rem;
+    --header-height-desktop: 5rem;
+    --z-sticky-header: 10;
+    --z-fab: 20;
+    --z-overlay: 30;
   }
 {% endstyle %}

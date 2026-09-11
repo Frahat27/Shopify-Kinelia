@@ -92,6 +92,10 @@
     "footer": {
       "payment_methods": "Formas de pago",
       "newsletter_title": "Enterate de las novedades"
+    },
+    "announcement_bar": {
+      "message": "Envío a todo el país. Garantía de 90 días.",
+      "link_label": "Ver más sobre la garantía de 90 días"
     }
   },
   "templates": {

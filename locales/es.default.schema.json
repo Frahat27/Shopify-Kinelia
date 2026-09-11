@@ -74,6 +74,13 @@
       "normal": "Texto normal"
     }
   },
+  "sections": {
+    "announcement_bar": {
+      "name": "Franja de anuncio",
+      "message_override_label": "Mensaje personalizado (opcional, reemplaza el texto por defecto)",
+      "link_setting_label": "Link (opcional)"
+    }
+  },
   "settings": {
     "colors": {
       "brand": "Colores de marca",
