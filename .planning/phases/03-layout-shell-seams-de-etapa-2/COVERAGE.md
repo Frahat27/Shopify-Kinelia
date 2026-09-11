@@ -10,6 +10,12 @@ de integración que cubrir.
 > stub, DOM CustomEvent bus, ETAPA-2-SEAMS.md contract doc) — no request is made to /collect or
 > any endpoint until Etapa 2.
 
+## Matriz de cobertura de API
+
+| capability | decision | reason |
+|---|---|---|
+| Etapa 2 /collect instrumentation (no-op seams) | OPT-OUT | Fase 3 solo define seams no-op (script de atribución comentado, bus de eventos DOM, contrato ETAPA-2-SEAMS.md); ningún request sale hacia /collect ni ningún host hasta que Etapa 2 los active. |
+
 ## Evidencia de respaldo (un revisor puede verificarla)
 
 - **El seam no renderiza nada fuera de sus comentarios y la línea del script de atribución
