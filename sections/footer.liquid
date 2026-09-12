@@ -149,10 +149,10 @@
     }
   }
 
-  {% comment %}
+  /*
     KINELIA (plan 03-04): boton flotante de WhatsApp — SHELL-02 (D-15). Vive en
     esta section porque footer-group.json se monta en cada ruta de storefront,
-    y una section puede llevar un {% stylesheet %} scoped que un layout no
+    y una section puede llevar un stylesheet scoped que un layout no
     puede. Cuadrado redondeado (tope de marca --radius, nunca un circulo con
     sombra), color de marca (nunca el verde de WhatsApp, Pitfall 4), sin
     elevacion ni animacion (D-11). Nivel de apilamiento --z-fab, definido en
@@ -163,7 +163,7 @@
     `has-sticky-atc`, el FAB se oculta en telefono. Esta regla ya existe; la
     Fase 6 solo tiene que poner la clase cuando la barra sticky de agregar al
     carrito exista — no inventar un segundo selector.
-  {% endcomment %}
+  */
   .wa-fab {
     position: fixed;
     inset-block-end: var(--space-5);
