@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-09-09)
 Phase: 03 (Layout shell + seams de Etapa 2) — EXECUTING
 Plan: 4-01 complete (1 of 4) — next: 03-02
 Status: Ready to execute 03-02
-Last activity: 2026-09-11 - Completed quick task 260911-f2e: Add API coverage matrix table to phase 3 COVERAGE.md so api-coverage.verify-pre gate passes
+Last activity: 2026-09-11 - Completed quick task 260911-tt4: Fix Theme Check StaticStylesheetAndJavascriptTags errors (announcement-bar.liquid, footer.liquid), pushed main+staging to origin after finding 68 unpushed commits during UAT
 
 Progress: [██░░░░░░░░░░░░] 2/14 phases ([█░░░░░░░░░] 14%)
 
@@ -113,12 +113,14 @@ None yet.
 - ⚠️ [Phase 02 UAT → follow-up ops] Antes del próximo release, verificar que `Kinelia — LIVE` (#150931210446) y `Kinelia — STAGING` no cargan un `locales/en.default.*` huérfano del rename `en→es`. El dev theme efímero sí lo tenía (borrado, `theme dev` recreó uno limpio #150941597902). Chequeo: `shopify theme pull --live --only locales` o editor de código. Detalle en `02-UAT.md` Deferred Follow-Ups.
 - [Phase 02 code review — advisory, `02-REVIEW.md`] 6 warnings, ninguno bloqueante. Los relevantes: WR-05 `h4`–`h6` sin primitivas → faux-bold (viola D-05, invisible a `check-tokens`); WR-01/02 huecos en `check-tokens.mjs` (regex de color solo `#hex`, parser de la regla 6 de un solo nivel — endurecer antes de usar CSS nesting); ~~WR-04 `<meta charset>`/`viewport` empujados KB adentro del `<head>`~~ **RESUELTO en 03-01** (las 3 meta suben arriba del bloque de tokens en `theme.liquid` y `password.liquid`); WR-06 CI hace `npm i -g @shopify/cli` sin pin y sin `setup-node`. Abordar en una pasada de hardening.
 - ⚠️ [Phase 03 — gap de entorno, no de código] `shopify theme check --fail-level error` no corre limpio en la máquina de ejecución: 16 `ValidSchema` errors, todas por no poder descargar `raw.githubusercontent.com/Shopify/theme-liquid-docs/.../default_setting_values.json` (sin red al sandbox). Conteo de offenses idéntico al baseline pre-03-01. En 03-01 se usó la verificación sustituta (3 checkers Node + harnesses del bus/announce). **Correr `npm run lint` completo con Theme Check en CI / entorno con red antes del merge de la Fase 3.**
+- ✅ **RESUELTO 2026-09-11 [gap de proceso, no de código]** Detectado durante `/gsd-verify-work 03`: `origin/main` y `origin/staging` estaban congelados en `c70fafa` (cierre de Fase 1, 2026-09-08) — **nada se había pusheado a GitHub desde entonces**, así que ni `Kinelia — LIVE` (#150931210446) ni `Kinelia — STAGING` (#150931144910) tenían desplegado ningún código de Fase 2/3. Todo el trabajo de Fase 2/3 se había commiteado directo en `main` local, salteando el flujo documentado en `docs/RELEASE.md` (PR → `staging` para QA, después PR `staging` → `main`). Se pusheó `main` a ambas ramas remotas (fast-forward limpio, `staging` era ancestro directo, sin commits propios que perder) por decisión explícita del usuario ("push directo a ambas", saltea el gate de PR/CI documentado). Al correr por primera vez, el CI requerido "Theme Check" reveló 2 errores reales `StaticStylesheetAndJavascriptTags` (comentarios Liquid dentro de bloques `{% stylesheet %}` en `announcement-bar.liquid` y `footer.liquid`, nunca antes evaluados en CI real) — arreglados en quick task `260911-tt4`. **Recordatorio de proceso:** verificar que `main` esté efectivamente pusheado a `origin` antes de dar por buena cualquier UAT contra un tema de Shopify; el desvío del flujo `staging`-primero de `docs/RELEASE.md` sigue sin resolverse a nivel de práctica de equipo (se corrigió el síntoma, no la causa del desvío).
 
 ### Quick Tasks Completed
 
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260911-f2e | Add API coverage matrix table to phase 3 COVERAGE.md so api-coverage.verify-pre gate passes | 2026-09-11 | fd698c3 | [260911-f2e-add-api-coverage-matrix-table-to-phase-3](./quick/260911-f2e-add-api-coverage-matrix-table-to-phase-3/) |
+| 260911-tt4 | Fix Theme Check StaticStylesheetAndJavascriptTags errors: convert Liquid comment blocks inside stylesheet tags to native CSS comments in announcement-bar.liquid and footer.liquid | 2026-09-11 | 03fea18 | [260911-tt4-fix-theme-check-staticstylesheetandjavas](./quick/260911-tt4-fix-theme-check-staticstylesheetandjavas/) |
 
 ### Assets recibidos
 
